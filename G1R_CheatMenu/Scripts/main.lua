@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.2.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.3.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -40,7 +40,8 @@ local Config = {
     leftKeys = { "LEFT_ARROW", "NUM_FOUR" }, rightKeys = { "RIGHT_ARROW", "NUM_SIX" },
     selectKeys = { "RETURN", "NUM_FIVE" }, backKeys = { "BACKSPACE", "DECIMAL" },
     x = 60, y = 140, width = 480, rows = 14,
-    useGameTextures = true, backgroundOpacity = 0.92, debug = false,
+    backgroundImage = true, backgroundOpacity = 0.92, useGameTextures = true,
+    teleportHoldSeconds = 3, debug = false,
 }
 do
     local ok, user = pcall(require, "config")
@@ -61,6 +62,14 @@ local FindAllOf = rawget(_G, "FindAllOf")
 local FindFirstOf = rawget(_G, "FindFirstOf")
 local LoadAsset = rawget(_G, "LoadAsset")
 local FName = rawget(_G, "FName")
+
+-- the mod's own folder (the parent of Scripts), with a trailing separator
+local function modFolder()
+    local source = debug and debug.getinfo and debug.getinfo(1, "S").source or ""
+    local scripts = source:gsub("^@", ""):match("^(.*[/\\])") or ""
+    return (scripts:gsub("[Ss]cripts[/\\]$", ""))
+end
+local MOD_DIR = modFolder()
 
 -- ----------------------------------------------------------------------------- scheduling --
 local LoopInGameThreadWithDelay = rawget(_G, "LoopInGameThreadWithDelay")
@@ -330,14 +339,12 @@ end
 local CAMPS = {
     { "OldCamp", "Old Camp",
       { "Digger", "Digger" }, { "Shadow", "Shadow" }, { "Guard", "Guard" },
-      { "FireMage", "Fire Mage" }, { "OreBaron", "Ore Baron" } },
+      { "FireMage", "Fire Mage" } },
     { "NewCamp", "New Camp",
       { "Scraper", "Scraper" }, { "Peasant", "Peasant" }, { "Rogue", "Rogue" },
       { "Mercenary", "Mercenary" }, { "WaterMage", "Water Mage" } },
     { "SwampCamp", "Swamp Camp",
       { "Novice", "Novice" }, { "Templar", "Templar" }, { "Guru", "Guru" } },
-    { "BanditCamp", "Bandits",
-      { "Bandit", "Bandit" } },
 }
 
 local GUILDS = {}
@@ -679,6 +686,179 @@ local function befriendAll()
     return n and (n .. " loaded NPC(s) are now friendly") or NOT_IN_GAME
 end
 
+-- ---- teleport --
+-- Destinations are standing points from the game's own map data
+-- (G1R\Script\Map\MainMap\InteractionSpots.json); the comment on each line is the point's name
+-- there. x, y, z are world units (1 unit = 1 cm), yaw is the facing in degrees.
+local DESTINATIONS = {
+    { label = "Exchange place (game start)", x = 103662, y = -58232,  z = 2427,  yaw = -76 },  -- WP_PLAYER_START
+    { label = "Abandoned mine: entrance",    x = 105219, y = -69218,  z = 2226,  yaw = -128 }, -- QuickTeleport_AbandonedmineEntrance
+    { label = "Old Camp: main gate",         x = 118913, y = -96446,  z = -5224, yaw = 59 },   -- WP_OC_MainGate
+    { label = "Old Camp: second gate",       x = 106902, y = -108145, z = -4701, yaw = 59 },   -- WP_OC_NorthGate
+    { label = "Old Camp: Fire Mages",        x = 110420, y = -104999, z = -3003, yaw = 0 },    -- WP_OC_TELEPORT_01
+    { label = "Old Mine: entrance area",     x = 147464, y = -69762,  z = -3585, yaw = -21 },  -- Guide_Path_FromTo_OldMineToWaterfall_start
+    { label = "New Camp: entrance",          x = 158959, y = -95041,  z = -2550, yaw = 58 },   -- WP_NC_TELEPORT_02
+    { label = "New Camp: tavern",            x = 176009, y = -88039,  z = -3,    yaw = 0 },    -- WP_NC_Tavern
+    { label = "New Camp: Water Mages",       x = 183854, y = -103449, z = 155,   yaw = 0 },    -- WP_NC_TELEPORT_01
+    { label = "Free Mine: camp gate",        x = 167208, y = -125385, z = 418,   yaw = -24 },  -- FP_FM_ENTRANCE_GATE
+    { label = "Swamp Camp: entrance",        x = 52381,  y = -114515, z = -8902, yaw = -24 },  -- Guide_Path_FromTo_SwampCamp_end
+    { label = "Swamp Camp: temple square",   x = 45203,  y = -112685, z = -8816, yaw = 51 },   -- WP_SC_TELEPORT_01
+    { label = "Xardas' tower",               x = 124303, y = -142828, z = 1523,  yaw = 0 },    -- WP_OW_TP_XARDASTOWER
+    { label = "Sunken tower",                x = 106736, y = -134991, z = 2505,  yaw = 0 },    -- QuickTeleport_SunkenTower
+    { label = "Stonehenge",                  x = 153087, y = -116414, z = -249,  yaw = 0 },    -- QuickTeleport_Stonehenge
+    { label = "Monastery ruins",             x = 78222,  y = -63368,  z = -4735, yaw = 0 },    -- QuickTeleport_Monastery
+    { label = "Castle ruins",                x = 105191, y = -126969, z = 5543,  yaw = 0 },    -- QuickTeleport_Castleruins
+    { label = "Harpy tower",                 x = 83680,  y = -143848, z = 5381,  yaw = 0 },    -- QuickTeleport_HarpyTower
+    { label = "Troll canyon",                x = 129389, y = -66133,  z = 402,   yaw = 0 },    -- QuickTeleport_TrollCanyon
+    { label = "Lighthouse",                  x = 74928,  y = -85364,  z = -3196, yaw = 0 },    -- QuickTeleport_Lighthouse
+    { label = "Smugglers",                   x = 62390,  y = -95777,  z = -8840, yaw = 0 },    -- QuickTeleport_Smugglers
+    { label = "Nyras' focus stone",          x = 48207,  y = -102959, z = -3688, yaw = 0 },    -- QuickTeleport_NyrasStone
+    { label = "Orc cemetery",                x = 77470,  y = -124893, z = -403,  yaw = -3 },   -- Guide_Path_SwampCampTo_OrcCemetery_end
+    { label = "Orc town: bridge",            x = 131287, y = -127000, z = -846,  yaw = 0 },    -- QuickTeleport_OrcBridge
+    { label = "Sleeper temple: entrance",    x = 155822, y = -144785, z = -596,  yaw = 0 },    -- QuickTeleport_SleepersEntrance
+    { label = "Tundra: Innos temple",        x = 154257, y = -53619,  z = 4031,  yaw = 0 },    -- QuickTeleport_TundraInnosTemple
+    { label = "Tundra: plateau",             x = 167926, y = -62466,  z = 2086,  yaw = 0 },    -- QuickTeleport_TundraPlateau
+    { label = "Tundra: waterfall",           x = 157253, y = -70079,  z = -2627, yaw = 26 },   -- QuickTeleport_TundraWaterfall
+}
+
+local MAX_SAVED = 10
+local SAVED_FILE = MOD_DIR .. "saved_positions.txt"
+local NEAR_DISTANCE = 8000 -- 80 m: closer than this the surroundings are already loaded
+local savedPositions = {}
+local rebuildSavedPage -- defined with the pages
+
+local function distance(a, b)
+    local dx, dy, dz = a.x - b.x, a.y - b.y, a.z - b.z
+    return math.sqrt(dx * dx + dy * dy + dz * dz)
+end
+
+-- position and facing of the hero, nil outside a running game
+local function heroTransform(pawn)
+    local loc = try(function() return pawn:K2_GetActorLocation() end)
+    local x = loc and tonumber(try(function() return loc.X end))
+    local y = loc and tonumber(try(function() return loc.Y end))
+    local z = loc and tonumber(try(function() return loc.Z end))
+    if not (x and y and z) then return nil end
+    local yaw = tonumber(try(function() return pawn:K2_GetActorRotation().Yaw end)) or 0
+    return { x = x, y = y, z = z, yaw = yaw }
+end
+
+-- Far from where the hero stood, the ground is not loaded yet at the moment of arrival. Gravity
+-- is switched off until the surroundings had time to load; the tick loop at the end of this file
+-- switches it back on. The state lives in S so a script reload cannot lose it.
+local function releaseTeleportHold()
+    local hold = S.hold
+    S.hold = nil
+    if hold and isValid(hold.movement) then
+        pcall(function() hold.movement.GravityScale = hold.gravity end)
+    end
+end
+releaseTeleportHold() -- a reload must not leave the hero weightless
+
+local function holdInPlace(pawn)
+    local seconds = tonumber(Config.teleportHoldSeconds) or 3
+    if seconds <= 0 then return end
+    -- without a tick loop nothing would switch gravity back on
+    if type(LoopInGameThreadWithDelay) ~= "function" and type(LoopAsync) ~= "function" then return end
+    local movement = try(function() return pawn.CharacterMovement end)
+    if not isValid(movement) then return end
+    pcall(function() movement:StopMovementImmediately() end)
+    -- a second teleport during the hold keeps the gravity value the first one saved
+    local gravity = S.hold and S.hold.gravity or tonumber(try(function() return movement.GravityScale end)) or 1
+    if gravity == 0 then gravity = 1 end
+    if not pcall(function() movement.GravityScale = 0 end) then return end
+    S.hold = { movement = movement, gravity = gravity, untilTime = os.time() + math.ceil(seconds) }
+end
+
+local function teleportTo(point, name)
+    local pc, pawn = player()
+    if not pawn then return NOT_IN_GAME end
+    local from = heroTransform(pawn)
+    local rotation = { Pitch = 0, Yaw = point.yaw or 0, Roll = 0 }
+    -- A map point may sit at ground level while the hero's position is the middle of the body, so
+    -- the hero arrives a little above the point and drops. The engine refuses a spot the hero
+    -- does not fit into, so a few heights are tried. A saved position was the hero's own position
+    -- and is tried unchanged first.
+    local lifts = point.exact and { 0, 50, 100, 200 } or { 100, 200, 50, 300, 0 }
+    local moved, failure = false, nil
+    for _, lift in ipairs(lifts) do
+        local ok, result = pcall(function()
+            return pawn:K2_TeleportTo({ X = point.x, Y = point.y, Z = point.z + lift }, rotation)
+        end)
+        if not ok then failure = result; break end
+        if result ~= false then moved = true; break end
+    end
+    if failure then
+        log("teleport to " .. name .. " failed: " .. tostring(failure))
+        return "Teleport failed, see UE4SS.log"
+    end
+    if not moved then return "Teleport failed: no free spot at the destination" end
+    pcall(function() pc:SetControlRotation(rotation) end)
+    if not from or distance(from, point) > NEAR_DISTANCE then holdInPlace(pawn) end
+    return "Teleported: " .. name
+end
+
+-- ---- saved positions --
+-- one line per position in saved_positions.txt in the mod folder: x y z yaw, whole numbers
+local function loadSavedPositions()
+    savedPositions = {}
+    local file = io.open(SAVED_FILE, "r")
+    if not file then return end
+    for line in file:lines() do
+        local x, y, z, yaw = line:match("^%s*(-?%d+)%s+(-?%d+)%s+(-?%d+)%s+(-?%d+)")
+        if x and #savedPositions < MAX_SAVED then
+            savedPositions[#savedPositions + 1] = {
+                x = tonumber(x), y = tonumber(y), z = tonumber(z), yaw = tonumber(yaw), exact = true,
+            }
+        end
+    end
+    file:close()
+end
+
+local function storeSavedPositions()
+    local file = io.open(SAVED_FILE, "w")
+    if not file then return false end
+    for _, p in ipairs(savedPositions) do
+        file:write(("%d %d %d %d\n"):format(p.x, p.y, p.z, p.yaw))
+    end
+    file:close()
+    return true
+end
+
+-- a saved position is named after the closest known destination
+local function savedLabel(index, point)
+    local nearest, best = nil, math.huge
+    for _, dest in ipairs(DESTINATIONS) do
+        local d = distance(point, dest)
+        if d < best then nearest, best = dest, d end
+    end
+    return ("%d: %s (%d m)"):format(index, nearest.label, math.floor(best / 100 + 0.5))
+end
+
+local function saveCurrentPosition()
+    local _, pawn = player()
+    local here = pawn and heroTransform(pawn)
+    if not here then return NOT_IN_GAME end
+    if #savedPositions >= MAX_SAVED then
+        return ("All %d slots are used. Delete one first"):format(MAX_SAVED)
+    end
+    local function round(v) return math.floor(v + 0.5) end
+    savedPositions[#savedPositions + 1] = {
+        x = round(here.x), y = round(here.y), z = round(here.z), yaw = round(here.yaw), exact = true,
+    }
+    local stored = storeSavedPositions()
+    rebuildSavedPage()
+    if not stored then return "Saved for this session only: the file could not be written" end
+    return "Position saved as number " .. #savedPositions
+end
+
+local function deleteSavedPosition(index)
+    table.remove(savedPositions, index)
+    storeSavedPositions()
+    rebuildSavedPage()
+    return "Saved position deleted"
+end
+
 -- ---- achievements --
 -- ids and conditions as declared in the game's own Story/Achievements script
 local ACHIEVEMENTS = {
@@ -825,6 +1005,7 @@ Pages.main = { title = "Cheat Menu", items = {
     { label = "Faction", page = "faction", value = currentGuildLabel },
     { label = "Skills", page = "skills" },
     { label = "Items", page = "items" },
+    { label = "Teleport", page = "teleport" },
     { label = "World", page = "world" },
     { label = "NPCs", page = "npcs" },
     { label = "Achievements", page = "achievements" },
@@ -900,6 +1081,39 @@ for _, rune in ipairs(RUNES) do
     Pages.runes.items[#Pages.runes.items + 1] = { label = rune.label, run = function() return giveItem(rune) end }
 end
 
+Pages.teleport = { title = "Teleport", items = {
+    { label = "Saved positions", page = "saved",
+      value = function() return #savedPositions .. " / " .. MAX_SAVED end },
+} }
+for _, dest in ipairs(DESTINATIONS) do
+    Pages.teleport.items[#Pages.teleport.items + 1] = {
+        label = dest.label,
+        run = function() return teleportTo(dest, dest.label) end,
+    }
+end
+
+-- rebuilt whenever a position is saved or deleted
+Pages.saved = { title = "Saved positions", items = {} }
+rebuildSavedPage = function()
+    local items = {
+        { label = "Save current position", run = saveCurrentPosition,
+          hint = "[Enter] Save where you stand     [Backspace] Back" },
+    }
+    for i, point in ipairs(savedPositions) do
+        items[#items + 1] = {
+            label = savedLabel(i, point),
+            hint = "[Enter] Teleport     [Left] Delete     [Backspace] Back",
+            adjust = function(dir)
+                if dir < 0 then return deleteSavedPosition(i) end
+                return teleportTo(point, "saved position " .. i)
+            end,
+        }
+    end
+    Pages.saved.items = items
+end
+loadSavedPositions()
+rebuildSavedPage()
+
 Pages.world = { title = "World", items = {
     { label = "Time (1 hour steps)", value = clockLabel, adjust = shiftTime },
     switch("Freeze time", function() return S.frozen end, setTimeFrozen),
@@ -932,7 +1146,8 @@ local UI_KEY = "__g1rcm_ui"
 local OFFSCREEN = -100000
 local ROWS = math.max(4, math.floor(tonumber(Config.rows) or 14))
 local W = math.max(360, tonumber(Config.width) or 480)
-local PAD, ROW_H, VALUE_W = 20, 30, 170
+local PAD, ROW_H, VALUE_W = 24, 30, 170
+local PLATE_INSET = PAD - 8 -- the selection plate stays clear of the panel's rough edge
 local TITLE_Y, TITLE_H = 12, 46
 local ORNAMENT_W, ORNAMENT_H = 300, 24 -- native size of the title-line texture; other sizes distort it
 local ORNAMENT_Y = TITLE_Y + TITLE_H
@@ -988,17 +1203,25 @@ end
 local function bodyFont() return findAsset("/Game/UI/Fonts/NotoSerif-Regular_Font.NotoSerif-Regular_Font") end
 local function titleFont() return findAsset("/Game/UI/Fonts/Boucherie-Block_Font.Boucherie-Block_Font") end
 
--- the game's panel background and title ornament; nil when switched off in config.lua or missing,
--- in which case flat colors are drawn instead
-local function gameTexture(path)
-    if Config.useGameTextures == false then return nil end
-    return findAsset(path)
-end
-local function panelTexture()
-    return gameTexture("/Game/UI/Textures/Common/T_GrungeBackground.T_GrungeBackground")
-end
+-- the game's title ornament; nil when switched off in config.lua or missing, then a plain line
+-- is drawn instead
 local function titleLineTexture()
-    return gameTexture("/Game/UI/Textures/ManagementUI/Inventory/T_TooltipTitleLine.T_TooltipTitleLine")
+    if Config.useGameTextures == false then return nil end
+    return findAsset("/Game/UI/Textures/ManagementUI/Inventory/T_TooltipTitleLine.T_TooltipTitleLine")
+end
+
+-- The menu's own backdrop, Assets\panel.png: a dark panel with a rough edge, twice the menu's
+-- on-screen size so it stays sharp at high resolutions. (The game's grunge panel is a 512 pixel
+-- texture made for tooltips and blurs at this size.) nil when switched off in config.lua or when
+-- the file cannot be loaded, then a flat color is drawn instead.
+local function panelImage()
+    if Config.backgroundImage == false then return nil end
+    local renderer, context = lib("/Script/Engine.Default__KismetRenderingLibrary"), world()
+    if not (renderer and context) then return nil end
+    local image = try(function() return renderer:ImportFileAsTexture2D(context, MOD_DIR .. "Assets\\panel.png") end)
+    if isValid(image) then return image end
+    log("UI: Assets\\panel.png could not be loaded, drawing a flat background")
+    return nil
 end
 
 local function place(slot, x, y, w, h)
@@ -1088,12 +1311,9 @@ local function ensureUI()
     local font = bodyFont()
     local labelW = W - 2 * PAD - VALUE_W
 
-    -- backdrop: the game's grunge panel when available. Its art may be translucent in places, so
-    -- a flat underlay keeps the text readable over a bright scene.
-    local grunge = panelTexture()
-    if grunge then
-        addBox(tree, panel, 14, 14, W - 28, H - 28, srgb(8, 8, 8, 0.6 * BACKDROP_ALPHA))
-        addBox(tree, panel, 0, 0, W, H, { R = 1, G = 1, B = 1, A = BACKDROP_ALPHA }, grunge)
+    local backdrop = panelImage()
+    if backdrop then
+        addBox(tree, panel, 0, 0, W, H, { R = 1, G = 1, B = 1, A = BACKDROP_ALPHA }, backdrop)
     else
         addBox(tree, panel, 0, 0, W, H, COLOR.backdrop)
     end
@@ -1118,7 +1338,7 @@ local function ensureUI()
 
     -- selected entry: an opaque plate over that row plus its own dark copy of the row's text.
     -- Added after the rows so both draw on top of them; moved with the selection in render().
-    ui.plate, ui.plateSlot = addBox(tree, panel, PAD - 10, OFFSCREEN, W - 2 * PAD + 20, ROW_H - 2, COLOR.plate)
+    ui.plate, ui.plateSlot = addBox(tree, panel, PLATE_INSET, OFFSCREEN, W - 2 * PLATE_INSET, ROW_H - 2, COLOR.plate)
     ui.selLabel, ui.selLabelSlot = addText(tree, panel, PAD, OFFSCREEN, labelW, ROW_H, COLOR.plateText, font, 16, 0)
     ui.selValue, ui.selValueSlot = addText(tree, panel, W - PAD - VALUE_W, OFFSCREEN, VALUE_W, ROW_H, COLOR.plateText, font, 16, 2)
 
@@ -1145,6 +1365,7 @@ end
 local function currentFrame() return S.stack[#S.stack] end
 
 local function itemHint(page, item)
+    if item and item.hint then return item.hint end
     if page.hint then return page.hint end
     if not item then return "" end
     if item.page then return "[Enter] Open     [Backspace] " .. (#S.stack > 1 and "Back" or "Close") end
@@ -1191,7 +1412,7 @@ local function render()
         setText(ui, "value" .. i, ui.rows[i].value, value)
     end
     local rowY = LIST_Y + (frame.sel - frame.top) * ROW_H
-    move(ui.plateSlot, PAD - 10, rowY + 1)
+    move(ui.plateSlot, PLATE_INSET, rowY + 1)
     move(ui.selLabelSlot, PAD, rowY + 3)
     move(ui.selValueSlot, W - PAD - VALUE_W, rowY + 3)
     setText(ui, "selLabel", ui.selLabel, selLabel)
@@ -1309,6 +1530,7 @@ local RegisterLoadMapPreHook = rawget(_G, "RegisterLoadMapPreHook")
 if type(RegisterLoadMapPreHook) == "function" and not rawget(_G, "__g1rcm_mapHook") then
     local ok = pcall(RegisterLoadMapPreHook, function()
         S.open = false
+        S.hold = nil -- the hero it belonged to goes away with the old world
         teardownUI()
         objCache, attrCache = {}, { key = nil, sets = {} }
     end)
@@ -1318,8 +1540,13 @@ end
 if not rawget(_G, "__g1rcm_loop") then
     rawset(_G, "__g1rcm_loop", true)
     gameLoop(250, function()
-        if S.god or S.mana or S.stamina or S.breath then return keepFullTick end
-        return nil
+        local release = S.hold ~= nil and os.time() >= S.hold.untilTime
+        local keepFull = S.god or S.mana or S.stamina or S.breath
+        if not (release or keepFull) then return nil end
+        return function()
+            if release then releaseTeleportHold() end
+            if keepFull then keepFullTick() end
+        end
     end)
 end
 

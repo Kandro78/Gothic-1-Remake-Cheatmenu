@@ -11,9 +11,10 @@ capture the mouse, and is controlled with the keyboard only.
 |---|---|
 | Player | God mode, infinite mana / stamina / breath, restore health-mana-stamina, clear crimes |
 | Stats | Strength, dexterity, max mana, max health, learning points, level, experience |
-| Faction | Switch between 14 guilds (Old Camp, New Camp, Swamp Camp, Bandits), or leave your faction |
+| Faction | Switch between the 12 guilds of the Old Camp, New Camp and Swamp Camp, or leave your faction |
 | Skills | Learn or remove 58 skills |
 | Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and a submenu with 26 runes |
+| Teleport | Jump to 28 places in the colony, or save up to 10 positions of your own and return to them |
 | World | Time of day, freeze time, weather, game speed, story chapter |
 | NPCs | Kill hostile NPCs, make loaded NPCs friendly |
 | Achievements | Unlock single achievements or all 42 at once |
@@ -35,6 +36,7 @@ capture the mouse, and is controlled with the keyboard only.
    ue4ss\Mods\G1R_CheatMenu\enabled.txt
    ue4ss\Mods\G1R_CheatMenu\Scripts\main.lua
    ue4ss\Mods\G1R_CheatMenu\Scripts\config.lua
+   ue4ss\Mods\G1R_CheatMenu\Assets\panel.png
    ```
 3. Start the game and load a save. Press **F7**.
 
@@ -42,7 +44,7 @@ capture the mouse, and is controlled with the keyboard only.
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.2.0: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.3.0: toggle key F7` means the mod was started.
 
 ## Controls
 
@@ -50,12 +52,12 @@ If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
 |---|---|
 | F7 | Open / close the menu |
 | Up / Down, Numpad 8 / 2 | Move the selection |
-| Left / Right, Numpad 4 / 6 | Change a value (Left removes a skill) |
+| Left / Right, Numpad 4 / 6 | Change a value (Left removes a skill or a saved position) |
 | Enter, Numpad 5 | Open a page, run a cheat, switch on / off |
 | Backspace, Numpad `.` | Back to the previous page |
 
-Keys, menu position and size can be changed in `Scripts\config.lua`. Key changes need a
-game restart. The game still receives the keys you press while the menu is open.
+Keys, menu position and size, the background and the pause after a teleport can be changed in
+`Scripts\config.lua`. Key changes need a game restart. The game still receives the keys you press while the menu is open.
 
 ## Read before using
 
@@ -64,6 +66,11 @@ game restart. The game still receives the keys you press while the menu is open.
 - **Achievement unlocks are permanent** on your Steam account. The menu cannot lock them again.
 - Switches such as god mode last until you turn them off or quit the game. They are not
   stored in the save.
+- **Teleporting:** after a long jump the hero floats for about three seconds while the area
+  loads, then drops to the ground. If you fall through the world on arrival, raise
+  `teleportHoldSeconds` in `config.lua`. Some destinations are dangerous or belong to later
+  chapters (orc town, Sleeper temple), so save first.
+- Saved positions are kept in `saved_positions.txt` in the mod folder.
 - A game patch can break the mod, because it calls game functions by name.
 
 ## Status
@@ -79,3 +86,7 @@ were checked against them. I first found many of them by studying the **G1R Cons
 mod, and learned how to build a UMG overlay from Lua on this game from the **MapFastTravel**
 ("Fast Travel From Map") mod. Thanks to both authors. Neither mod is required or included,
 and no files from them are part of this mod.
+
+The teleport destinations are standing points from the game's own map data
+(`G1R\Script\Map\MainMap\InteractionSpots.json`). The menu background, `Assets\panel.png`, was
+generated for this mod.

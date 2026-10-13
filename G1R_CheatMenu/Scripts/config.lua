@@ -18,11 +18,18 @@ return {
     width = 480,
     rows = 14,
 
-    -- look: the menu uses the game's own panel background and title ornament. Set to false for
-    -- plain flat colors (also the automatic fallback when a texture cannot be found).
-    useGameTextures = true,
-    -- how solid the dark background is, 0.3 (see-through) to 1 (opaque)
+    -- look: the dark panel with the rough edge is Assets\panel.png. Set to false for a plain flat
+    -- background (also the automatic fallback when the file cannot be loaded).
+    backgroundImage = true,
+    -- how solid the background is, 0.3 (see-through) to 1 (opaque)
     backgroundOpacity = 0.92,
+    -- the ornamented line under the title is one of the game's own textures; false draws a plain line
+    useGameTextures = true,
+
+    -- teleport: after a long-distance teleport the hero floats for about this many seconds while
+    -- the surroundings load, then drops to the ground. Raise it if you fall through the world on
+    -- arrival; 0 switches it off.
+    teleportHoldSeconds = 3,
 
     -- write extra lines to UE4SS.log
     debug = false,
