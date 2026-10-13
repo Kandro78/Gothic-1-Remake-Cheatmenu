@@ -1,6 +1,6 @@
-# G1R Cheat Menu
+# G1R Cheat Menu (THIS MOD HAS BEEN MADE WITH CLAUDE)
 
-A keyboard-driven in-game cheat menu for **Gothic 1 Remake**, written as a UE4SS Lua mod.
+A Cheat menu for **Gothic 1 Remake**, written as a UE4SS Lua mod.
 
 Press **F7** in-game to open it. The menu is an overlay: it does not pause the game, does not
 capture the mouse, and is controlled with the keyboard only.
