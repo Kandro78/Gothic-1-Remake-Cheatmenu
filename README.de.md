@@ -117,3 +117,7 @@ Mod.
 Die Teleportziele sind Standpunkte aus den Kartendaten des Spiels
 (`G1R\Script\Map\MainMap\InteractionSpots.json`). Der Menühintergrund, `Assets\panel.png`,
 wurde für diese Mod erzeugt.
+
+## Lizenz
+
+Die Mod steht unter der MIT-Lizenz, siehe [LICENSE](LICENSE). Gothic 1 Remake, seine

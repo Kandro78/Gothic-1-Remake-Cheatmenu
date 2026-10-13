@@ -110,3 +110,7 @@ and no files from them are part of this mod.
 The teleport destinations are standing points from the game's own map data
 (`G1R\Script\Map\MainMap\InteractionSpots.json`). The menu background, `Assets\panel.png`, was
 generated for this mod.
+
+## License
+
+The mod is released under the MIT License, see [LICENSE](LICENSE). Gothic 1 Remake, its
