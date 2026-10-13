@@ -12,6 +12,12 @@ return {
     selectKeys = { "RETURN", "NUM_FIVE" },       -- open a page / run a cheat / switch on-off
     backKeys   = { "BACKSPACE", "DECIMAL" },     -- back to the previous page (closes on the first page)
 
+    -- menu language: "auto" follows the game's display language (checked each time the menu opens).
+    -- To fix it, use "en" English, "de" German, "fr" French, "it" Italian, "es" Spanish,
+    -- "pt" Portuguese (Brazil), "pl" Polish or "ru" Russian. The texts of a language are in
+    -- Scripts\lang_<code>.lua.
+    language = "auto",
+
     -- menu position (top-left corner) and size, in UI units of a 1080p screen
     x = 60,
     y = 140,

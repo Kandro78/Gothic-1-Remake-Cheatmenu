@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.3.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.5.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -41,7 +41,7 @@ local Config = {
     selectKeys = { "RETURN", "NUM_FIVE" }, backKeys = { "BACKSPACE", "DECIMAL" },
     x = 60, y = 140, width = 480, rows = 14,
     backgroundImage = true, backgroundOpacity = 0.92, useGameTextures = true,
-    teleportHoldSeconds = 3, debug = false,
+    teleportHoldSeconds = 3, language = "auto", debug = false,
 }
 do
     local ok, user = pcall(require, "config")
@@ -70,6 +70,125 @@ local function modFolder()
     return (scripts:gsub("[Ss]cripts[/\\]$", ""))
 end
 local MOD_DIR = modFolder()
+
+-- ------------------------------------------------------------------------------- language --
+-- Every text in this file is written in English and stays English inside the code. Just before
+-- a text is shown, tr() looks it up in the language file Scripts\lang_<code>.lua: `exact` holds
+-- whole texts, `patterns` holds { Lua pattern, replacement } pairs for texts with changing parts
+-- (%1..%9 in the replacement stand for the captures, each translated in turn). A text without a
+-- translation is shown in English.
+local Lang = { code = "en", exact = {}, patterns = {} }
+
+-- the languages with a language file, and fragments of the names a setting may use for them
+local LANGUAGE_FILES = { de = true, fr = true, it = true, es = true, pt = true, pl = true, ru = true }
+local LANGUAGE_HINTS = {
+    { "german", "de" }, { "deutsch", "de" },
+    { "french", "fr" }, { "fran", "fr" },
+    { "ital", "it" },
+    { "spanish", "es" }, { "espa", "es" }, { "latam", "es" },
+    { "portug", "pt" }, { "brazil", "pt" }, { "brasil", "pt" },
+    { "polish", "pl" }, { "polski", "pl" },
+    { "russian", "ru" }, { "russk", "ru" }, { "усск", "ru" },
+}
+
+-- Language code for a display language name. The game writes "German" for German; the names of
+-- its other languages are not known, so a name is matched loosely ("Polish", "polski" and
+-- "pl-PL" all give "pl"). A language without a language file gives "en".
+local function languageCode(name)
+    local lowered = name:gsub("[A-Z]", function(c) return string.char(c:byte() + 32) end)
+    local code = lowered:match("^(%a%a)$") or lowered:match("^(%a%a)[-_]")
+    if code then return LANGUAGE_FILES[code] and code or "en" end
+    for _, hint in ipairs(LANGUAGE_HINTS) do
+        if lowered:find(hint[1], 1, true) then return hint[2] end
+    end
+    return "en"
+end
+
+-- display language named in the game's settings file, nil when it cannot be read
+local function savedDisplayLanguage()
+    local base = os and os.getenv and os.getenv("LOCALAPPDATA")
+    local file = base and io.open(base .. "\\G1R\\Saved\\Config\\Windows\\GameUserSettings.ini", "r")
+    if not file then return nil end
+    local name
+    for line in file:lines() do
+        name = line:match("^m_DisplayLanguage=%s*(.-)%s*$")
+        if name then break end
+    end
+    file:close()
+    return name
+end
+
+-- The language the menu should use: the one fixed in config.lua, or with "auto" the one that
+-- belongs to the game's display language `name`. nil when "auto" has no name to go by.
+local function languageFor(name)
+    local code = tostring(Config.language or "auto"):lower()
+    if code ~= "auto" then return code end
+    if type(name) ~= "string" or name == "" then return nil end
+    return languageCode(name)
+end
+
+local function loadLanguage(code)
+    Lang.code, Lang.exact, Lang.patterns, Lang.titleFont = code, {}, {}, nil
+    if code == "en" then return end
+    local ok, strings = pcall(require, "lang_" .. code)
+    if not (ok and type(strings) == "table") then
+        log("language '" .. code .. "' not loaded, using English (" .. tostring(strings) .. ")")
+        return
+    end
+    Lang.titleFont = strings.titleFont
+    if type(strings.exact) == "table" then Lang.exact = strings.exact end
+    for _, rule in ipairs(type(strings.patterns) == "table" and strings.patterns or {}) do
+        -- a malformed pattern would raise an error every time a text is shown
+        if type(rule) == "table" and type(rule[1]) == "string" and type(rule[2]) == "string"
+            and pcall(string.match, "", rule[1]) then
+            Lang.patterns[#Lang.patterns + 1] = rule
+        else
+            log("language '" .. code .. "': skipped an invalid pattern")
+        end
+    end
+end
+
+do
+    local ok, name = pcall(savedDisplayLanguage)
+    loadLanguage(languageFor(ok and name or nil) or "en")
+end
+
+local function tr(text, depth)
+    if type(text) ~= "string" or text == "" then return text end
+    local exact = Lang.exact[text]
+    if exact then return exact end
+    depth = depth or 0
+    if depth > 3 then return text end
+    for _, rule in ipairs(Lang.patterns) do
+        local captures = { text:match(rule[1]) }
+        if captures[1] ~= nil then
+            for i, capture in ipairs(captures) do captures[i] = tr(capture, depth + 1) end
+            return (rule[2]:gsub("%%(%d)", function(n) return captures[tonumber(n)] or "" end))
+        end
+    end
+    return text
+end
+
+-- Upper case for titles. string.upper works on single bytes and its result for the bytes of a
+-- UTF-8 letter depends on the system locale, so a-z are shifted by hand and the accented and
+-- Cyrillic letters of the supported languages are looked up.
+local UPPER = {
+    ["à"] = "À", ["á"] = "Á", ["â"] = "Â", ["ã"] = "Ã", ["ä"] = "Ä", ["ç"] = "Ç", ["è"] = "È", ["é"] = "É",
+    ["ê"] = "Ê", ["ë"] = "Ë", ["ì"] = "Ì", ["í"] = "Í", ["î"] = "Î", ["ï"] = "Ï", ["ñ"] = "Ñ", ["ò"] = "Ò",
+    ["ó"] = "Ó", ["ô"] = "Ô", ["õ"] = "Õ", ["ö"] = "Ö", ["ù"] = "Ù", ["ú"] = "Ú", ["û"] = "Û", ["ü"] = "Ü",
+    ["œ"] = "Œ", ["ą"] = "Ą", ["ć"] = "Ć", ["ę"] = "Ę", ["ł"] = "Ł", ["ń"] = "Ń", ["ś"] = "Ś", ["ź"] = "Ź",
+    ["ż"] = "Ż",
+    ["а"] = "А", ["б"] = "Б", ["в"] = "В", ["г"] = "Г", ["д"] = "Д", ["е"] = "Е", ["ё"] = "Ё", ["ж"] = "Ж",
+    ["з"] = "З", ["и"] = "И", ["й"] = "Й", ["к"] = "К", ["л"] = "Л", ["м"] = "М", ["н"] = "Н", ["о"] = "О",
+    ["п"] = "П", ["р"] = "Р", ["с"] = "С", ["т"] = "Т", ["у"] = "У", ["ф"] = "Ф", ["х"] = "Х", ["ц"] = "Ц",
+    ["ч"] = "Ч", ["ш"] = "Ш", ["щ"] = "Щ", ["ъ"] = "Ъ", ["ы"] = "Ы", ["ь"] = "Ь", ["э"] = "Э", ["ю"] = "Ю",
+    ["я"] = "Я",
+}
+local function upper(text)
+    text = text:gsub("[a-z]", function(c) return string.char(c:byte() - 32) end)
+    -- a UTF-8 letter beyond ASCII is one lead byte followed by continuation bytes
+    return (text:gsub("[\194-\244][\128-\191]*", UPPER))
+end
 
 -- ----------------------------------------------------------------------------- scheduling --
 local LoopInGameThreadWithDelay = rawget(_G, "LoopInGameThreadWithDelay")
@@ -136,6 +255,50 @@ local function scriptClass(name)
 end
 
 local function stateLib() return libraryObject("Module_GAS_GASCharacterStateMixinsStatics") end
+
+-- The display language the running game reports through its settings object ("German", ...),
+-- nil when it cannot be asked. This follows a change in the game's settings menu at once, while
+-- the settings file may only be written later. The getter is called only when its result is
+-- plain text; a result of any other type is left alone and the settings file is used instead.
+local displayLanguageKind -- property class of GetDisplayLanguage's result; false once it is known to be unusable
+local function liveDisplayLanguage()
+    if displayLanguageKind == nil then
+        local getter = lib("/Script/G1R.GothicGameUserSettings:GetDisplayLanguage")
+        if not getter then return nil end -- the class is not loaded yet: look again next time
+        local kind
+        pcall(function()
+            getter:ForEachProperty(function(property)
+                if not kind then kind = property:GetClass():GetFName():ToString() end
+            end)
+        end)
+        displayLanguageKind = (kind == "StrProperty" or kind == "NameProperty") and kind or false
+        dbg("GetDisplayLanguage returns " .. tostring(kind))
+    end
+    if not displayLanguageKind then return nil end
+    local engineSettings = lib("/Script/Engine.Default__GameUserSettings")
+    local settings = engineSettings and try(function() return engineSettings:GetGameUserSettings() end)
+    if not isValid(settings) then return nil end
+    local value = try(function() return settings:GetDisplayLanguage() end)
+    if type(value) == "string" then return value end
+    local text = value and try(function() return value:ToString() end)
+    return type(text) == "string" and text or nil
+end
+
+-- picks up a language change made in the game's settings; called whenever the menu opens
+local reportedLanguage
+local function refreshLanguage()
+    local name, source = liveDisplayLanguage(), "the running game"
+    if not name then
+        local ok, saved = pcall(savedDisplayLanguage)
+        name, source = ok and saved or nil, "the settings file"
+    end
+    if name ~= reportedLanguage then
+        reportedLanguage = name
+        log("display language: " .. tostring(name) .. " (from " .. source .. ")")
+    end
+    local code = languageFor(name)
+    if code and code ~= Lang.code then loadLanguage(code) end
+end
 
 local function world()
     local gi = UEHelpers and try(function() return UEHelpers.GetGameInstance() end)
@@ -1319,7 +1482,12 @@ local function ensureUI()
     end
 
     -- header: block-letter title over the title line, both centred like the game's screen titles
-    ui.title = addText(tree, panel, PAD, TITLE_Y, W - 2 * PAD, TITLE_H, COLOR.title, titleFont() or font, 30, 1)
+    -- a language whose letters the block-letter font lacks asks for the text font instead
+    if Lang.titleFont == "body" then
+        ui.title = addText(tree, panel, PAD, TITLE_Y + 6, W - 2 * PAD, TITLE_H, COLOR.title, font, 22, 1)
+    else
+        ui.title = addText(tree, panel, PAD, TITLE_Y, W - 2 * PAD, TITLE_H, COLOR.title, titleFont() or font, 30, 1)
+    end
     ui.counter = addText(tree, panel, W - PAD - 90, TITLE_Y + 2, 90, 20, COLOR.muted, font, 12, 2)
     local titleLine = titleLineTexture()
     if titleLine then
@@ -1385,7 +1553,7 @@ local function render()
     if frame.sel < frame.top then frame.top = frame.sel end
     if frame.sel > frame.top + ROWS - 1 then frame.top = frame.sel - ROWS + 1 end
 
-    setText(ui, "title", ui.title, page.title:upper())
+    setText(ui, "title", ui.title, upper(tr(page.title)))
     setText(ui, "counter", ui.counter, #items > ROWS and (frame.sel .. " / " .. #items) or "")
     local selLabel, selValue = "", ""
     for i = 1, ROWS do
@@ -1393,12 +1561,12 @@ local function render()
         local item = items[idx]
         local label, value = "", ""
         if item then
-            label = item.label
+            label = tr(item.label)
             if item.value then
                 -- values are read from the game once per page visit / action, not on every
                 -- cursor move: reading them (guild tags, attributes) is what costs frame time
                 frame.values = frame.values or {}
-                if frame.values[idx] == nil then frame.values[idx] = tostring(try(item.value) or "") end
+                if frame.values[idx] == nil then frame.values[idx] = tr(tostring(try(item.value) or "")) end
                 value = frame.values[idx]
             end
             if item.page and value == "" then value = ">" end
@@ -1417,8 +1585,8 @@ local function render()
     move(ui.selValueSlot, W - PAD - VALUE_W, rowY + 3)
     setText(ui, "selLabel", ui.selLabel, selLabel)
     setText(ui, "selValue", ui.selValue, selValue)
-    setText(ui, "status", ui.status, S.status)
-    setText(ui, "hint", ui.hint, itemHint(page, items[frame.sel]))
+    setText(ui, "status", ui.status, tr(S.status))
+    setText(ui, "hint", ui.hint, tr(itemHint(page, items[frame.sel])))
     try(function() ui.panelSlot:SetPosition({ X = tonumber(Config.x) or 60, Y = tonumber(Config.y) or 140 }) end)
     return true
 end
@@ -1432,6 +1600,9 @@ local function closeMenu()
 end
 
 local function openMenu()
+    local language = Lang.code
+    pcall(refreshLanguage)
+    if Lang.code ~= language then teardownUI() end -- the title font depends on the language
     if #S.stack == 0 then S.stack[1] = { page = "main", sel = 1, top = 1 } end
     S.status = ""
     for _, f in ipairs(S.stack) do f.values = nil end

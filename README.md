@@ -2,6 +2,8 @@
 
 A Cheat menu for **Gothic 1 Remake**, written as a UE4SS Lua mod.
 
+Deutsche Fassung: [README.de.md](README.de.md)
+
 Press **F7** in-game to open it. The menu is an overlay: it does not pause the game, does not
 capture the mouse, and is controlled with the keyboard only.
 
@@ -18,6 +20,20 @@ capture the mouse, and is controlled with the keyboard only.
 | World | Time of day, freeze time, weather, game speed, story chapter |
 | NPCs | Kill hostile NPCs, make loaded NPCs friendly |
 | Achievements | Unlock single achievements or all 42 at once |
+
+## Languages
+
+The menu is available in English, German, French, Italian, Spanish, Brazilian Portuguese,
+Polish and Russian. It follows the game's display language and checks it every time the menu
+opens, so a change in the game's settings is picked up without a restart.
+
+To fix the language yourself, set `language` in `Scripts\config.lua` to `"en"`, `"de"`, `"fr"`,
+`"it"`, `"es"`, `"pt"`, `"pl"` or `"ru"`.
+
+The texts of each language are in `Scripts\lang_<code>.lua`. Camp names and the wording of the
+achievement entries follow the game's own texts. Other game terms (guild ranks, spells,
+talents, places) are translated freely and may differ from what the game calls them.
+Corrections are welcome; a text that is missing in a language file is shown in English.
 
 ## Requirements
 
@@ -36,6 +52,7 @@ capture the mouse, and is controlled with the keyboard only.
    ue4ss\Mods\G1R_CheatMenu\enabled.txt
    ue4ss\Mods\G1R_CheatMenu\Scripts\main.lua
    ue4ss\Mods\G1R_CheatMenu\Scripts\config.lua
+   ue4ss\Mods\G1R_CheatMenu\Scripts\lang_de.lua   (and the other lang_*.lua files)
    ue4ss\Mods\G1R_CheatMenu\Assets\panel.png
    ```
 3. Start the game and load a save. Press **F7**.
@@ -44,7 +61,7 @@ capture the mouse, and is controlled with the keyboard only.
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.3.0: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.5.0: toggle key F7` means the mod was started.
 
 ## Controls
 
@@ -56,8 +73,9 @@ If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
 | Enter, Numpad 5 | Open a page, run a cheat, switch on / off |
 | Backspace, Numpad `.` | Back to the previous page |
 
-Keys, menu position and size, the background and the pause after a teleport can be changed in
-`Scripts\config.lua`. Key changes need a game restart. The game still receives the keys you press while the menu is open.
+Keys, the language, menu position and size, the background and the pause after a teleport can
+be changed in `Scripts\config.lua`. Key changes need a game restart. The game still receives
+the keys you press while the menu is open.
 
 ## Read before using
 
@@ -75,9 +93,11 @@ Keys, menu position and size, the background and the pause after a teleport can 
 
 ## Status
 
-All pages were tested in-game on the Steam version with the UE4SS build named above. If
-something does not work for you, please report it together with the `[G1R_CheatMenu]` lines
-from `UE4SS.log`.
+All pages were tested in-game on the Steam version with the UE4SS build named above, and the
+menu was seen switching to each of the eight languages. The translations other than German
+were checked for completeness but have not been proofread by native speakers. If something
+does not work for you, please report it together with the `[G1R_CheatMenu]` lines from
+`UE4SS.log`.
 
 ## Credits
 
