@@ -4,13 +4,16 @@
 -- clicked: all input comes from RegisterKeyBind, so no mouse cursor, focus change or widget hook is
 -- needed. Keys and layout are in config.lua.
 --
--- Build rules taken over from MapFastTravel, which measured them on this game build:
+-- Every game function, class and id used below is declared in the game's own files (the
+-- executable's reflection data and G1R\Script\PrecompiledScript_Shipping.Cache).
+--
+-- UI rules for this game build:
 --   * widgets are created once via WidgetBlueprintLibrary:Create and hidden by moving them
 --     off-screen, never by toggling Visibility on a live widget;
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.0.1"
+local MOD, VERSION = "G1R_CheatMenu", "1.1.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -143,39 +146,54 @@ local function controller()
     return isValid(pc) and pc or nil
 end
 
+-- result of the first lookup that yields a live object
+local function firstValid(lookups)
+    for _, lookup in ipairs(lookups) do
+        local obj = try(lookup)
+        if isValid(obj) then return obj end
+    end
+    return nil
+end
+
 -- controller, pawn, character state (pawn/state are nil outside a running game)
 local function player()
     local pc = controller()
     if not pc then return nil end
     local pawn = try(function() return pc.Pawn end)
     if not isValid(pawn) then return pc end
-    local state = try(function() return pawn.PlayerState end)
-    if not isValid(state) then state = try(function() return pawn.m_CharacterState end) end
-    if not isValid(state) then state = nil end
+    local state = firstValid({
+        function() return pawn.PlayerState end,
+        function() return pawn.m_CharacterState end,
+    })
     return pc, pawn, state
 end
 
-local function playerASC(pawn, state)
-    if state then
-        local asc = try(function() return state.AbilitySystemComponent end)
-        if isValid(asc) then return asc end
-    end
-    for _, owner in ipairs({ pawn, state }) do
+-- a component of the hero, wherever the game keeps it: as a named property or as a component of
+-- the given class, on the character state or on the pawn
+local function heroComponent(owners, property, classPath, getter)
+    local lookups = {}
+    for _, owner in ipairs(owners) do
         if isValid(owner) then
-            local asc = try(function() return owner:GetAbilitySystemComponent() end)
-            if isValid(asc) then return asc end
+            lookups[#lookups + 1] = function() return owner[property] end
         end
     end
-    local cls = lib("/Script/G1R.GothicAbilitySystemComponent")
-    if cls then
-        for _, owner in ipairs({ pawn, state }) do
-            if isValid(owner) then
-                local asc = try(function() return owner:GetComponentByClass(cls) end)
-                if isValid(asc) then return asc end
-            end
+    for _, owner in ipairs(owners) do
+        if isValid(owner) and getter then
+            lookups[#lookups + 1] = function() return owner[getter](owner) end
         end
     end
-    return nil
+    local cls = lib(classPath)
+    for _, owner in ipairs(owners) do
+        if isValid(owner) and cls then
+            lookups[#lookups + 1] = function() return owner:GetComponentByClass(cls) end
+        end
+    end
+    return firstValid(lookups)
+end
+
+local function playerASC(pawn, state)
+    return heroComponent({ state, pawn }, "AbilitySystemComponent",
+        "/Script/G1R.GothicAbilitySystemComponent", "GetAbilitySystemComponent")
 end
 
 -- live attribute set (class short name, e.g. "AttributeSet_Health") of the player's ASC
@@ -305,29 +323,40 @@ local function changeStat(def, dir)
 end
 
 -- ---- faction --
--- guilds are gameplay effects (GE_Guild_*) that grant a matching tag (Guild.Human.<Camp>.<Role>)
-local GUILDS = {
-    { label = "Old Camp: Digger",      ge = "GE_Guild_Human_OldCamp_Digger" },
-    { label = "Old Camp: Shadow",      ge = "GE_Guild_Human_OldCamp_Shadow" },
-    { label = "Old Camp: Guard",       ge = "GE_Guild_Human_OldCamp_Guard" },
-    { label = "Old Camp: Fire Mage",   ge = "GE_Guild_Human_OldCamp_FireMage" },
-    { label = "New Camp: Scraper",     ge = "GE_Guild_Human_NewCamp_Scraper" },
-    { label = "New Camp: Peasant",     ge = "GE_Guild_Human_NewCamp_Peasant" },
-    { label = "New Camp: Rogue",       ge = "GE_Guild_Human_NewCamp_Rogue" },
-    { label = "New Camp: Mercenary",   ge = "GE_Guild_Human_NewCamp_Mercenary" },
-    { label = "New Camp: Water Mage",  ge = "GE_Guild_Human_NewCamp_WaterMage" },
-    { label = "Swamp Camp: Novice",    ge = "GE_Guild_Human_SwampCamp_Novice" },
-    { label = "Swamp Camp: Templar",   ge = "GE_Guild_Human_SwampCamp_Templar" },
-    { label = "Swamp Camp: Guru",      ge = "GE_Guild_Human_SwampCamp_Guru" },
+-- A guild is a gameplay effect class named GE_Guild_Human_<Camp>_<Role> in the game's script
+-- (Story guild definitions); holding it grants the gameplay tag Guild.Human.<Camp>.<Role>.
+-- { camp id, camp name, { role id, role name }... }, ordered by rank within a camp
+local CAMPS = {
+    { "OldCamp", "Old Camp",
+      { "Digger", "Digger" }, { "Shadow", "Shadow" }, { "Guard", "Guard" },
+      { "FireMage", "Fire Mage" }, { "OreBaron", "Ore Baron" } },
+    { "NewCamp", "New Camp",
+      { "Scraper", "Scraper" }, { "Peasant", "Peasant" }, { "Rogue", "Rogue" },
+      { "Mercenary", "Mercenary" }, { "WaterMage", "Water Mage" } },
+    { "SwampCamp", "Swamp Camp",
+      { "Novice", "Novice" }, { "Templar", "Templar" }, { "Guru", "Guru" } },
+    { "BanditCamp", "Bandits",
+      { "Bandit", "Bandit" } },
 }
+
+local GUILDS = {}
+for _, camp in ipairs(CAMPS) do
+    for i = 3, #camp do
+        local role = camp[i]
+        GUILDS[#GUILDS + 1] = {
+            label = camp[2] .. ": " .. role[2],
+            ge = ("GE_Guild_Human_%s_%s"):format(camp[1], role[1]),
+            tag = ("Guild.Human.%s.%s"):format(camp[1], role[1]),
+        }
+    end
+end
 
 local function hasGuild(guild)
     local _, pawn, state = player()
     if not pawn then return false end
     local asc, L = playerASC(pawn, state), libraryObject("GothicGASLibrary")
     if not (asc and L and FName) then return false end
-    local tag = guild.ge:gsub("^GE_", ""):gsub("_", ".")
-    return try(function() return L:HasTag(asc, { TagName = FName(tag) }, true) end) == true
+    return try(function() return L:HasTag(asc, { TagName = FName(guild.tag) }, true) end) == true
 end
 
 local function currentGuildLabel()
@@ -338,23 +367,30 @@ local function currentGuildLabel()
     return "None"
 end
 
--- AbilitySystemCheatManagerExtension on the player's CheatManager: EffectApply / EffectRemove by name
+-- Unreal's stock gameplay-ability cheats (EffectApply / EffectRemove by effect name) live on
+-- UAbilitySystemCheatManagerExtension, which needs a CheatManager as its outer. Shipping builds
+-- do not create one, so both are constructed on demand and kept per player controller.
+local cheatObjects = { owner = nil, extension = nil }
 local function cheatExtension()
     local pc = controller()
     if not pc then return nil end
-    local cm = try(function() return pc.CheatManager end)
-    if not isValid(cm) then
-        local cmCls = lib("/Script/Engine.CheatManager")
-        if cmCls then
-            cm = try(function() return StaticConstructObject(cmCls, pc) end)
-            if isValid(cm) then pcall(function() pc.CheatManager = cm end) end
-        end
-    end
-    if not isValid(cm) then return nil end
-    local extCls = lib("/Script/GameplayAbilities.AbilitySystemCheatManagerExtension")
-    if not extCls then return nil end
-    local ext = try(function() return StaticConstructObject(extCls, cm) end)
-    return isValid(ext) and ext or nil
+    local owner = tostring(try(function() return pc:GetAddress() end))
+    if cheatObjects.owner == owner and isValid(cheatObjects.extension) then return cheatObjects.extension end
+
+    local manager = firstValid({
+        function() return pc.CheatManager end,
+        function()
+            local created = StaticConstructObject(lib("/Script/Engine.CheatManager"), pc)
+            pc.CheatManager = created
+            return created
+        end,
+    })
+    local extensionClass = lib("/Script/GameplayAbilities.AbilitySystemCheatManagerExtension")
+    if not (manager and extensionClass) then return nil end
+    local extension = try(function() return StaticConstructObject(extensionClass, manager) end)
+    if not isValid(extension) then return nil end
+    cheatObjects = { owner = owner, extension = extension }
+    return extension
 end
 
 local function setGuild(guild)
@@ -422,7 +458,7 @@ local ITEMS = {
     { label = "Elixir of spirit (max MP)", id = "ItFo_Potion_Mana_Perma_03", count = 1 },
 }
 
--- item ids are ItAr_Rune_<name>; the two quest-only Milten fireball variants are left out
+-- rune item classes are ItAr_Rune_<name>; the two quest-only Milten fireball variants are left out
 local RUNES = {}
 for _, r in ipairs({
     { "Light", "Light" }, { "Heal", "Heal" },

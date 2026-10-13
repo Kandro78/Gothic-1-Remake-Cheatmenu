@@ -11,7 +11,7 @@ capture the mouse, and is controlled with the keyboard only.
 |---|---|
 | Player | God mode, infinite mana / stamina / breath, restore health-mana-stamina, clear crimes |
 | Stats | Strength, dexterity, max mana, max health, learning points, level, experience |
-| Faction | Switch between all 12 guilds of the Old Camp, New Camp and Swamp Camp, or leave your faction |
+| Faction | Switch between 14 guilds (Old Camp, New Camp, Swamp Camp, Bandits), or leave your faction |
 | Skills | Learn or remove 58 skills |
 | Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and a submenu with 26 runes |
 | World | Time of day, freeze time, weather, game speed, story chapter |
@@ -42,7 +42,7 @@ capture the mouse, and is controlled with the keyboard only.
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.0.1: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.1.0: toggle key F7` means the mod was started.
 
 ## Controls
 
@@ -74,6 +74,8 @@ from `UE4SS.log`.
 
 ## Credits
 
-The game function names used for stats, guilds, skills, items, time, weather and crimes were
-learned from the **G1R Console Tools** mod, and the way the overlay is built follows the
-**MapFastTravel** mod. Neither mod is required or included.
+All game functions, classes and ids the mod uses are declared in the game's own files and
+were checked against them. I first found many of them by studying the **G1R Console Tools**
+mod, and learned how to build a UMG overlay from Lua on this game from the **MapFastTravel**
+("Fast Travel From Map") mod. Thanks to both authors. Neither mod is required or included,
+and no files from them are part of this mod.
