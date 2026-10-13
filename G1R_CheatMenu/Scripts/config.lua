@@ -18,6 +18,12 @@ return {
     width = 480,
     rows = 14,
 
+    -- look: the menu uses the game's own panel background and title ornament. Set to false for
+    -- plain flat colors (also the automatic fallback when a texture cannot be found).
+    useGameTextures = true,
+    -- how solid the dark background is, 0.3 (see-through) to 1 (opaque)
+    backgroundOpacity = 0.92,
+
     -- write extra lines to UE4SS.log
     debug = false,
 }

@@ -42,7 +42,7 @@ capture the mouse, and is controlled with the keyboard only.
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.1.0: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.2.0: toggle key F7` means the mod was started.
 
 ## Controls
 

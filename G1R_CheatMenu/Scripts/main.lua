@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.1.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.2.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -39,7 +39,8 @@ local Config = {
     upKeys = { "UP_ARROW", "NUM_EIGHT" }, downKeys = { "DOWN_ARROW", "NUM_TWO" },
     leftKeys = { "LEFT_ARROW", "NUM_FOUR" }, rightKeys = { "RIGHT_ARROW", "NUM_SIX" },
     selectKeys = { "RETURN", "NUM_FIVE" }, backKeys = { "BACKSPACE", "DECIMAL" },
-    x = 60, y = 140, width = 480, rows = 14, debug = false,
+    x = 60, y = 140, width = 480, rows = 14,
+    useGameTextures = true, backgroundOpacity = 0.92, debug = false,
 }
 do
     local ok, user = pcall(require, "config")
@@ -870,7 +871,7 @@ for _, g in ipairs(GUILDS) do
     }
 end
 
-Pages.skills = { title = "Skills", hint = "Enter: learn   Left: remove", items = {} }
+Pages.skills = { title = "Skills", hint = "[Enter] Learn     [Left] Remove     [Backspace] Back", items = {} }
 for _, name in ipairs(SKILLS) do
     Pages.skills.items[#Pages.skills.items + 1] = {
         label = name:gsub("_", " "),
@@ -912,7 +913,7 @@ Pages.npcs = { title = "NPCs", items = {
     { label = "Make loaded NPCs friendly", run = befriendAll },
 } }
 
-Pages.achievements = { title = "Achievements", hint = "Enter: unlock (permanent)   Backspace: back", items = {
+Pages.achievements = { title = "Achievements", hint = "[Enter] Unlock (permanent)     [Backspace] Back", items = {
     { label = "Unlock ALL achievements", run = unlockAll },
 } }
 for _, ach in ipairs(ACHIEVEMENTS) do
@@ -923,21 +924,43 @@ for _, ach in ipairs(ACHIEVEMENTS) do
 end
 
 -- ------------------------------------------------------------------------------------- UI --
+-- The look follows the game's own settings screen: a neutral near-black backdrop, a pale salmon
+-- block-letter title over the ornamented title line, serif rows in warm off-white with copper
+-- values, a grey hairline closing the list, and the selected entry as a pale salmon plate with
+-- dark text. Fonts and the two textures are the game's own assets.
 local UI_KEY = "__g1rcm_ui"
 local OFFSCREEN = -100000
 local ROWS = math.max(4, math.floor(tonumber(Config.rows) or 14))
 local W = math.max(360, tonumber(Config.width) or 480)
-local ROW_H, TITLE_H, FOOTER_H, PAD = 30, 46, 64, 18
-local H = TITLE_H + 8 + ROWS * ROW_H + FOOTER_H
+local PAD, ROW_H, VALUE_W = 20, 30, 170
+local TITLE_Y, TITLE_H = 12, 46
+local ORNAMENT_W, ORNAMENT_H = 300, 24 -- native size of the title-line texture; other sizes distort it
+local ORNAMENT_Y = TITLE_Y + TITLE_H
+local LIST_Y = ORNAMENT_Y + ORNAMENT_H + 10
+local FOOTER_Y = LIST_Y + ROWS * ROW_H + 6
+local H = FOOTER_Y + 66
 
+-- FLinearColor from 0-255 sRGB values, the form a screenshot of the game shows them in
+local function srgb(r, g, b, a)
+    local function linear(c)
+        c = c / 255
+        return c <= 0.04045 and c / 12.92 or ((c + 0.055) / 1.055) ^ 2.4
+    end
+    return { R = linear(r), G = linear(g), B = linear(b), A = a or 1 }
+end
+
+local BACKDROP_ALPHA = math.max(0.3, math.min(1, tonumber(Config.backgroundOpacity) or 0.92))
+
+-- sampled from the game's settings screen
 local COLOR = {
-    panel     = { R = 0.012, G = 0.010, B = 0.008, A = 0.93 },
-    titleBar  = { R = 0.080, G = 0.050, B = 0.015, A = 1.0 },
-    highlight = { R = 0.550, G = 0.360, B = 0.070, A = 0.55 },
-    title     = { R = 0.900, G = 0.720, B = 0.330, A = 1.0 },
-    text      = { R = 0.860, G = 0.830, B = 0.760, A = 1.0 },
-    value     = { R = 0.950, G = 0.800, B = 0.420, A = 1.0 },
-    muted     = { R = 0.520, G = 0.490, B = 0.430, A = 1.0 },
+    backdrop  = srgb(10, 10, 10, BACKDROP_ALPHA),
+    title     = srgb(243, 214, 203), -- screen title, category names
+    text      = srgb(244, 226, 217), -- setting names
+    value     = srgb(205, 160, 133), -- setting values
+    muted     = srgb(135, 134, 134), -- disabled rows
+    hairline  = srgb(87, 87, 87),
+    plate     = srgb(250, 223, 207), -- selected category
+    plateText = srgb(14, 12, 11),
 }
 
 local function teardownUI()
@@ -965,6 +988,19 @@ end
 local function bodyFont() return findAsset("/Game/UI/Fonts/NotoSerif-Regular_Font.NotoSerif-Regular_Font") end
 local function titleFont() return findAsset("/Game/UI/Fonts/Boucherie-Block_Font.Boucherie-Block_Font") end
 
+-- the game's panel background and title ornament; nil when switched off in config.lua or missing,
+-- in which case flat colors are drawn instead
+local function gameTexture(path)
+    if Config.useGameTextures == false then return nil end
+    return findAsset(path)
+end
+local function panelTexture()
+    return gameTexture("/Game/UI/Textures/Common/T_GrungeBackground.T_GrungeBackground")
+end
+local function titleLineTexture()
+    return gameTexture("/Game/UI/Textures/ManagementUI/Inventory/T_TooltipTitleLine.T_TooltipTitleLine")
+end
+
 local function place(slot, x, y, w, h)
     if not slot then return end
     try(function()
@@ -974,12 +1010,17 @@ local function place(slot, x, y, w, h)
     end)
 end
 
--- returns widget, canvas slot
-local function addBox(tree, canvas, x, y, w, h, color)
+local function move(slot, x, y)
+    if isValid(slot) then try(function() slot:SetPosition({ X = x, Y = y }) end) end
+end
+
+-- a flat box, or the texture tinted with color when one is given; returns widget, canvas slot
+local function addBox(tree, canvas, x, y, w, h, color, texture)
     local cls = lib("/Script/UMG.Border")
     local b = cls and try(function() return StaticConstructObject(cls, tree) end)
     if not isValid(b) then return nil end
     try(function() b:Construct() end)
+    if isValid(texture) then try(function() b:SetBrushFromTexture(texture) end) end
     try(function() b:SetBrushColor(color) end)
     setVisibility(b, 3)
     local slot = try(function() return canvas:AddChildToCanvas(b) end)
@@ -987,7 +1028,7 @@ local function addBox(tree, canvas, x, y, w, h, color)
     return b, slot
 end
 
--- justify: 0 left, 1 center, 2 right
+-- justify: 0 left, 1 center, 2 right; returns widget, canvas slot
 local function addText(tree, canvas, x, y, w, h, color, font, size, justify)
     local cls = lib("/Script/UMG.TextBlock")
     local tb = cls and try(function() return StaticConstructObject(cls, tree) end)
@@ -1008,7 +1049,7 @@ local function addText(tree, canvas, x, y, w, h, color, font, size, justify)
     setVisibility(tb, 3)
     local slot = try(function() return canvas:AddChildToCanvas(tb) end)
     place(slot, x, y, w, h)
-    return tb
+    return tb, slot
 end
 
 local function controllerKey(pc)
@@ -1045,25 +1086,45 @@ local function ensureUI()
 
     ui = { widget = widget, panelSlot = panelSlot, pcKey = controllerKey(pc), rows = {}, shown = {} }
     local font = bodyFont()
+    local labelW = W - 2 * PAD - VALUE_W
 
-    addBox(tree, panel, 0, 0, W, H, COLOR.panel)
-    addBox(tree, panel, 0, 0, W, TITLE_H, COLOR.titleBar)
-    ui.title = addText(tree, panel, PAD, 7, W - 2 * PAD - 90, TITLE_H, COLOR.title, titleFont() or font, 22, 0)
-    ui.counter = addText(tree, panel, W - PAD - 90, 13, 90, TITLE_H, COLOR.muted, font, 14, 2)
-    ui.highlight, ui.highlightSlot = addBox(tree, panel, 6, OFFSCREEN, W - 12, ROW_H, COLOR.highlight)
+    -- backdrop: the game's grunge panel when available. Its art may be translucent in places, so
+    -- a flat underlay keeps the text readable over a bright scene.
+    local grunge = panelTexture()
+    if grunge then
+        addBox(tree, panel, 14, 14, W - 28, H - 28, srgb(8, 8, 8, 0.6 * BACKDROP_ALPHA))
+        addBox(tree, panel, 0, 0, W, H, { R = 1, G = 1, B = 1, A = BACKDROP_ALPHA }, grunge)
+    else
+        addBox(tree, panel, 0, 0, W, H, COLOR.backdrop)
+    end
 
-    local valueW = 170
+    -- header: block-letter title over the title line, both centred like the game's screen titles
+    ui.title = addText(tree, panel, PAD, TITLE_Y, W - 2 * PAD, TITLE_H, COLOR.title, titleFont() or font, 30, 1)
+    ui.counter = addText(tree, panel, W - PAD - 90, TITLE_Y + 2, 90, 20, COLOR.muted, font, 12, 2)
+    local titleLine = titleLineTexture()
+    if titleLine then
+        addBox(tree, panel, math.floor((W - ORNAMENT_W) / 2), ORNAMENT_Y, ORNAMENT_W, ORNAMENT_H, COLOR.title, titleLine)
+    else
+        addBox(tree, panel, math.floor((W - ORNAMENT_W) / 2), ORNAMENT_Y + 11, ORNAMENT_W, 1, COLOR.title)
+    end
+
     for i = 1, ROWS do
-        local y = TITLE_H + 8 + (i - 1) * ROW_H + 3
+        local y = LIST_Y + (i - 1) * ROW_H + 3
         ui.rows[i] = {
-            label = addText(tree, panel, PAD, y, W - 2 * PAD - valueW, ROW_H, COLOR.text, font, 16, 0),
-            value = addText(tree, panel, W - PAD - valueW, y, valueW, ROW_H, COLOR.value, font, 16, 2),
+            label = addText(tree, panel, PAD, y, labelW, ROW_H, COLOR.text, font, 16, 0),
+            value = addText(tree, panel, W - PAD - VALUE_W, y, VALUE_W, ROW_H, COLOR.value, font, 16, 2),
         }
     end
 
-    local footerY = TITLE_H + 8 + ROWS * ROW_H + 8
-    ui.status = addText(tree, panel, PAD, footerY, W - 2 * PAD, 24, COLOR.value, font, 14, 0)
-    ui.hint = addText(tree, panel, PAD, footerY + 26, W - 2 * PAD, 24, COLOR.muted, font, 13, 0)
+    -- selected entry: an opaque plate over that row plus its own dark copy of the row's text.
+    -- Added after the rows so both draw on top of them; moved with the selection in render().
+    ui.plate, ui.plateSlot = addBox(tree, panel, PAD - 10, OFFSCREEN, W - 2 * PAD + 20, ROW_H - 2, COLOR.plate)
+    ui.selLabel, ui.selLabelSlot = addText(tree, panel, PAD, OFFSCREEN, labelW, ROW_H, COLOR.plateText, font, 16, 0)
+    ui.selValue, ui.selValueSlot = addText(tree, panel, W - PAD - VALUE_W, OFFSCREEN, VALUE_W, ROW_H, COLOR.plateText, font, 16, 2)
+
+    addBox(tree, panel, PAD, FOOTER_Y, W - 2 * PAD, 1, COLOR.hairline)
+    ui.status = addText(tree, panel, PAD, FOOTER_Y + 10, W - 2 * PAD, 22, COLOR.value, font, 14, 0)
+    ui.hint = addText(tree, panel, PAD, FOOTER_Y + 36, W - 2 * PAD, 20, COLOR.muted, font, 12, 0)
 
     setVisibility(widget, 4)
     local added = try(function() widget:AddToViewport(25000); return true end)
@@ -1086,10 +1147,10 @@ local function currentFrame() return S.stack[#S.stack] end
 local function itemHint(page, item)
     if page.hint then return page.hint end
     if not item then return "" end
-    if item.page then return "Enter: open   Backspace: " .. (#S.stack > 1 and "back" or "close") end
-    if item.set then return "Enter: on / off   Backspace: back" end
-    if item.adjust then return "Left / Right: change   Backspace: back" end
-    return "Enter: run   Backspace: back"
+    if item.page then return "[Enter] Open     [Backspace] " .. (#S.stack > 1 and "Back" or "Close") end
+    if item.set then return "[Enter] On / off     [Backspace] Back" end
+    if item.adjust then return "[Left] [Right] Change     [Backspace] Back" end
+    return "[Enter] Run     [Backspace] Back"
 end
 
 local function render()
@@ -1103,30 +1164,38 @@ local function render()
     if frame.sel < frame.top then frame.top = frame.sel end
     if frame.sel > frame.top + ROWS - 1 then frame.top = frame.sel - ROWS + 1 end
 
-    setText(ui, "title", ui.title, page.title)
+    setText(ui, "title", ui.title, page.title:upper())
     setText(ui, "counter", ui.counter, #items > ROWS and (frame.sel .. " / " .. #items) or "")
+    local selLabel, selValue = "", ""
     for i = 1, ROWS do
-        local item = items[frame.top + i - 1]
+        local idx = frame.top + i - 1
+        local item = items[idx]
         local label, value = "", ""
         if item then
             label = item.label
             if item.value then
                 -- values are read from the game once per page visit / action, not on every
                 -- cursor move: reading them (guild tags, attributes) is what costs frame time
-                local idx = frame.top + i - 1
                 frame.values = frame.values or {}
                 if frame.values[idx] == nil then frame.values[idx] = tostring(try(item.value) or "") end
                 value = frame.values[idx]
             end
             if item.page and value == "" then value = ">" end
+            if idx == frame.sel then
+                selLabel, selValue = label, value
+                -- like the game's option rows: arrows around a value that Left / Right changes
+                if item.adjust and value ~= "" then selValue = "<  " .. value .. "  >" end
+            end
         end
         setText(ui, "label" .. i, ui.rows[i].label, label)
         setText(ui, "value" .. i, ui.rows[i].value, value)
     end
-    if isValid(ui.highlightSlot) then
-        local y = TITLE_H + 8 + (frame.sel - frame.top) * ROW_H
-        try(function() ui.highlightSlot:SetPosition({ X = 6, Y = y }) end)
-    end
+    local rowY = LIST_Y + (frame.sel - frame.top) * ROW_H
+    move(ui.plateSlot, PAD - 10, rowY + 1)
+    move(ui.selLabelSlot, PAD, rowY + 3)
+    move(ui.selValueSlot, W - PAD - VALUE_W, rowY + 3)
+    setText(ui, "selLabel", ui.selLabel, selLabel)
+    setText(ui, "selValue", ui.selValue, selValue)
     setText(ui, "status", ui.status, S.status)
     setText(ui, "hint", ui.hint, itemHint(page, items[frame.sel]))
     try(function() ui.panelSlot:SetPosition({ X = tonumber(Config.x) or 60, Y = tonumber(Config.y) or 140 }) end)
