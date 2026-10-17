@@ -61,7 +61,7 @@ Corrections are welcome; a text that is missing in a language file is shown in E
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.5.0: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.5.1: toggle key F7` means the mod was started.
 
 ## Controls
 

@@ -63,7 +63,7 @@ auf Englisch angezeigt.
 Zum Deinstallieren den Ordner `G1R_CheatMenu` löschen.
 
 Erscheint das Menü nicht, öffne `ue4ss\UE4SS.log` und suche nach Zeilen mit
-`[G1R_CheatMenu]`. Die Zeile `Loaded 1.5.0: toggle key F7` bedeutet, dass die Mod gestartet
+`[G1R_CheatMenu]`. Die Zeile `Loaded 1.5.1: toggle key F7` bedeutet, dass die Mod gestartet
 wurde.
 
 ## Steuerung

@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.5.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.5.1"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -952,8 +952,18 @@ local function teleportTo(point, name)
         if result ~= false then moved = true; break end
     end
     if failure then
-        log("teleport to " .. name .. " failed: " .. tostring(failure))
-        return "Teleport failed, see UE4SS.log"
+        -- Some setups raise an error inside K2_TeleportTo (reported as "Array failed invariants
+        -- check"). Setting the location directly does not test whether the hero fits, so the
+        -- first lift is used.
+        log("teleport to " .. name .. ": K2_TeleportTo failed (" .. tostring(failure) .. "), setting the location instead")
+        local ok, err = pcall(function()
+            pawn:K2_SetActorLocationAndRotation({ X = point.x, Y = point.y, Z = point.z + lifts[1] }, rotation, false, {}, true)
+        end)
+        if not ok then
+            log("teleport to " .. name .. " failed: " .. tostring(err))
+            return "Teleport failed, see UE4SS.log"
+        end
+        moved = true
     end
     if not moved then return "Teleport failed: no free spot at the destination" end
     pcall(function() pc:SetControlRotation(rotation) end)
