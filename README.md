@@ -15,7 +15,7 @@ capture the mouse, and is controlled with the keyboard only.
 | Stats | Strength, dexterity, max mana, max health, learning points, level, experience |
 | Faction | Switch between the 12 guilds of the Old Camp, New Camp and Swamp Camp, or leave your faction |
 | Skills | Learn or remove 58 skills |
-| Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and a submenu with 26 runes |
+| Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and submenus with 26 runes and 43 spell scrolls |
 | Teleport | Jump to 28 places in the colony, or save up to 10 positions of your own and return to them |
 | World | Time of day, freeze time, weather, game speed, story chapter |
 | NPCs | Kill hostile NPCs, make loaded NPCs friendly |
@@ -61,19 +61,19 @@ Corrections are welcome; a text that is missing in a language file is shown in E
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.5.1: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.6.0: toggle key F7` means the mod was started.
 
 ## Controls
 
 | Key | Action |
 |---|---|
 | F7 | Open / close the menu |
-| Up / Down, Numpad 8 / 2 | Move the selection |
+| Up / Down, Numpad 8 / 2 | Move the selection (hold to keep moving) |
 | Left / Right, Numpad 4 / 6 | Change a value (Left removes a skill or a saved position) |
 | Enter, Numpad 5 | Open a page, run a cheat, switch on / off |
 | Backspace, Numpad `.` | Back to the previous page |
 
-Keys, the language, menu position and size, the background and the pause after a teleport can
+Keys, key repeat, the language, menu position and size, the background and the pause after a teleport can
 be changed in `Scripts\config.lua`. Key changes need a game restart. The game still receives
 the keys you press while the menu is open.
 

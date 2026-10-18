@@ -15,7 +15,7 @@ nicht, fängt die Maus nicht ein und wird nur mit der Tastatur bedient.
 | Werte | Stärke, Geschicklichkeit, max. Mana, max. Lebenspunkte, Lernpunkte, Stufe, Erfahrung |
 | Gilde | Zwischen den 12 Gilden von Altem Lager, Neuem Lager und Sumpflager wechseln oder die Gilde verlassen |
 | Talente | 58 Talente lernen oder entfernen |
-| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere und ein Untermenü mit 26 Runen |
+| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere sowie Untermenüs mit 26 Runen und 43 Zauberschriftrollen |
 | Teleport | Zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
 | Welt | Uhrzeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
 | NPCs | Feindliche NPCs töten, geladene NPCs freundlich machen |
@@ -63,7 +63,7 @@ auf Englisch angezeigt.
 Zum Deinstallieren den Ordner `G1R_CheatMenu` löschen.
 
 Erscheint das Menü nicht, öffne `ue4ss\UE4SS.log` und suche nach Zeilen mit
-`[G1R_CheatMenu]`. Die Zeile `Loaded 1.5.1: toggle key F7` bedeutet, dass die Mod gestartet
+`[G1R_CheatMenu]`. Die Zeile `Loaded 1.6.0: toggle key F7` bedeutet, dass die Mod gestartet
 wurde.
 
 ## Steuerung
@@ -71,12 +71,12 @@ wurde.
 | Taste | Aktion |
 |---|---|
 | F7 | Menü öffnen / schließen |
-| Hoch / Runter, Ziffernblock 8 / 2 | Auswahl bewegen |
+| Hoch / Runter, Ziffernblock 8 / 2 | Auswahl bewegen (gedrückt halten zum Durchlaufen) |
 | Links / Rechts, Ziffernblock 4 / 6 | Wert ändern (Links entfernt ein Talent oder eine gespeicherte Position) |
 | Enter, Ziffernblock 5 | Seite öffnen, Cheat ausführen, an- / ausschalten |
 | Rücktaste, Ziffernblock `,` | Zurück zur vorherigen Seite |
 
-Tasten, Sprache, Position und Größe des Menüs, der Hintergrund und die Pause nach einem
+Tasten, Tastenwiederholung, Sprache, Position und Größe des Menüs, der Hintergrund und die Pause nach einem
 Teleport lassen sich in `Scripts\config.lua` ändern. Geänderte Tasten gelten erst nach einem
 Neustart des Spiels. Das Spiel erhält die gedrückten Tasten weiterhin, auch wenn das Menü
 offen ist.

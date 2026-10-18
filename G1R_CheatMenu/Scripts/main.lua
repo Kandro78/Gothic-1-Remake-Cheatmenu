@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.5.1"
+local MOD, VERSION = "G1R_CheatMenu", "1.6.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -650,6 +650,34 @@ for _, r in ipairs({
     RUNES[#RUNES + 1] = { label = r[1], id = "ItAr_Rune_" .. r[2], count = 1 }
 end
 
+-- scroll item classes are ItAr_Scroll_<name>; a scroll is used up when cast, so each gives several
+local SCROLL_COUNT = 5
+local SCROLLS = {}
+for _, s in ipairs({
+    { "Light", "Light" }, { "Heal", "Heal" },
+    { "Fire Bolt", "FireBolt" }, { "Fire Ball", "FireBall" }, { "Storm of Fire", "StormOfFire" },
+    { "Fire Rain", "FireRain" }, { "Pyrokinesis", "Pyrokinesis" },
+    { "Ice Bolt", "IceBolt" }, { "Ice Block", "IceBlock" }, { "Ice Wave", "IceWave" },
+    { "Ball Lightning", "BallLightning" }, { "Chain Lightning", "ChainLightning" },
+    { "Fist of Wind", "FistOfWind" }, { "Storm Fist", "StormFist" },
+    { "Telekinesis", "Telekinesis" }, { "Sleep", "Sleep" }, { "Charm", "Charm" }, { "Control", "Control" },
+    { "Fear", "Fear" }, { "Shrink", "Shrink" },
+    { "Death to the Undead", "DeathToTheUndead" }, { "Prayer to Innos", "InnosPray" },
+    { "Summon Skeletons", "SummonSkeletons" }, { "Summon Golem", "SummonGolem" },
+    { "Summon Demon", "SummonDemon" }, { "Army of Darkness", "SummonArmyOfDarkness" },
+    { "Transform: Meatbug", "TransformMeatbug" }, { "Transform: Bloodfly", "TransformBloodfly" },
+    { "Transform: Molerat", "TransformMolerat" }, { "Transform: Scavenger", "TransformScavenger" },
+    { "Transform: Wolf", "TransformWolf" }, { "Transform: Biter", "TransformBiter" },
+    { "Transform: Lizard", "TransformLizard" }, { "Transform: Fire Lizard", "TransformFireLizard" },
+    { "Transform: Snapper", "TransformSnapper" }, { "Transform: Razor", "TransformRazor" },
+    { "Transform: Bloodhound", "TransformBloodhound" }, { "Transform: Orc Dog", "TransformOrcDog" },
+    { "Transform: Lurker", "TransformLurker" }, { "Transform: Minecrawler", "TransformMinecrawler" },
+    { "Transform: Harpy", "TransformHarpy" }, { "Transform: Swampshark", "TransformSwampshark" },
+    { "Transform: Shadowbeast", "TransformShadowbeast" },
+}) do
+    SCROLLS[#SCROLLS + 1] = { label = s[1], id = "ItAr_Scroll_" .. s[2], count = SCROLL_COUNT }
+end
+
 local function inventory(pawn, state)
     for _, owner in ipairs({ state, pawn }) do
         if isValid(owner) then
@@ -1235,6 +1263,7 @@ end
 
 Pages.items = { title = "Items", items = {
     { label = "Runes", page = "runes" },
+    { label = "Scrolls", page = "scrolls" },
 } }
 for _, item in ipairs(ITEMS) do
     Pages.items.items[#Pages.items.items + 1] = { label = item.label, run = function() return giveItem(item) end }
@@ -1252,6 +1281,20 @@ Pages.runes = { title = "Runes", items = {
 } }
 for _, rune in ipairs(RUNES) do
     Pages.runes.items[#Pages.runes.items + 1] = { label = rune.label, run = function() return giveItem(rune) end }
+end
+
+Pages.scrolls = { title = "Scrolls", items = {
+    { label = "All scrolls", run = function()
+        local given = 0
+        for _, scroll in ipairs(SCROLLS) do
+            if giveItem(scroll):find("^Added") then given = given + 1 end
+        end
+        if given == 0 then return select(2, player()) and "Adding scrolls failed" or NOT_IN_GAME end
+        return ("Added %d of %d scrolls"):format(given, #SCROLLS)
+    end },
+} }
+for _, scroll in ipairs(SCROLLS) do
+    Pages.scrolls.items[#Pages.scrolls.items + 1] = { label = scroll.label, run = function() return giveItem(scroll) end }
 end
 
 Pages.teleport = { title = "Teleport", items = {
@@ -1640,7 +1683,69 @@ local function runItem(item, dir)
     if not ok then log("cheat failed: " .. tostring(msg)) end
 end
 
-local function handle(action)
+-- ---- holding Up / Down repeats the move --
+-- A keybind fires once per press. After a press of Up or Down the tick loop asks the player
+-- controller whether one of that action's keys is still down and, after a short delay, keeps
+-- moving until it is released.
+local REPEAT_ACTIONS = { up = "upKeys", down = "downKeys" }
+-- UE4SS key names (config.lua) -> the engine's key names, for the keys that can be held
+local ENGINE_KEYS = {
+    UP_ARROW = "Up", DOWN_ARROW = "Down", LEFT_ARROW = "Left", RIGHT_ARROW = "Right",
+    NUM_ZERO = "NumPadZero", NUM_ONE = "NumPadOne", NUM_TWO = "NumPadTwo", NUM_THREE = "NumPadThree",
+    NUM_FOUR = "NumPadFour", NUM_FIVE = "NumPadFive", NUM_SIX = "NumPadSix", NUM_SEVEN = "NumPadSeven",
+    NUM_EIGHT = "NumPadEight", NUM_NINE = "NumPadNine", PAGE_UP = "PageUp", PAGE_DOWN = "PageDown",
+}
+local repeatBroken = false -- set when the controller cannot be asked; holding then does nothing
+
+local function repeatTimes()
+    local delay = tonumber(Config.repeatDelay) or 0.35
+    local interval = tonumber(Config.repeatInterval) or 0.07
+    return delay, math.max(interval, 0.03)
+end
+
+local function armRepeat(action)
+    S.held = nil
+    if repeatBroken or not REPEAT_ACTIONS[action] or Config.holdToRepeat == false or not FName then return end
+    local delay = repeatTimes()
+    S.held = { action = action, nextTime = os.clock() + delay }
+end
+
+local function keyHeld(pc, action)
+    local names = Config[REPEAT_ACTIONS[action]]
+    for _, name in ipairs(type(names) == "table" and names or { names }) do
+        local engineName = ENGINE_KEYS[name] or (type(name) == "string" and #name == 1 and name) or nil
+        if engineName then
+            local ok, down = pcall(function() return pc:IsInputKeyDown({ KeyName = FName(engineName) }) end)
+            if not ok then
+                repeatBroken = true
+                log("holding a key to repeat is unavailable: " .. tostring(down))
+                return false
+            end
+            if down then return true end
+        end
+    end
+    return false
+end
+
+local handle -- defined below
+
+-- one tick of the repeat; runs on the game thread
+local function repeatTick()
+    local held = S.held
+    if not (held and S.open) then S.held = nil; return end
+    -- The keybind can fire before the engine has registered the key as down, so the key is only
+    -- asked about once the delay is over; asking right after the press could end the hold early.
+    local now = os.clock()
+    if now < held.nextTime then return end
+    local pc = controller()
+    if not (pc and keyHeld(pc, held.action)) then S.held = nil; return end
+    local _, interval = repeatTimes()
+    held.nextTime = math.max(held.nextTime + interval, now) -- after a hitch, do not catch up in a burst
+    handle(held.action, true)
+end
+
+function handle(action, repeated)
+    if not repeated then armRepeat(action) end
     if action == "toggle" then
         if S.open then closeMenu() else openMenu() end
         return
@@ -1675,6 +1780,7 @@ end
 -- Keybinds are registered once (UE4SS keeps them across a hot reload) and dispatch through a _G
 -- trampoline, so a reloaded copy of this file takes over without binding every key twice.
 rawset(_G, "__g1rcm_handle", handle)
+rawset(_G, "__g1rcm_repeat", repeatTick)
 
 if not rawget(_G, "__g1rcm_bound") then
     local Key, RegisterKeyBind = rawget(_G, "Key"), rawget(_G, "RegisterKeyBind")
@@ -1727,6 +1833,18 @@ if not rawget(_G, "__g1rcm_loop") then
         return function()
             if release then releaseTeleportHold() end
             if keepFull then keepFullTick() end
+        end
+    end)
+end
+
+-- a faster loop for held keys; it has work only while Up or Down is held in the open menu
+if not rawget(_G, "__g1rcm_repeatLoop") then
+    rawset(_G, "__g1rcm_repeatLoop", true)
+    gameLoop(40, function()
+        if not (S.held and S.open) then return nil end
+        return function()
+            local f = rawget(_G, "__g1rcm_repeat")
+            if f then f() end
         end
     end)
 end

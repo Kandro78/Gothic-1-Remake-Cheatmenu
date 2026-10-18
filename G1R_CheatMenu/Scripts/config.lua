@@ -12,6 +12,12 @@ return {
     selectKeys = { "RETURN", "NUM_FIVE" },       -- open a page / run a cheat / switch on-off
     backKeys   = { "BACKSPACE", "DECIMAL" },     -- back to the previous page (closes on the first page)
 
+    -- holding Up / Down keeps moving the selection: it starts after repeatDelay seconds and then
+    -- moves one row every repeatInterval seconds. false switches it off.
+    holdToRepeat   = true,
+    repeatDelay    = 0.35,
+    repeatInterval = 0.07,
+
     -- menu language: "auto" follows the game's display language (checked each time the menu opens).
     -- To fix it, use "en" English, "de" German, "fr" French, "it" Italian, "es" Spanish,
     -- "pt" Portuguese (Brazil), "pl" Polish or "ru" Russian. The texts of a language are in
