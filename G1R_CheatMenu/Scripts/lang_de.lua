@@ -19,6 +19,16 @@ return {
         ["Items"] = "Gegenstände",
         ["World"] = "Welt",
         ["Achievements"] = "Errungenschaften",
+
+        -- quests
+        ["Quests"] = "Quests",
+        ["Failed quests"] = "Gescheiterte Quests",
+        ["Running quests"] = "Laufende Quests",
+        ["No failed quests"] = "Keine gescheiterten Quests",
+        ["No running quests"] = "Keine laufenden Quests",
+        ["Quest system not found"] = "Quest-System nicht gefunden",
+        ["Quest no longer available"] = "Quest nicht mehr verfügbar",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Enter] Als erledigt markieren (vorher speichern)     [Rücktaste] Zurück",
         ["Runes"] = "Runen",
         ["Saved positions"] = "Gespeicherte Positionen",
 
@@ -351,6 +361,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Freischaltung für %1 von %2 Errungenschaften gesendet" },
         { "^Unlock sent: (.+)$", "Freischaltung gesendet: %1" },
         { "^Unlock failed: (.+)$", "Freischalten fehlgeschlagen: %1" },
+        { "^Quest completed: (.+)$", "Quest erledigt: %1" },
+        { "^Could not complete: (.+)$", "Konnte nicht erledigt werden: %1" },
         { "^(.-): value not found$", "%1: Wert nicht gefunden" },
         { "^(.-): change failed$", "%1: Änderung fehlgeschlagen" },
         { "^(.-): (%S+) %-> (%S+)$", "%1: %2 -> %3" },

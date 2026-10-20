@@ -21,6 +21,16 @@ return {
         ["Teleport"] = "Teleporte",
         ["World"] = "Mundo",
         ["Achievements"] = "Conquistas",
+
+        -- quests
+        ["Quests"] = "Missões",
+        ["Failed quests"] = "Missões fracassadas",
+        ["Running quests"] = "Missões em andamento",
+        ["No failed quests"] = "Nenhuma missão fracassada",
+        ["No running quests"] = "Nenhuma missão em andamento",
+        ["Quest system not found"] = "Sistema de missões não encontrado",
+        ["Quest no longer available"] = "A missão não está mais disponível",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Enter] Marcar como concluída (salve antes)   [Backspace] Voltar",
         ["Runes"] = "Runas",
         ["Saved positions"] = "Posições salvas",
 
@@ -357,6 +367,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Desbloqueio enviado para %1 de %2 conquistas" },
         { "^Unlock sent: (.+)$", "Desbloqueio enviado: %1" },
         { "^Unlock failed: (.+)$", "Falha ao desbloquear: %1" },
+        { "^Quest completed: (.+)$", "Missão concluída: %1" },
+        { "^Could not complete: (.+)$", "Não foi possível concluir: %1" },
         { "^(.-): value not found$", "%1: valor não encontrado" },
         { "^(.-): change failed$", "%1: falha ao alterar" },
         { "^(.-): (%S+) %-> (%S+)$", "%1: %2 -> %3" },

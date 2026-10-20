@@ -19,7 +19,7 @@ nicht, fängt die Maus nicht ein und wird nur mit der Tastatur bedient.
 | Teleport | Zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
 | Welt | Uhrzeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
 | NPCs | Feindliche NPCs töten, geladene NPCs freundlich machen |
-| Errungenschaften | Einzelne Errungenschaften oder alle 42 auf einmal freischalten |
+| Quests | Zeigt gescheiterte und laufende Quests mit ihren Namen aus dem Questlog; eine davon als erledigt markieren |
 
 ## Sprachen
 
@@ -63,7 +63,7 @@ auf Englisch angezeigt.
 Zum Deinstallieren den Ordner `G1R_CheatMenu` löschen.
 
 Erscheint das Menü nicht, öffne `ue4ss\UE4SS.log` und suche nach Zeilen mit
-`[G1R_CheatMenu]`. Die Zeile `Loaded 1.6.0: toggle key F7` bedeutet, dass die Mod gestartet
+`[G1R_CheatMenu]`. Die Zeile `Loaded 1.7.0: toggle key F7` bedeutet, dass die Mod gestartet
 wurde.
 
 ## Steuerung
@@ -85,7 +85,7 @@ offen ist.
 
 - **Speichere vorher manuell.** Gilden- und Kapitelwechsel setzen den Wert direkt. Sie spielen
   keinen Aufnahmedialog ab, vergeben keine Belohnungen und lösen keine Quest-Ereignisse aus.
-- **Freigeschaltete Errungenschaften sind dauerhaft** auf deinem Steam-Konto. Das Menü kann sie
+- **Eine erledigte Quest bleibt erledigt** in diesem Spielstand. Das Spiel führt seine eigene Erfolgsbehandlung aus (Questlog, Erfahrung), aber keinen Dialog, der normalerweise dazu führt; spätere Story-Schritte können von diesem Dialog abhängen. auf deinem Steam-Konto. Das Menü kann sie
   nicht wieder sperren.
 - Schalter wie der Gottmodus bleiben an, bis du sie ausschaltest oder das Spiel beendest. Sie
   werden nicht im Spielstand gespeichert.

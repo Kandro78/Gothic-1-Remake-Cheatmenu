@@ -21,6 +21,16 @@ return {
         ["World"] = "Świat",
         ["NPCs"] = "NPC",
         ["Achievements"] = "Osiągnięcia",
+
+        -- quests
+        ["Quests"] = "Zadania",
+        ["Failed quests"] = "Nieudane zadania",
+        ["Running quests"] = "Trwające zadania",
+        ["No failed quests"] = "Brak nieudanych zadań",
+        ["No running quests"] = "Brak trwających zadań",
+        ["Quest system not found"] = "Nie znaleziono systemu zadań",
+        ["Quest no longer available"] = "Zadanie nie jest już dostępne",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Enter] Oznacz jako ukończone (najpierw zapisz)   [Backspace] Wstecz",
         ["Runes"] = "Runy",
         ["Saved positions"] = "Zapisane pozycje",
 
@@ -360,6 +370,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Wysłano odblokowanie %1 z %2 osiągnięć" },
         { "^Unlock sent: (.+)$", "Wysłano odblokowanie: %1" },
         { "^Unlock failed: (.+)$", "Odblokowanie nie powiodło się: %1" },
+        { "^Quest completed: (.+)$", "Zadanie ukończone: %1" },
+        { "^Could not complete: (.+)$", "Nie udało się ukończyć: %1" },
         { "^(.-): value not found$", "%1: nie znaleziono wartości" },
         { "^(.-): change failed$", "%1: zmiana nie powiodła się" },
         { "^(.-): (%S+) %-> (%S+)$", "%1: %2 -> %3" },

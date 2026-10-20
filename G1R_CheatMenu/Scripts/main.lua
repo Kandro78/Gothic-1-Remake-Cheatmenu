@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.6.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.7.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -1186,6 +1186,110 @@ local function unlockAll()
     return ("Unlock sent for %d of %d achievements"):format(sent, #ACHIEVEMENTS)
 end
 
+-- ---- quests --
+-- The game's QuestSubsystem keeps one Quest object per quest and per quest objective. A quest
+-- object reports its state (EQuestState: 0 None, 1 Available, 2 Running, 3 Failed, 4 Succeeded),
+-- its name as the quest log shows it, and can be succeeded. Marking a quest as succeeded runs the
+-- game's own success handling, but no dialogue and no reward that would normally lead up to it.
+local QUEST_RUNNING, QUEST_FAILED, QUEST_SUCCEEDED = 2, 3, 4
+
+local function questSubsystem()
+    local list = try(function() return FindAllOf("QuestSubsystem") end)
+    if type(list) ~= "table" then return nil end
+    for _, s in ipairs(list) do
+        if isValid(s) then return s end
+    end
+    return nil
+end
+
+-- UE4SS hands out array elements wrapped (a parameter object with :get()); the object itself is
+-- needed to call its functions
+local function unwrap(v)
+    local inner = try(function() return v:get() end)
+    if inner ~= nil then return inner end
+    return v
+end
+
+-- the elements of a TArray from a property or a function result, as a Lua list of valid objects
+local function arrayItems(arr)
+    local out = {}
+    local function add(v)
+        v = unwrap(v)
+        if isValid(v) then out[#out + 1] = v end
+    end
+    if type(arr) == "table" then
+        for _, v in ipairs(arr) do add(v) end
+        return out
+    end
+    pcall(function() arr:ForEach(function(_, elem) add(elem) end) end)
+    return out
+end
+
+local function questState(quest)
+    return tonumber(try(function() return quest:GetState() end))
+end
+
+local function questName(quest)
+    local text = try(function() return quest:GetQuestDisplayName():ToString() end)
+    if type(text) == "string" and text ~= "" then return text end
+    local cls = try(function() return quest:GetClass():GetFName():ToString() end)
+    if not cls then
+        log("quest without a readable name: " .. type(quest) .. " " .. tostring(quest))
+        return "?"
+    end
+    return (cls:gsub("^Quest_", ""):gsub("_", " "))
+end
+
+-- quests in a state, main quests first, then objectives; each as { quest =, label = }
+local function questsInState(state)
+    local sub = questSubsystem()
+    if not sub then return nil end
+    local quests = arrayItems(try(function() return sub:GetAllQuestsInState(state) end))
+    if #quests == 0 then -- read every quest instead
+        for _, q in ipairs(arrayItems(try(function() return sub.AllQuestInstances end))) do
+            if questState(q) == state then quests[#quests + 1] = q end
+        end
+    end
+    local main, objectives = {}, {}
+    for _, q in ipairs(quests) do
+        local entry = { quest = q, label = questName(q) }
+        -- Quests the quest log never shows (glossary entries, tutorials, chapter markers, some
+        -- internal steps) have no display name; the game then reports "[Unnamed <class>]".
+        if entry.label:find("^%[Unnamed") or entry.label == "?" then
+            entry = nil
+        elseif try(function() return q:IsPartOfSubobjective() end) == true then
+            entry.label = "- " .. entry.label
+            objectives[#objectives + 1] = entry
+        else
+            main[#main + 1] = entry
+        end
+    end
+    table.sort(main, function(a, b) return a.label < b.label end)
+    table.sort(objectives, function(a, b) return a.label < b.label end)
+    for _, e in ipairs(objectives) do main[#main + 1] = e end
+    dbg(("quests in state %d: %d"):format(state, #main))
+    return main
+end
+
+local function completeQuest(entry)
+    local _, pawn = player()
+    if not pawn then return NOT_IN_GAME end
+    local quest = entry.quest
+    if not isValid(quest) then return "Quest no longer available" end
+    local name = questName(quest)
+    -- a failed quest is set running again first: the game only succeeds a quest that is running
+    if questState(quest) == QUEST_FAILED then
+        pcall(function() quest:RestartQuest(pawn) end)
+    end
+    pcall(function() quest:SucceedQuest(pawn) end)
+    if questState(quest) == QUEST_SUCCEEDED then
+        log("quest marked as succeeded: " .. name)
+        return "Quest completed: " .. name
+    end
+    log(("quest could not be succeeded: %s (state %s)"):format(name, tostring(questState(quest))))
+    return "Could not complete: " .. name
+end
+
 -- ---------------------------------------------------------------------------------- pages --
 -- item fields: label, value() -> right-column text, then one of
 --   page = "<name>"          open a sub page
@@ -1209,6 +1313,7 @@ Pages.main = { title = "Cheat Menu", items = {
     { label = "Teleport", page = "teleport" },
     { label = "World", page = "world" },
     { label = "NPCs", page = "npcs" },
+    { label = "Quests", page = "quests" },
     { label = "Achievements", page = "achievements" },
 } }
 
@@ -1342,6 +1447,41 @@ Pages.npcs = { title = "NPCs", items = {
     { label = "Kill hostile NPCs (loaded area)", run = killHostiles },
     { label = "Make loaded NPCs friendly", run = befriendAll },
 } }
+
+-- The two quest lists are read from the game each time the page opens (build) and after every
+-- change, since completing a quest moves it out of the list.
+Pages.quests = { title = "Quests", items = {
+    { label = "Failed quests", page = "questsFailed" },
+    { label = "Running quests", page = "questsRunning" },
+} }
+
+local function questPage(title, state, emptyText)
+    local page = { title = title, hint = "[Enter] Mark as completed (save first)     [Backspace] Back", items = {} }
+    page.build = function()
+        local entries = questsInState(state)
+        local items = {}
+        if not entries then
+            items[1] = { label = select(2, player()) and "Quest system not found" or NOT_IN_GAME }
+        elseif #entries == 0 then
+            items[1] = { label = emptyText }
+        else
+            for _, entry in ipairs(entries) do
+                items[#items + 1] = {
+                    label = entry.label,
+                    run = function()
+                        local msg = completeQuest(entry)
+                        page.build()
+                        return msg
+                    end,
+                }
+            end
+        end
+        page.items = items
+    end
+    return page
+end
+Pages.questsFailed = questPage("Failed quests", QUEST_FAILED, "No failed quests")
+Pages.questsRunning = questPage("Running quests", QUEST_RUNNING, "No running quests")
 
 Pages.achievements = { title = "Achievements", hint = "[Enter] Unlock (permanent)     [Backspace] Back", items = {
     { label = "Unlock ALL achievements", run = unlockAll },
@@ -1595,6 +1735,16 @@ local function itemHint(page, item)
     return "[Enter] Run     [Backspace] Back"
 end
 
+-- A label longer than its row is cut with "…" so it stays inside the panel. The row font averages
+-- about 10.6 UI units per character (measured on the game's screen), counted in UTF-8 characters.
+local LABEL_CHARS = math.floor((W - 2 * PAD) / 10.6)
+local function fitLabel(text)
+    local count = utf8 and utf8.len(text)
+    if not count or count <= LABEL_CHARS then return text end
+    local cut = utf8.offset(text, LABEL_CHARS) -- byte position of the character "…" replaces
+    return (text:sub(1, cut - 1):gsub("%s+$", "")) .. "…"
+end
+
 local function render()
     local ui = ensureUI()
     if not ui then return false end
@@ -1615,6 +1765,7 @@ local function render()
         local label, value = "", ""
         if item then
             label = tr(item.label)
+            if not item.value and not item.page then label = fitLabel(label) end
             if item.value then
                 -- values are read from the game once per page visit / action, not on every
                 -- cursor move: reading them (guild tags, attributes) is what costs frame time
@@ -1658,7 +1809,11 @@ local function openMenu()
     if Lang.code ~= language then teardownUI() end -- the title font depends on the language
     if #S.stack == 0 then S.stack[1] = { page = "main", sel = 1, top = 1 } end
     S.status = ""
-    for _, f in ipairs(S.stack) do f.values = nil end
+    for _, f in ipairs(S.stack) do
+        f.values = nil
+        local p = Pages[f.page]
+        if p and p.build then pcall(p.build) end -- a list read from the game may be out of date
+    end
     S.open = render()
     if not S.open then log("menu could not be shown (no player controller yet?)") end
 end
@@ -1766,6 +1921,8 @@ function handle(action, repeated)
         S.stack[#S.stack] = nil
         S.status = ""
     elseif action == "select" and item and item.page then
+        local target = Pages[item.page]
+        if target and target.build then pcall(target.build) end
         S.stack[#S.stack + 1] = { page = item.page, sel = 1, top = 1 }
         S.status = ""
     elseif item then

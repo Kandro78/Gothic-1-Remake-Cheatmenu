@@ -25,6 +25,16 @@ return {
         ["World"] = "Мир",
         ["NPCs"] = "NPC",
         ["Achievements"] = "Достижения",
+
+        -- quests
+        ["Quests"] = "Задания",
+        ["Failed quests"] = "Проваленные задания",
+        ["Running quests"] = "Текущие задания",
+        ["No failed quests"] = "Нет проваленных заданий",
+        ["No running quests"] = "Нет текущих заданий",
+        ["Quest system not found"] = "Система заданий не найдена",
+        ["Quest no longer available"] = "Задание больше недоступно",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Enter] Отметить выполненным (сначала сохранитесь)   [Backspace] Назад",
         ["Runes"] = "Руны",
         ["Saved positions"] = "Сохранённые позиции",
 
@@ -364,6 +374,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Запрос отправлен для %1 из %2 достижений" },
         { "^Unlock sent: (.+)$", "Запрос отправлен: %1" },
         { "^Unlock failed: (.+)$", "Не удалось открыть: %1" },
+        { "^Quest completed: (.+)$", "Задание выполнено: %1" },
+        { "^Could not complete: (.+)$", "Не удалось выполнить: %1" },
         { "^(.-): value not found$", "%1: значение не найдено" },
         { "^(.-): change failed$", "%1: не удалось изменить" },
         { "^(.-): (%S+) %-> (%S+)$", "%1: %2 -> %3" },

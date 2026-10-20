@@ -22,6 +22,16 @@ return {
         ["World"] = "Mondo",
         ["NPCs"] = "PNG",
         ["Achievements"] = "Obiettivi",
+
+        -- quests
+        ["Quests"] = "Missioni",
+        ["Failed quests"] = "Missioni fallite",
+        ["Running quests"] = "Missioni in corso",
+        ["No failed quests"] = "Nessuna missione fallita",
+        ["No running quests"] = "Nessuna missione in corso",
+        ["Quest system not found"] = "Sistema delle missioni non trovato",
+        ["Quest no longer available"] = "Missione non più disponibile",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Invio] Segna come completata (salva prima)   [Backspace] Indietro",
         ["Runes"] = "Rune",
         ["Saved positions"] = "Posizioni salvate",
 
@@ -358,6 +368,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Sblocco inviato per %1 obiettivi su %2" },
         { "^Unlock sent: (.+)$", "Sblocco inviato: %1" },
         { "^Unlock failed: (.+)$", "Sblocco non riuscito: %1" },
+        { "^Quest completed: (.+)$", "Missione completata: %1" },
+        { "^Could not complete: (.+)$", "Impossibile completare: %1" },
         { "^(.-): value not found$", "%1: valore non trovato" },
         { "^(.-): change failed$", "%1: modifica non riuscita" },
         { "^(.-): (%S+) %-> (%S+)$", "%1: %2 -> %3" },

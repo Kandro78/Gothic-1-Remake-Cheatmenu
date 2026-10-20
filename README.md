@@ -19,7 +19,7 @@ capture the mouse, and is controlled with the keyboard only.
 | Teleport | Jump to 28 places in the colony, or save up to 10 positions of your own and return to them |
 | World | Time of day, freeze time, weather, game speed, story chapter |
 | NPCs | Kill hostile NPCs, make loaded NPCs friendly |
-| Achievements | Unlock single achievements or all 42 at once |
+| Quests | Lists your failed and running quests by their quest-log names; mark one as completed |
 
 ## Languages
 
@@ -61,7 +61,7 @@ Corrections are welcome; a text that is missing in a language file is shown in E
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.6.0: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.7.0: toggle key F7` means the mod was started.
 
 ## Controls
 
@@ -81,7 +81,7 @@ the keys you press while the menu is open.
 
 - **Make a manual save first.** Faction and chapter changes set the value directly. They do
   not play the joining dialogue, hand out rewards or fire quest triggers.
-- **Achievement unlocks are permanent** on your Steam account. The menu cannot lock them again.
+- **Completing a quest is permanent** in that save. The game runs its own success handling (log entry, experience), but no dialogue that would normally lead up to it, so later story steps can still depend on that dialogue. on your Steam account. The menu cannot lock them again.
 - Switches such as god mode last until you turn them off or quit the game. They are not
   stored in the save.
 - **Teleporting:** after a long jump the hero floats for about three seconds while the area

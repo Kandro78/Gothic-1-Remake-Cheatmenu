@@ -22,6 +22,16 @@ return {
         ["World"] = "Mundo",
         ["NPCs"] = "PNJ",
         ["Achievements"] = "Logros",
+
+        -- quests
+        ["Quests"] = "Misiones",
+        ["Failed quests"] = "Misiones fallidas",
+        ["Running quests"] = "Misiones en curso",
+        ["No failed quests"] = "No hay misiones fallidas",
+        ["No running quests"] = "No hay misiones en curso",
+        ["Quest system not found"] = "No se encontró el sistema de misiones",
+        ["Quest no longer available"] = "La misión ya no está disponible",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Intro] Marcar como completada (guarda antes)   [Retroceso] Volver",
         ["Runes"] = "Runas",
         ["Saved positions"] = "Posiciones guardadas",
 
@@ -357,6 +367,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Desbloqueo enviado para %1 de %2 logros" },
         { "^Unlock sent: (.+)$", "Desbloqueo enviado: %1" },
         { "^Unlock failed: (.+)$", "Desbloqueo fallido: %1" },
+        { "^Quest completed: (.+)$", "Misión completada: %1" },
+        { "^Could not complete: (.+)$", "No se pudo completar: %1" },
         { "^(.-): value not found$", "%1: valor no encontrado" },
         { "^(.-): change failed$", "%1: no se pudo cambiar" },
         { "^(.-): (%S+) %-> (%S+)$", "%1: %2 -> %3" },

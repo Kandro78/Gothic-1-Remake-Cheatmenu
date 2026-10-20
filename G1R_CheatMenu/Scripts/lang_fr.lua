@@ -22,6 +22,16 @@ return {
         ["World"] = "Monde",
         ["NPCs"] = "PNJ",
         ["Achievements"] = "Succès",
+
+        -- quests
+        ["Quests"] = "Quêtes",
+        ["Failed quests"] = "Quêtes échouées",
+        ["Running quests"] = "Quêtes en cours",
+        ["No failed quests"] = "Aucune quête échouée",
+        ["No running quests"] = "Aucune quête en cours",
+        ["Quest system not found"] = "Système de quêtes introuvable",
+        ["Quest no longer available"] = "Cette quête n'est plus disponible",
+        ["[Enter] Mark as completed (save first)     [Backspace] Back"] = "[Entrée] Marquer comme terminée (sauvegardez avant)   [Retour arr.] Retour",
         ["Saved positions"] = "Positions enregistrées",
 
         -- key hints
@@ -357,6 +367,8 @@ return {
         { "^Unlock sent for (%d+) of (%d+) achievements$", "Déblocage envoyé pour %1 succès sur %2" },
         { "^Unlock sent: (.+)$", "Déblocage envoyé : %1" },
         { "^Unlock failed: (.+)$", "Échec du déblocage : %1" },
+        { "^Quest completed: (.+)$", "Quête terminée : %1" },
+        { "^Could not complete: (.+)$", "Impossible de terminer : %1" },
         { "^(.-): value not found$", "%1 : valeur introuvable" },
         { "^(.-): change failed$", "%1 : échec de la modification" },
         { "^(.-): (%S+) %-> (%S+)$", "%1 : %2 -> %3" },
