@@ -11,15 +11,15 @@ nicht, fängt die Maus nicht ein und wird nur mit der Tastatur bedient.
 
 | Seite | Was sie kann |
 |---|---|
-| Spieler | Gottmodus, unendlich Mana / Ausdauer / Atem, Leben-Mana-Ausdauer auffüllen, Verbrechen löschen |
-| Werte | Stärke, Geschicklichkeit, max. Mana, max. Lebenspunkte, Lernpunkte, Stufe, Erfahrung |
+| Spieler | Gottmodus, unendlich Mana / Ausdauer / Atem, Leben-Mana-Ausdauer auffüllen, Verbrechen löschen, durch Wände und Boden fliegen, Gegner mit einem Treffer töten, unzerbrechliche Dietriche |
+| Werte | Stärke, Geschicklichkeit, max. Mana, max. Lebenspunkte, Lernpunkte, Stufe, Erfahrung; Stärke, Geschicklichkeit und max. Mana in einem Schritt auf 100 |
 | Gilde | Zwischen den 12 Gilden von Altem Lager, Neuem Lager und Sumpflager wechseln oder die Gilde verlassen |
-| Talente | 58 Talente lernen oder entfernen |
-| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere sowie Untermenüs mit 26 Runen und 43 Zauberschriftrollen |
-| Teleport | Zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
+| Talente | 58 Talente lernen oder entfernen, oder alle auf einmal lernen |
+| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere sowie Untermenüs mit Runen, Zauberschriftrollen, Nahkampfwaffen, Fernkampfwaffen, Rüstungen und Karten (jeder Gegenstand einzeln oder alle auf einmal) |
+| Teleport | Zu deinen Markierungen auf der Weltkarte oder zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
 | Welt | Uhrzeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
 | NPCs | Feindliche NPCs töten, geladene NPCs freundlich machen |
-| Quests | Zeigt gescheiterte und laufende Quests mit ihren Namen aus dem Questlog; eine davon als erledigt markieren |
+| Quests | Zeigt gescheiterte und laufende Quests mit ihren Namen aus dem Questlog; eine davon als erledigt markieren oder eine gescheiterte neu starten |
 
 ## Sprachen
 
@@ -63,7 +63,7 @@ auf Englisch angezeigt.
 Zum Deinstallieren den Ordner `G1R_CheatMenu` löschen.
 
 Erscheint das Menü nicht, öffne `ue4ss\UE4SS.log` und suche nach Zeilen mit
-`[G1R_CheatMenu]`. Die Zeile `Loaded 1.7.0: toggle key F7` bedeutet, dass die Mod gestartet
+`[G1R_CheatMenu]`. Die Zeile `Loaded 1.8.0: toggle key F7` bedeutet, dass die Mod gestartet
 wurde.
 
 ## Steuerung
@@ -75,8 +75,9 @@ wurde.
 | Links / Rechts, Ziffernblock 4 / 6 | Wert ändern (Links entfernt ein Talent oder eine gespeicherte Position) |
 | Enter, Ziffernblock 5 | Seite öffnen, Cheat ausführen, an- / ausschalten |
 | Rücktaste, Ziffernblock `,` | Zurück zur vorherigen Seite |
+| W / A / S / D, Bild auf / Bild ab | Fliegen (wenn auf der Spieler-Seite eingeschaltet): entlang der Kamera, seitwärts, senkrecht hoch / runter |
 
-Tasten, Tastenwiederholung, Sprache, Position und Größe des Menüs, der Hintergrund und die Pause nach einem
+Tasten, Tastenwiederholung, Flugtasten und -tempo, Sprache, Position und Größe des Menüs, der Hintergrund und die Pause nach einem
 Teleport lassen sich in `Scripts\config.lua` ändern. Geänderte Tasten gelten erst nach einem
 Neustart des Spiels. Das Spiel erhält die gedrückten Tasten weiterhin, auch wenn das Menü
 offen ist.
@@ -85,14 +86,18 @@ offen ist.
 
 - **Speichere vorher manuell.** Gilden- und Kapitelwechsel setzen den Wert direkt. Sie spielen
   keinen Aufnahmedialog ab, vergeben keine Belohnungen und lösen keine Quest-Ereignisse aus.
-- **Eine erledigte Quest bleibt erledigt** in diesem Spielstand. Das Spiel führt seine eigene Erfolgsbehandlung aus (Questlog, Erfahrung), aber keinen Dialog, der normalerweise dazu führt; spätere Story-Schritte können von diesem Dialog abhängen. auf deinem Steam-Konto. Das Menü kann sie
-  nicht wieder sperren.
+- **Eine erledigte Quest bleibt erledigt** in diesem Spielstand. Das Spiel führt seine eigene Erfolgsbehandlung aus (Questlog, Erfahrung), aber keinen Dialog, der normalerweise dazu führt; spätere Story-Schritte können von diesem Dialog abhängen.
+- **Eine gescheiterte Quest neu starten** setzt sie wieder auf „laufend“. Besteht der Grund für das Scheitern noch (zum Beispiel ist eine Figur tot), sagt das Menü das, statt sie neu zu starten, weil das Spiel sie sofort wieder scheitern ließe.
+- **Errungenschaften** werden dauerhaft auf deinem Steam-Konto freigeschaltet. Das Menü kann sie nicht wieder sperren.
 - Schalter wie der Gottmodus bleiben an, bis du sie ausschaltest oder das Spiel beendest. Sie
   werden nicht im Spielstand gespeichert.
 - **Teleportieren:** Nach einem weiten Sprung schwebt der Held etwa drei Sekunden, während das
   Gebiet lädt, und fällt dann auf den Boden. Fällst du bei der Ankunft durch die Welt, erhöhe
   `teleportHoldSeconds` in `config.lua`. Manche Ziele sind gefährlich oder gehören zu späteren
   Kapiteln (Orkstadt, Schläfertempel), also vorher speichern.
+- **Kartenmarkierungen:** Setze eine Markierung auf der Weltkarte (nicht auf einer Lagerkarte) und öffne dann Teleport > Kartenmarkierungen. Jede Markierung ist nach dem nächsten bekannten Ort benannt. Der Held landet auf der höchsten begehbaren Fläche an der Markierung, außer in der Nähe eines bekannten Ortes: Dort wird der Boden auf dessen Höhe genommen (eine Markierung im Neuen Lager führt also in die Höhle, nicht auf den Felsen darüber). Eine Markierung auf einem Dach oder unter einem Felsvorsprung kann dich oben absetzen.
+- **Fliegen** schaltet die Kollision ab: Du fliegst durch Wände und den Boden. Lande im Freien, bevor du es ausschaltest.
+- **Ein-Treffer-Kills** erledigt feindliche NPCs im Umkreis von 40 m, sobald sie Schaden nehmen. Das kann eine halbe Sekunde dauern.
 - Gespeicherte Positionen liegen in `saved_positions.txt` im Mod-Ordner.
 - Ein Spiel-Patch kann die Mod unbrauchbar machen, weil sie Spielfunktionen über ihren Namen
   aufruft.

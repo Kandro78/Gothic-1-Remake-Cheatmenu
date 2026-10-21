@@ -18,6 +18,18 @@ return {
     repeatDelay    = 0.35,
     repeatInterval = 0.07,
 
+    -- Fly (Player page): the hero flies through walls and ground. W / S move along the camera
+    -- (look up to climb), A / D sideways, Page Up / Page Down straight up and down. Single letters
+    -- and the names in Mods\shared\Types.lua work here. flySpeed is in cm per second (the game's own
+    -- walking speed is about 600).
+    flyForwardKeys = { "W" },
+    flyBackKeys    = { "S" },
+    flyLeftKeys    = { "A" },
+    flyRightKeys   = { "D" },
+    flyUpKeys      = { "PAGE_UP" },
+    flyDownKeys    = { "PAGE_DOWN" },
+    flySpeed       = 1500,
+
     -- menu language: "auto" follows the game's display language (checked each time the menu opens).
     -- To fix it, use "en" English, "de" German, "fr" French, "it" Italian, "es" Spanish,
     -- "pt" Portuguese (Brazil), "pl" Polish or "ru" Russian. The texts of a language are in

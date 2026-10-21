@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.7.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.8.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -495,6 +495,26 @@ local function changeStat(def, dir)
     return ("%s: %s -> %s"):format(def.label, fmt(cur), fmt(readAttr(def.set, def.field) or target))
 end
 
+-- strength, dexterity and max mana to 100, the most a teacher trains them to; a value already
+-- higher is left alone. Goes through changeStat, so the game's own increase functions are used.
+local MAX_TRAINED = 100
+local function maxStats()
+    if not select(3, player()) then return NOT_IN_GAME end
+    local raised = 0
+    local saved = S.mult
+    for _, def in ipairs(STATS) do
+        if def.inc then
+            local cur = readAttr(def.set, def.field)
+            if cur and cur < MAX_TRAINED then
+                S.mult = (MAX_TRAINED - cur) / def.step -- one changeStat call covers the whole gap
+                if not changeStat(def, 1):find("change failed") then raised = raised + 1 end
+            end
+        end
+    end
+    S.mult = saved
+    return ("Raised %d stat(s) to %d"):format(raised, MAX_TRAINED)
+end
+
 -- ---- faction --
 -- A guild is a gameplay effect class named GE_Guild_Human_<Camp>_<Role> in the game's script
 -- (Story guild definitions); holding it grants the gameplay tag Guild.Human.<Camp>.<Role>.
@@ -604,6 +624,16 @@ local function learnSkill(name)
     return ok and ("Learned: " .. name:gsub("_", " ")) or "Learning failed"
 end
 
+-- the list is ordered so a basic skill comes before its master level
+local function learnAllSkills()
+    if not select(3, player()) then return NOT_IN_GAME end
+    local learned = 0
+    for _, name in ipairs(SKILLS) do
+        if learnSkill(name):find("^Learned") then learned = learned + 1 end
+    end
+    return ("Learned %d of %d skills"):format(learned, #SKILLS)
+end
+
 local function removeSkill(name)
     if not select(2, player()) then return NOT_IN_GAME end
     local ext = cheatExtension()
@@ -700,6 +730,76 @@ local function giveItem(item)
     if not cls then return "Item class not found: " .. item.id end
     local ok = pcall(function() inv:AddItemOfClass(cls, item.count) end)
     return ok and ("Added: " .. item.label) or "Adding item failed"
+end
+
+-- ---- weapons and armours --
+-- Item classes from the game's script data. Left out: test items (_QA, PlayTest), weapons only
+-- orcs and NPC casters carry (_vOrc, Unorc staffs, Skeletonmage), the copies used in the Sleeper
+-- temple and other story scenes (_Sleeper, _Xardas_, _Diego_, _Stone), blacksmith blanks and
+-- torches. The armours are the 23 the game gives a description; Top/Mid/Bot are upgrade parts.
+-- Names are read from each item (GothicObjectDefinition.m_Name), so they follow the game language.
+local Gear = { lists = {
+    melee = { prefix = "ItMw_", ids = [[
+        1H_Axe_01 1H_Axe_02 1H_Axe_03 1H_Axe_Bran 1H_Axe_Cord 1H_Axe_Hatchet_01 1H_Axe_Lares 1H_Axe_Old_01
+        1H_Axe_Sickle_01 1H_Axe_Silas 1H_Mace_01 1H_Mace_02 1H_Mace_03 1H_Mace_04 1H_Mace_Club_01
+        1H_Mace_Fortuno 1H_Mace_Lester 1H_Mace_Light_01 1H_Mace_Nailmace_01 1H_Mace_Namib 1H_Mace_Orun
+        1H_Mace_Poker_01 1H_Mace_Sledgehammer_01 1H_Mace_War_01 1H_Mace_War_02 1H_Mace_War_03
+        1H_Mace_Warhammer_01 1H_Mace_Warhammer_02 1H_Mace_Warhammer_03 1H_Sword_01 1H_Sword_02 1H_Sword_03
+        1H_Sword_04 1H_Sword_05 1H_Sword_05_Darrion 1H_Sword_Arto 1H_Sword_Bastard_01 1H_Sword_Bastard_02
+        1H_Sword_Bastard_03 1H_Sword_Bastard_04 1H_Sword_Broad_01 1H_Sword_Broad_02 1H_Sword_Broad_03
+        1H_Sword_Broad_04 1H_Sword_Kalom 1H_Sword_Lightguard_01 1H_Sword_Long_01 1H_Sword_Long_02
+        1H_Sword_Long_03 1H_Sword_Long_04 1H_Sword_Long_05 1H_Sword_Old_01 1H_Sword_Old_02 1H_Sword_Paw
+        1H_Sword_Raven 1H_Sword_Scar 1H_Sword_Scythe_01 1H_Sword_Short_01 1H_Sword_Short_02 1H_Sword_Short_03
+        1H_Sword_Short_04 1H_Sword_Short_05 1H_Sword_Whistler 2H_Axe_Gorn 2H_Axe_Heavy_01 2H_Axe_Heavy_02
+        2H_Axe_Heavy_03 2H_Axe_Heavy_04 2H_Axe_Lee 2H_Axe_Light_01 2H_Axe_Light_02 2H_Axe_Light_03
+        2H_Axe_Old_01 2H_Axe_Old_02 2H_Axe_Old_03 2H_Axe_Orc_01 2H_Axe_Orc_02 2H_Axe_Orc_03 2H_Axe_Orc_04
+        2H_Axe_Orik 2H_Axe_Pickaxe 2H_Axe_Torlof 2H_Mace_Orc_01 2H_Staff_02 2H_Staff_Scepter 2H_Staff_Ulumulu
+        2H_Sword_01 2H_Sword_02 2H_Sword_03 2H_Sword_Beliar 2H_Sword_Heavy_01 2H_Sword_Heavy_02
+        2H_Sword_Heavy_03 2H_Sword_Heavy_04 2H_Sword_Innos 2H_Sword_Light_01 2H_Sword_Light_02
+        2H_Sword_Light_03 2H_Sword_Light_04 2H_Sword_Light_05 2H_Sword_Old_01 2H_Sword_Orc_01 2H_Sword_Thorus
+        2H_Sword_Uriziel_01 2H_Sword_Uriziel_02 2H_Sword_Uriziel_03 2H_Sword_Wind]] },
+    ranged = { prefix = "ItRw_", ids = [[
+        Bow_Diego Bow_Long_01 Bow_Long_02 Bow_Long_03 Bow_Long_04 Bow_Long_05 Bow_Long_06 Bow_Long_07
+        Bow_Long_08 Bow_Long_09 Bow_Long_10 Bow_Long_11 Bow_Long_12 Bow_Small_01 Bow_Small_02 Bow_Small_03
+        Bow_Small_04 Bow_Small_05 Bow_War_01 Bow_War_02 Bow_War_03 Bow_War_04 Bow_War_05 Bow_Wolf
+        Crossbow_01 Crossbow_02 Crossbow_03 Crossbow_04]] },
+    armours = { prefix = "", ids = [[
+        Vlk_Armor_L Vlk_Armor_M Stt_Armor Grd_Armor Ebr_Armor_M Ebr_Armor_H_01 Ebr_Armor_H_02
+        Sfb_Armor_L Org_Armor Sld_Armor Ore_Armor_M Ore_Armor_H Kdw_Armor_L Kdw_Armor_H Kdf_Armor_L
+        Kdf_Armor_H Nov_Armor Tpl_Armor Gur_Armor_M Gur_Armor_H Dmb_Armor_M Crw_Armor_H Law_Armor]] },
+    -- the world map is what opens the map screen; some area maps belong to quests
+    maps = { prefix = "ItWr_Map_", ids = [[
+        World WorldComplete OldCamp NewCamp SwampCamp OldMine OldMineSC Orc Temple Cliff Lighthouse Focus]] },
+} }
+do
+    -- { id =, label = } for each item of a list whose class exists, sorted by name; items that share a
+    -- name are listed once
+    function Gear.entries(listName)
+        local list = Gear.lists[listName]
+        local out, seen = {}, {}
+        for id in list.ids:gmatch("%S+") do
+            local cls = scriptClass(list.prefix .. id)
+            local cdo = cls and try(function() return cls:GetCDO() end)
+            local label = cdo and try(function() return cdo.m_Name:ToString() end)
+            if type(label) == "string" and label ~= "" and not seen[label] then
+                seen[label] = true
+                out[#out + 1] = { id = list.prefix .. id, label = label, count = 1 }
+            elseif label then
+                dbg(("item %s%s skipped (name '%s')"):format(list.prefix, id, tostring(label)))
+            end
+        end
+        table.sort(out, function(a, b) return a.label < b.label end)
+        return out
+    end
+
+    function Gear.giveAll(entries)
+        if not select(2, player()) then return NOT_IN_GAME end
+        local given = 0
+        for _, e in ipairs(entries) do
+            if giveItem(e):find("^Added") then given = given + 1 end
+        end
+        return ("Added %d of %d items"):format(given, #entries)
+    end
 end
 
 -- ---- world --
@@ -877,6 +977,180 @@ local function befriendAll()
     return n and (n .. " loaded NPC(s) are now friendly") or NOT_IN_GAME
 end
 
+-- ---- fly, one-hit kills, lockpicks --
+-- Switches kept in S (they survive a script reload); the tick loops at the end of this file call
+-- Extra.flyTick and Extra.slowTick. Kept in a block: Lua allows 200 locals in the main chunk.
+local Extra = {}
+do
+    local MOVE_WALKING, MOVE_FALLING, MOVE_FLYING = 1, 3, 5
+
+    local function movementOf(pawn)
+        local m = try(function() return pawn.CharacterMovement end)
+        return isValid(m) and m or nil
+    end
+
+    -- Fly: the character movement's flying mode with collision off, so the hero passes through walls
+    -- and ground. Up / down come from the tick loop (Page Up / Page Down by default).
+    function Extra.setFly(on)
+        local _, pawn = player()
+        if not pawn then return NOT_IN_GAME end
+        local m = movementOf(pawn)
+        if not m then return "Fly: movement not found" end
+        if on then
+            S.flySpeed = S.flySpeed or tonumber(try(function() return m.MaxFlySpeed end))
+            pcall(function() m.MaxFlySpeed = tonumber(Config.flySpeed) or 1500 end)
+            pcall(function() m:SetMovementMode(MOVE_FLYING, 0) end)
+            pcall(function() pawn:SetActorEnableCollision(false) end)
+        else
+            pcall(function() pawn:SetActorEnableCollision(true) end)
+            pcall(function() m:SetMovementMode(MOVE_FALLING, 0) end)
+            if S.flySpeed then pcall(function() m.MaxFlySpeed = S.flySpeed end) end
+        end
+        S.fly = on
+        return "Fly " .. (on and "ON" or "OFF")
+    end
+
+    -- Runs about every 40 ms while flying. The game's own input only walks, so the direction comes
+    -- from the keys here: forward / back along the camera (looking up climbs), sideways, and
+    -- straight up / down. It is handed to the character movement as its velocity, which the engine
+    -- applies smoothly every frame. If the hero does not move that way (the game resets the
+    -- velocity), the menu falls back to moving him in steps for the rest of the session.
+    -- The mode is set again each time in case the game switched back to walking.
+    local flyMoving, flyLast, flyStill = false, nil, 0
+    function Extra.flyTick(keyDown)
+        local pc, pawn = player()
+        if not (pc and pawn) then return end
+        local m = movementOf(pawn)
+        if m and tonumber(try(function() return m.MovementMode end)) ~= MOVE_FLYING then
+            pcall(function() m:SetMovementMode(MOVE_FLYING, 0) end)
+        end
+        local fwd, side, up = 0, 0, 0
+        if keyDown(pc, Config.flyForwardKeys or { "W" }) then fwd = fwd + 1 end
+        if keyDown(pc, Config.flyBackKeys or { "S" }) then fwd = fwd - 1 end
+        if keyDown(pc, Config.flyRightKeys or { "D" }) then side = side + 1 end
+        if keyDown(pc, Config.flyLeftKeys or { "A" }) then side = side - 1 end
+        if keyDown(pc, Config.flyUpKeys) then up = up + 1 end
+        if keyDown(pc, Config.flyDownKeys) then up = up - 1 end
+        local loc = try(function() return pawn:K2_GetActorLocation() end)
+        if fwd == 0 and side == 0 and up == 0 then
+            -- stop once when the keys are let go, then leave the movement alone
+            if flyMoving and m then pcall(function() m.Velocity = { X = 0, Y = 0, Z = 0 } end) end
+            flyMoving, flyLast, flyStill = false, nil, 0
+            return
+        end
+        local rot = try(function() return pc:GetControlRotation() end)
+        if not (rot and loc) then return end
+        local yaw = math.rad(tonumber(try(function() return rot.Yaw end)) or 0)
+        local pitch = math.rad(tonumber(try(function() return rot.Pitch end)) or 0)
+        if pitch > math.pi then pitch = pitch - 2 * math.pi end -- the engine reports 0..360
+        local dx = fwd * math.cos(pitch) * math.cos(yaw) - side * math.sin(yaw)
+        local dy = fwd * math.cos(pitch) * math.sin(yaw) + side * math.cos(yaw)
+        local dz = fwd * math.sin(pitch) + up
+        local len = math.sqrt(dx * dx + dy * dy + dz * dz)
+        if len < 0.001 then return end
+        local speed = (tonumber(Config.flySpeed) or 1500) / len -- diagonals are not faster
+
+        -- did the velocity set on the last tick move him?
+        if flyMoving and flyLast and not S.flyStep then
+            local moved = math.abs(loc.X - flyLast.X) + math.abs(loc.Y - flyLast.Y) + math.abs(loc.Z - flyLast.Z)
+            flyStill = moved < 1 and flyStill + 1 or 0
+            if flyStill >= 3 then
+                S.flyStep = true
+                log("fly: the game does not apply the velocity, moving in steps instead")
+            end
+        end
+        flyMoving, flyLast = true, { X = loc.X, Y = loc.Y, Z = loc.Z }
+
+        if not S.flyStep and m and pcall(function()
+            m.Velocity = { X = dx * speed, Y = dy * speed, Z = dz * speed }
+        end) then
+            return
+        end
+        local step = speed * 0.04
+        pcall(function()
+            pawn:K2_SetActorLocation({ X = loc.X + dx * step, Y = loc.Y + dy * step, Z = loc.Z + dz * step },
+                false, {}, true)
+        end)
+    end
+
+    -- One-hit kills: the game has no damage multiplier, so a hostile NPC near the hero whose health
+    -- has dropped below its maximum (it was hit) is killed through the game's own Kill.
+    local ONE_HIT_RANGE = 4000 -- 40 m
+    local function healthOf(actor, st)
+        local asc = heroComponent({ st, actor }, "AbilitySystemComponent",
+            "/Script/G1R.GothicAbilitySystemComponent", "GetAbilitySystemComponent")
+        local spawned = asc and try(function() return asc.SpawnedAttributes end)
+        local n = spawned and tonumber(try(function() return #spawned end)) or 0
+        for i = 1, n do
+            local s = try(function() return spawned[i] end)
+            if isValid(s) and try(function() return s:GetClass():GetFName():ToString() end) == "AttributeSet_Health" then
+                return tonumber(try(function() return s.Health.CurrentValue end)),
+                    tonumber(try(function() return s.MaxHealth.CurrentValue end))
+            end
+        end
+        return nil
+    end
+
+    local function oneHitTick()
+        local _, pawn, state = player()
+        if not (pawn and state) then return end
+        local L = stateLib()
+        local here = try(function() return pawn:K2_GetActorLocation() end)
+        if not (L and here) then return end
+        local selfName = try(function() return pawn:GetFullName() end)
+        for _, actor in ipairs(actorsOfClass("/Script/G1R.GothicCharacter")) do
+            local at = try(function() return actor:K2_GetActorLocation() end)
+            if at and math.abs(at.X - here.X) < ONE_HIT_RANGE and math.abs(at.Y - here.Y) < ONE_HIT_RANGE
+                and try(function() return actor:GetFullName() end) ~= selfName then
+                local st = try(function() return actor.m_CharacterState end)
+                if not isValid(st) then st = try(function() return actor.PlayerState end) end
+                local rel = isValid(st) and tonumber(try(function() return L:GetRelationshipTowards(st, state, pawn) end))
+                if rel == 1 or rel == 2 then -- enemy, hostile
+                    local hp, max = healthOf(actor, st)
+                    if hp and max and hp > 0 and hp < max then
+                        pcall(function() L:Kill(st, true, pawn) end)
+                    end
+                end
+            end
+        end
+    end
+
+    function Extra.setOneHit(on)
+        if not select(2, player()) then return NOT_IN_GAME end
+        S.oneHit = on
+        return "One-hit kills " .. (on and "ON" or "OFF")
+    end
+
+    -- Lockpicks: the hero's lockpick durability is held high; the value it had is put back when the
+    -- switch goes off. Both values are written to the log once, to learn the game's normal range.
+    local PICK_SET, PICK_FIELD, PICK_HIGH = "AttributeSet_Lockpicking", "LockpickDurability", 1000
+    function Extra.setPicks(on)
+        local cur = readAttr(PICK_SET, PICK_FIELD)
+        if not cur then return NOT_IN_GAME end
+        if on then
+            if not S.picks then S.pickSaved = cur end
+            log(("lockpicking values: durability %s, precision %s"):format(
+                fmt(cur), fmt(readAttr(PICK_SET, "LockpickPrecision"))))
+            writeAttr(PICK_SET, PICK_FIELD, math.max(cur, PICK_HIGH))
+        elseif S.pickSaved then
+            writeAttr(PICK_SET, PICK_FIELD, S.pickSaved)
+        end
+        S.picks = on
+        return "Unbreakable lockpicks " .. (on and "ON" or "OFF")
+    end
+
+    -- runs with the 250 ms loop; one-hit checks every 2nd call (twice a second)
+    local slowCount = 0
+    function Extra.slowTick()
+        if S.picks then
+            local cur = readAttr(PICK_SET, PICK_FIELD)
+            if cur and cur < PICK_HIGH then writeAttr(PICK_SET, PICK_FIELD, PICK_HIGH) end
+        end
+        slowCount = slowCount + 1
+        if S.oneHit and slowCount % 2 == 0 then oneHitTick() end
+    end
+end
+
 -- ---- teleport --
 -- Destinations are standing points from the game's own map data
 -- (G1R\Script\Map\MainMap\InteractionSpots.json); the comment on each line is the point's name
@@ -940,6 +1214,16 @@ end
 local function releaseTeleportHold()
     local hold = S.hold
     S.hold = nil
+    -- a map-marker teleport has no height yet: it is looked up now that the ground has loaded,
+    -- and the hero floats a little longer while it has not
+    if hold and hold.snap then
+        local ok, waitMore = pcall(hold.snap)
+        if ok and waitMore then
+            hold.untilTime = os.time() + 2
+            S.hold = hold
+            return
+        end
+    end
     if hold and isValid(hold.movement) then
         pcall(function() hold.movement.GravityScale = hold.gravity end)
     end
@@ -997,6 +1281,201 @@ local function teleportTo(point, name)
     pcall(function() pc:SetControlRotation(rotation) end)
     if not from or distance(from, point) > NEAR_DISTANCE then holdInPlace(pawn) end
     return "Teleported: " .. name
+end
+
+-- ---- map markers --
+-- The markers the player sets on the world map are kept by the MapData subsystem as positions on
+-- the 1600 x 900 map panel. The map art is not a plain projection of the world: some areas are
+-- drawn shifted, and the shift of each spot is stored in an offset texture that the game copies
+-- into UIMapConfigWorldHuman.ColorArrayOffset (1920 x 1080, red = x shift, green = y shift).
+-- A marker is turned back into the unshifted map position, which is linear in world X / Y.
+local MapTp = {} do
+    local PANEL_W, PANEL_H = 1600, 900
+    local TEX_W, TEX_H = 1920, 1080
+    -- world = A + B * unshifted map position, fitted to the game's own player-position readout
+    local AX, BX, AY, BY = 227583, -138.39, -45351, -131.92
+    local MARKER_NAMES = { Generic = "Marker", Chest = "Chest", Enemy = "Enemy", Shop = "Shop" }
+
+    local function unwrap(v)
+        local inner = try(function() return v:get() end)
+        if inner ~= nil then return inner end
+        return v
+    end
+
+    -- the offset pixels; the game fills the array the first time the map widget asks for a shift
+    local function offsetPixels()
+        local cdo = StaticFindObject("/Script/Angelscript.Default__UIMapConfigWorldHuman")
+        if not isValid(cdo) then return nil end
+        local arr = try(function() return cdo.ColorArrayOffset end)
+        local n = arr and try(function() return #arr end) or 0
+        if n >= TEX_W * TEX_H then return arr end
+        local widgets = try(function() return FindAllOf("W_Map_C") end) or {}
+        for _, w in ipairs(widgets) do
+            if isValid(w) and (try(function() return w:GetFullName() end) or ""):find("/Engine/Transient", 1, true) then
+                pcall(function() w:UpdateMapOffset({ X = 0, Y = 0 }, false) end)
+            end
+        end
+        n = try(function() return #arr end) or 0
+        if n >= TEX_W * TEX_H then return arr end
+        return nil
+    end
+
+    -- the shift (in panel units) the map applies at an unshifted map position
+    local function shiftAt(arr, x, y)
+        local r, g = 128, 128
+        if arr then
+            local ix = math.max(0, math.min(TEX_W - 1, math.floor(x / PANEL_W * TEX_W)))
+            local iy = math.max(0, math.min(TEX_H - 1, math.floor(y / PANEL_H * TEX_H)))
+            local px = try(function() return arr[iy * TEX_W + ix + 1] end)
+            if px and (try(function() return px.A end) or 0) > 0 then
+                r, g = px.R, px.G
+            end
+        end
+        return (r / 255 - 0.5) * 1.2 * PANEL_W / 2, (g / 255 - 0.5) * 1.2 * PANEL_H / 2
+    end
+
+    -- the unshifted position whose shifted spot is the marker
+    local function unshift(arr, mx, my)
+        local x, y = mx, my
+        for _ = 1, 8 do
+            local dx, dy = shiftAt(arr, x, y)
+            local nx, ny = mx - dx, my - dy
+            if math.abs(nx - x) < 0.01 and math.abs(ny - y) < 0.01 then return nx, ny end
+            x, y = nx, ny
+        end
+        -- on the edge of a shifted area the steps can jump back and forth: search the spot whose
+        -- shift lands closest to the marker
+        local best, bx, by = math.huge, x, y
+        for sy = -36, 36, 2 do
+            for sx = -60, 60, 2 do
+                local cx, cy = mx - sx, my - sy
+                local dx, dy = shiftAt(arr, cx, cy)
+                local err = math.abs(cx + dx - mx) + math.abs(cy + dy - my)
+                if err < best then best, bx, by = err, cx, cy end
+            end
+        end
+        return bx, by
+    end
+
+    -- the world map's markers in the order they were set: { x, y, kind }
+    local function markers()
+        local data = try(function() return FindFirstOf("MapData") end)
+        if not isValid(data) then return nil end
+        local list = {}
+        pcall(function()
+            data.m_MapsMarkersData:ForEach(function(key, value)
+                local tag = try(function() return unwrap(key).TagName:ToString() end)
+                if tag ~= "Area" then return end -- the camp maps use their own panel
+                unwrap(value).m_MapMarkersDataArray:ForEach(function(k, v)
+                    local p = unwrap(k)
+                    local kind = try(function() return unwrap(v).TagName:ToString() end) or ""
+                    list[#list + 1] = { x = p.X, y = p.Y, kind = kind:match("([^%.]+)$") or "" }
+                end)
+            end)
+        end)
+        return list
+    end
+
+    -- the walkable surfaces at x / y from the top down (roofs, rock above a cave, the floor below),
+    -- empty while the area is not loaded
+    local function surfacesAt(pawn, x, y)
+        local found = {}
+        local lib = StaticFindObject("/Script/Engine.Default__KismetSystemLibrary")
+        if not isValid(lib) then return found end
+        local none = { R = 0, G = 0, B = 0, A = 0 }
+        local top, last = 20000, nil
+        for _ = 1, 24 do
+            local hit = {}
+            local ok, blocked = pcall(function()
+                return lib:LineTraceSingle(pawn, { X = x, Y = y, Z = top }, { X = x, Y = y, Z = -30000 }, 0, false, {}, 0, hit, true, none, none, 0)
+            end)
+            if not ok or not blocked then break end
+            local z = tonumber(try(function() return hit.ImpactPoint.Z end))
+            if not z then break end
+            if last and last - z < 30 then
+                -- the same surface again (a thick floor or ceiling): jump past it
+                top = z - 150
+            else
+                if (tonumber(try(function() return hit.ImpactNormal.Z end)) or 1) > 0.6 then found[#found + 1] = z end
+                top = z - 5 -- the trace starts inside what it hit and passes through it
+            end
+            last = z
+        end
+        return found
+    end
+
+    -- Where to stand: next to a known destination (a camp in a cave, a building) the surface at
+    -- that destination's height, elsewhere the highest one
+    local function groundAt(pawn, x, y)
+        local found = surfacesAt(pawn, x, y)
+        if #found == 0 then return nil end
+        local ref, refDist = nil, 6000
+        for _, dest in ipairs(DESTINATIONS) do
+            local dx, dy = dest.x - x, dest.y - y
+            local d = math.sqrt(dx * dx + dy * dy)
+            if d < refDist then ref, refDist = dest, d end
+        end
+        local best = found[1]
+        for _, z in ipairs(ref and found or {}) do
+            if math.abs(z - ref.z) < math.abs(best - ref.z) then best = z end
+        end
+        dbg(("marker ground at %.0f, %.0f: surfaces %s, reference %s, chosen %.0f"):format(x, y,
+            table.concat(found, " "), ref and ref.label or "-", best))
+        return best
+    end
+
+    local function snapToGround(pawn, x, y)
+        local z = groundAt(pawn, x, y)
+        dbg("marker snap: " .. tostring(z))
+        if z then
+            pcall(function() pawn:K2_SetActorLocation({ X = x, Y = y, Z = z + 120 }, false, {}, true) end)
+            return true
+        end
+        return false
+    end
+
+    function MapTp.list()
+        local list = markers()
+        if not list then return nil end
+        local arr = #list > 0 and offsetPixels() or nil
+        for _, m in ipairs(list) do
+            local ux, uy = unshift(arr, m.x, m.y)
+            m.wx, m.wy = AX + BX * ux, AY + BY * uy
+            local nearest, best = nil, math.huge
+            for _, dest in ipairs(DESTINATIONS) do
+                local dx, dy = dest.x - m.wx, dest.y - m.wy
+                local d = math.sqrt(dx * dx + dy * dy)
+                if d < best then nearest, best = dest, d end
+            end
+            m.near, m.dist = nearest and nearest.label or "?", best
+        end
+        return list, arr ~= nil
+    end
+
+    function MapTp.go(m, name)
+        local _, pawn = player()
+        if not pawn then return NOT_IN_GAME end
+        -- the height is only a first guess: far away the ground has not loaded yet
+        local here = heroTransform(pawn)
+        local z = groundAt(pawn, m.wx, m.wy) or (here and here.z) or 0
+        dbg(("marker teleport to %.0f, %.0f, first height %.0f"):format(m.wx, m.wy, z))
+        local msg = teleportTo({ x = m.wx, y = m.wy, z = z, yaw = here and here.yaw or 0 }, name)
+        if not msg:find("^Teleported") then return msg end
+        if S.hold then
+            local tries = 0
+            -- true asks the tick loop to wait: the ground there has not loaded yet
+            S.hold.snap = function()
+                if snapToGround(pawn, m.wx, m.wy) then return false end
+                tries = tries + 1
+                return tries <= 5
+            end
+        else
+            snapToGround(pawn, m.wx, m.wy)
+        end
+        return msg
+    end
+
+    MapTp.names = MARKER_NAMES
 end
 
 -- ---- saved positions --
@@ -1191,6 +1670,9 @@ end
 -- object reports its state (EQuestState: 0 None, 1 Available, 2 Running, 3 Failed, 4 Succeeded),
 -- its name as the quest log shows it, and can be succeeded. Marking a quest as succeeded runs the
 -- game's own success handling, but no dialogue and no reward that would normally lead up to it.
+-- Kept in a block that exports one table: Lua allows 200 locals in the main chunk.
+local Quest = {}
+do
 local QUEST_RUNNING, QUEST_FAILED, QUEST_SUCCEEDED = 2, 3, 4
 
 local function questSubsystem()
@@ -1290,6 +1772,42 @@ local function completeQuest(entry)
     return "Could not complete: " .. name
 end
 
+-- sets a failed quest running again, so it can still be played the normal way
+local function restartQuest(entry)
+    local _, pawn = player()
+    if not pawn then return NOT_IN_GAME end
+    local quest = entry.quest
+    if not isValid(quest) then return "Quest no longer available" end
+    local name = questName(quest)
+    -- The game fails a quest again on its next check while its fail condition still holds (someone
+    -- it needs has died, its chapter is over, ...). Such a quest is left alone.
+    if try(function() return quest:ShouldFail() end) == true then
+        log("quest not restarted, its fail condition still holds: " .. name)
+        return "Would fail again at once: " .. name
+    end
+    -- a sub-task of a failed quest fails again at once: the quest it belongs to is restarted first
+    local parent = try(function() return quest:GetParentQuest() end)
+    if isValid(parent) and questState(parent) == QUEST_FAILED then
+        pcall(function() parent:RestartQuest(pawn) end)
+        log("parent quest restarted: " .. questName(parent))
+    end
+    pcall(function() quest:RestartQuest(pawn) end)
+    if questState(quest) == QUEST_RUNNING then
+        log("quest restarted: " .. name)
+        -- some fail conditions are only checked while the quest runs
+        if try(function() return quest:ShouldFail() end) == true then
+            return "Would fail again at once: " .. name
+        end
+        return "Quest restarted: " .. name
+    end
+    log(("quest could not be restarted: %s (state %s)"):format(name, tostring(questState(quest))))
+    return "Could not restart: " .. name
+end
+
+Quest.RUNNING, Quest.FAILED = QUEST_RUNNING, QUEST_FAILED
+Quest.inState, Quest.complete, Quest.restart = questsInState, completeQuest, restartQuest
+end
+
 -- ---------------------------------------------------------------------------------- pages --
 -- item fields: label, value() -> right-column text, then one of
 --   page = "<name>"          open a sub page
@@ -1325,11 +1843,15 @@ Pages.player = { title = "Player", items = {
         function(on) S.stamina = on; return "Infinite stamina " .. onOff(on) end),
     switch("Infinite breath", function() return S.breath end,
         function(on) S.breath = on; return "Infinite breath " .. onOff(on) end),
+    switch("Fly (PgUp / PgDn)", function() return S.fly end, Extra.setFly),
+    switch("One-hit kills", function() return S.oneHit end, Extra.setOneHit),
+    switch("Unbreakable lockpicks", function() return S.picks end, Extra.setPicks),
     { label = "Restore health, mana, stamina", run = healFully },
     { label = "Clear crimes", run = clearCrimes },
 } }
 
 Pages.stats = { title = "Stats", items = {
+    { label = "Strength, dexterity, max mana to 100", run = maxStats },
     { label = "Step multiplier", value = function() return "x" .. S.mult end,
       adjust = function(dir)
           local steps = { 1, 2, 10 }
@@ -1358,7 +1880,9 @@ for _, g in ipairs(GUILDS) do
     }
 end
 
-Pages.skills = { title = "Skills", hint = "[Enter] Learn     [Left] Remove     [Backspace] Back", items = {} }
+Pages.skills = { title = "Skills", hint = "[Enter] Learn     [Left] Remove     [Backspace] Back", items = {
+    { label = "Learn all skills", run = learnAllSkills },
+} }
 for _, name in ipairs(SKILLS) do
     Pages.skills.items[#Pages.skills.items + 1] = {
         label = name:gsub("_", " "),
@@ -1370,6 +1894,25 @@ Pages.items = { title = "Items", items = {
     { label = "Runes", page = "runes" },
     { label = "Scrolls", page = "scrolls" },
 } }
+-- the weapon and armour lists are read from the game when their page opens
+for _, def in ipairs({
+    { page = "melee", title = "Melee weapons", all = "All melee weapons" },
+    { page = "ranged", title = "Ranged weapons", all = "All ranged weapons" },
+    { page = "armours", title = "Armours", all = "All armours" },
+    { page = "maps", title = "Maps", all = "All maps" },
+}) do
+    table.insert(Pages.items.items, #Pages.items.items + 1, { label = def.title, page = def.page })
+    local page = { title = def.title, items = {} }
+    page.build = function()
+        local entries = Gear.entries(def.page)
+        local items = { { label = def.all, run = function() return Gear.giveAll(entries) end } }
+        for _, e in ipairs(entries) do
+            items[#items + 1] = { label = e.label, run = function() return giveItem(e) end }
+        end
+        page.items = items
+    end
+    Pages[def.page] = page
+end
 for _, item in ipairs(ITEMS) do
     Pages.items.items[#Pages.items.items + 1] = { label = item.label, run = function() return giveItem(item) end }
 end
@@ -1403,9 +1946,32 @@ for _, scroll in ipairs(SCROLLS) do
 end
 
 Pages.teleport = { title = "Teleport", items = {
+    { label = "Map markers", page = "markers" },
     { label = "Saved positions", page = "saved",
       value = function() return #savedPositions .. " / " .. MAX_SAVED end },
 } }
+
+-- the markers set on the world map, listed when the page opens
+Pages.markers = { title = "Map markers", items = {}, hint = "[Enter] Teleport     [Backspace] Back" }
+Pages.markers.build = function()
+    local list = MapTp.list()
+    local items = {}
+    if not list then
+        items[1] = { label = NOT_IN_GAME }
+    elseif #list == 0 then
+        items[1] = { label = "No markers on the world map" }
+    else
+        for i = #list, 1, -1 do -- the newest first
+            local m = list[i]
+            -- named after the closest known destination; the symbol only when it is not the plain one
+            local label = ("%d: %s (%d m)"):format(#list - i + 1, m.near, math.floor(m.dist / 100 + 0.5))
+            local kind = MapTp.names[m.kind]
+            if kind and kind ~= "Marker" then label = kind .. " " .. label end
+            items[#items + 1] = { label = label, run = function() return MapTp.go(m, label) end }
+        end
+    end
+    Pages.markers.items = items
+end
 for _, dest in ipairs(DESTINATIONS) do
     Pages.teleport.items[#Pages.teleport.items + 1] = {
         label = dest.label,
@@ -1455,10 +2021,14 @@ Pages.quests = { title = "Quests", items = {
     { label = "Running quests", page = "questsRunning" },
 } }
 
+do
 local function questPage(title, state, emptyText)
-    local page = { title = title, hint = "[Enter] Mark as completed (save first)     [Backspace] Back", items = {} }
+    local canRestart = state == Quest.FAILED
+    local page = { title = title, items = {},
+        hint = canRestart and "[Enter] Complete     [Left] Restart     [Backspace] Back"
+            or "[Enter] Mark as completed (save first)     [Backspace] Back" }
     page.build = function()
-        local entries = questsInState(state)
+        local entries = Quest.inState(state)
         local items = {}
         if not entries then
             items[1] = { label = select(2, player()) and "Quest system not found" or NOT_IN_GAME }
@@ -1466,22 +2036,28 @@ local function questPage(title, state, emptyText)
             items[1] = { label = emptyText }
         else
             for _, entry in ipairs(entries) do
-                items[#items + 1] = {
-                    label = entry.label,
-                    run = function()
-                        local msg = completeQuest(entry)
-                        page.build()
-                        return msg
-                    end,
-                }
+                local function act(fn)
+                    local msg = fn(entry)
+                    page.build() -- the quest has left this list
+                    return msg
+                end
+                if canRestart then
+                    -- Enter counts as Right; Left restarts instead of completing
+                    items[#items + 1] = { label = entry.label, adjust = function(dir)
+                        return act(dir < 0 and Quest.restart or Quest.complete)
+                    end }
+                else
+                    items[#items + 1] = { label = entry.label, run = function() return act(Quest.complete) end }
+                end
             end
         end
         page.items = items
     end
     return page
 end
-Pages.questsFailed = questPage("Failed quests", QUEST_FAILED, "No failed quests")
-Pages.questsRunning = questPage("Running quests", QUEST_RUNNING, "No running quests")
+Pages.questsFailed = questPage("Failed quests", Quest.FAILED, "No failed quests")
+Pages.questsRunning = questPage("Running quests", Quest.RUNNING, "No running quests")
+end
 
 Pages.achievements = { title = "Achievements", hint = "[Enter] Unlock (permanent)     [Backspace] Back", items = {
     { label = "Unlock ALL achievements", run = unlockAll },
@@ -1865,6 +2441,20 @@ local function armRepeat(action)
     S.held = { action = action, nextTime = os.clock() + delay }
 end
 
+-- true while one of the keys (UE4SS key names) is held; false when the controller cannot tell
+local function anyKeyDown(pc, names)
+    if repeatBroken or not FName then return false end
+    for _, name in ipairs(type(names) == "table" and names or { names }) do
+        local engineName = ENGINE_KEYS[name] or (type(name) == "string" and #name == 1 and name) or nil
+        if engineName then
+            local ok, down = pcall(function() return pc:IsInputKeyDown({ KeyName = FName(engineName) }) end)
+            if ok and down then return true end
+        end
+    end
+    return false
+end
+rawset(_G, "__g1rcm_fly", function() Extra.flyTick(anyKeyDown) end)
+
 local function keyHeld(pc, action)
     local names = Config[REPEAT_ACTIONS[action]]
     for _, name in ipairs(type(names) == "table" and names or { names }) do
@@ -1986,22 +2576,28 @@ if not rawget(_G, "__g1rcm_loop") then
     gameLoop(250, function()
         local release = S.hold ~= nil and os.time() >= S.hold.untilTime
         local keepFull = S.god or S.mana or S.stamina or S.breath
-        if not (release or keepFull) then return nil end
+        local extra = S.oneHit or S.picks
+        if not (release or keepFull or extra) then return nil end
         return function()
             if release then releaseTeleportHold() end
             if keepFull then keepFullTick() end
+            if extra then Extra.slowTick() end
         end
     end)
 end
 
--- a faster loop for held keys; it has work only while Up or Down is held in the open menu
+-- a faster loop for held keys; it has work only while Up or Down is held in the open menu, or
+-- while flying
 if not rawget(_G, "__g1rcm_repeatLoop") then
     rawset(_G, "__g1rcm_repeatLoop", true)
     gameLoop(40, function()
-        if not (S.held and S.open) then return nil end
+        local repeating = S.held and S.open
+        if not (repeating or S.fly) then return nil end
         return function()
-            local f = rawget(_G, "__g1rcm_repeat")
+            local f = repeating and rawget(_G, "__g1rcm_repeat")
             if f then f() end
+            local fly = S.fly and rawget(_G, "__g1rcm_fly")
+            if fly then fly() end
         end
     end)
 end
