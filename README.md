@@ -11,14 +11,14 @@ capture the mouse, and is controlled with the keyboard only.
 
 | Page | What it does |
 |---|---|
-| Player | God mode, infinite mana / stamina / breath, restore health-mana-stamina, clear crimes, fly through walls and ground, one-hit kills, unbreakable lockpicks |
+| Player | God mode, infinite mana / stamina / breath, restore health-mana-stamina, clear crimes, fly through walls and ground, one-hit kills, unbreakable lockpicks, no fall damage, infinite ammo, invisible to NPCs, sure pickpocketing, unlock the chest or door in view, hero speed, jump height |
 | Stats | Strength, dexterity, max mana, max health, learning points, level, experience; strength, dexterity and max mana to 100 in one step |
 | Faction | Switch between the 12 guilds of the Old Camp, New Camp and Swamp Camp, or leave your faction |
-| Skills | Learn or remove 58 skills, or learn all of them at once |
-| Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and submenus with runes, spell scrolls, melee weapons, ranged weapons, armours and maps (each item on its own or all at once) |
-| Teleport | Jump to the markers you set on the world map, to 28 places in the colony, or save up to 10 positions of your own and return to them |
+| Skills | Learn or remove 58 skills, or learn all of them at once; free training at the teachers, reset all skills and get the learning points back |
+| Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and submenus with runes, spell scrolls, melee weapons, ranged weapons, armours, maps, animal trophies, smithing materials, alchemy ingredients, plants, keys and quest items (each item on its own or all at once) |
+| Teleport | Jump to the markers you set on the world map, to 105 people, to 28 places in the colony, or save up to 10 positions of your own and return to them |
 | World | Time of day, freeze time, weather, game speed, story chapter |
-| NPCs | Kill hostile NPCs, make loaded NPCs friendly |
+| NPCs | Heal, kill or revive the NPC in view, spawn 30 kinds of creatures, make the Old Camp, New Camp or Swamp Camp friendly, kill hostile NPCs, make loaded NPCs friendly |
 | Quests | Lists your failed and running quests by their quest-log names; mark one as completed, or restart a failed one |
 
 ## Languages
@@ -61,7 +61,7 @@ Corrections are welcome; a text that is missing in a language file is shown in E
 To uninstall, delete the `G1R_CheatMenu` folder.
 
 If the menu does not appear, open `ue4ss\UE4SS.log` and look for lines tagged
-`[G1R_CheatMenu]`. A line `Loaded 1.8.0: toggle key F7` means the mod was started.
+`[G1R_CheatMenu]`. A line `Loaded 1.9.0: toggle key F7` means the mod was started.
 
 ## Controls
 
@@ -94,6 +94,10 @@ the keys you press while the menu is open.
 - **Map markers:** set a marker on the world map (not on a camp map), then open Teleport > Map markers. The list names each marker after the closest known place. The hero arrives on the highest walkable surface at the marker, except near a known place, where the floor at that place's height is used (so a marker in the New Camp leads into the cave, not onto the rock above it). A marker on a roof or a rock overhang can put you on top of it.
 - **Fly** switches off collision: you pass through walls and the ground. Land in the open before switching it off.
 - **One-hit kills** finishes hostile NPCs within 40 m as soon as they take damage. It can take half a second.
+- **Free training** makes learning at the teachers cost no learning points and no ore while it is on. **Reset skills** refunds the learning points the skills normally cost, but not the ore paid for them.
+- **Reviving an NPC:** the NPC is alive again at once, but the body stays on the ground until the area reloads (travel away and back). After that the NPC goes on with the daily routine and may be somewhere else. During testing the game crashed once right after a revive; this could not be reproduced, but save first.
+- **Spawned creatures** appear about 6 m in front of you a moment after you pick them. They behave as they do in the wild.
+- **People:** the hero is put next to the person if they are nearby, otherwise at their bed first and then next to them once the area has loaded.
 - Saved positions are kept in `saved_positions.txt` in the mod folder.
 - A game patch can break the mod, because it calls game functions by name.
 

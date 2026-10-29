@@ -11,14 +11,14 @@ nicht, fängt die Maus nicht ein und wird nur mit der Tastatur bedient.
 
 | Seite | Was sie kann |
 |---|---|
-| Spieler | Gottmodus, unendlich Mana / Ausdauer / Atem, Leben-Mana-Ausdauer auffüllen, Verbrechen löschen, durch Wände und Boden fliegen, Gegner mit einem Treffer töten, unzerbrechliche Dietriche |
+| Spieler | Gottmodus, unendlich Mana / Ausdauer / Atem, Leben-Mana-Ausdauer auffüllen, Verbrechen löschen, durch Wände und Boden fliegen, Gegner mit einem Treffer töten, unzerbrechliche Dietriche, kein Fallschaden, unendlich Munition, unsichtbar für NPCs, sicherer Taschendiebstahl, Truhe oder Tür im Blick aufschließen, Heldentempo, Sprunghöhe |
 | Werte | Stärke, Geschicklichkeit, max. Mana, max. Lebenspunkte, Lernpunkte, Stufe, Erfahrung; Stärke, Geschicklichkeit und max. Mana in einem Schritt auf 100 |
 | Gilde | Zwischen den 12 Gilden von Altem Lager, Neuem Lager und Sumpflager wechseln oder die Gilde verlassen |
-| Talente | 58 Talente lernen oder entfernen, oder alle auf einmal lernen |
-| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere sowie Untermenüs mit Runen, Zauberschriftrollen, Nahkampfwaffen, Fernkampfwaffen, Rüstungen und Karten (jeder Gegenstand einzeln oder alle auf einmal) |
-| Teleport | Zu deinen Markierungen auf der Weltkarte oder zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
+| Talente | 58 Talente lernen oder entfernen, oder alle auf einmal lernen; kostenloses Training bei den Lehrern, alle Talente zurücksetzen und die Lernpunkte zurückbekommen |
+| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere sowie Untermenüs mit Runen, Zauberschriftrollen, Nahkampfwaffen, Fernkampfwaffen, Rüstungen, Karten, Tiertrophäen, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder Gegenstand einzeln oder alle auf einmal) |
+| Teleport | Zu deinen Markierungen auf der Weltkarte, zu 105 Personen oder zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
 | Welt | Uhrzeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
-| NPCs | Feindliche NPCs töten, geladene NPCs freundlich machen |
+| NPCs | Den NPC im Blick heilen, töten oder wiederbeleben, 30 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich stimmen, feindliche NPCs töten, geladene NPCs freundlich machen |
 | Quests | Zeigt gescheiterte und laufende Quests mit ihren Namen aus dem Questlog; eine davon als erledigt markieren oder eine gescheiterte neu starten |
 
 ## Sprachen
@@ -63,7 +63,7 @@ auf Englisch angezeigt.
 Zum Deinstallieren den Ordner `G1R_CheatMenu` löschen.
 
 Erscheint das Menü nicht, öffne `ue4ss\UE4SS.log` und suche nach Zeilen mit
-`[G1R_CheatMenu]`. Die Zeile `Loaded 1.8.0: toggle key F7` bedeutet, dass die Mod gestartet
+`[G1R_CheatMenu]`. Die Zeile `Loaded 1.9.0: toggle key F7` bedeutet, dass die Mod gestartet
 wurde.
 
 ## Steuerung
@@ -98,6 +98,10 @@ offen ist.
 - **Kartenmarkierungen:** Setze eine Markierung auf der Weltkarte (nicht auf einer Lagerkarte) und öffne dann Teleport > Kartenmarkierungen. Jede Markierung ist nach dem nächsten bekannten Ort benannt. Der Held landet auf der höchsten begehbaren Fläche an der Markierung, außer in der Nähe eines bekannten Ortes: Dort wird der Boden auf dessen Höhe genommen (eine Markierung im Neuen Lager führt also in die Höhle, nicht auf den Felsen darüber). Eine Markierung auf einem Dach oder unter einem Felsvorsprung kann dich oben absetzen.
 - **Fliegen** schaltet die Kollision ab: Du fliegst durch Wände und den Boden. Lande im Freien, bevor du es ausschaltest.
 - **Ein-Treffer-Kills** erledigt feindliche NPCs im Umkreis von 40 m, sobald sie Schaden nehmen. Das kann eine halbe Sekunde dauern.
+- **Kostenloses Training:** Solange es an ist, kostet Lernen bei den Lehrern keine Lernpunkte und kein Erz. **Talente zurücksetzen** erstattet die Lernpunkte, die die Talente normal kosten, aber nicht das dafür bezahlte Erz.
+- **NPC wiederbeleben:** Der NPC lebt sofort wieder, aber der Körper bleibt liegen, bis das Gebiet neu geladen wird (weg- und zurückreisen). Danach geht der NPC seinem Tagesablauf nach und ist vielleicht woanders. Beim Testen ist das Spiel einmal direkt nach dem Wiederbeleben abgestürzt; das ließ sich nicht wiederholen, trotzdem vorher speichern.
+- **Erschaffene Kreaturen** erscheinen kurz nach der Auswahl etwa 6 m vor dir. Sie verhalten sich wie in freier Wildbahn.
+- **Personen:** Der Held wird neben die Person gesetzt, wenn sie in der Nähe ist, sonst zuerst an ihr Bett und neben sie, sobald das Gebiet geladen ist.
 - Gespeicherte Positionen liegen in `saved_positions.txt` im Mod-Ordner.
 - Ein Spiel-Patch kann die Mod unbrauchbar machen, weil sie Spielfunktionen über ihren Namen
   aufruft.

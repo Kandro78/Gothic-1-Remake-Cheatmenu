@@ -13,7 +13,7 @@
 --   * Visibility is written as a property, not through the SetVisibility UFUNCTION;
 --   * engine calls only happen on the game thread.
 
-local MOD, VERSION = "G1R_CheatMenu", "1.8.0"
+local MOD, VERSION = "G1R_CheatMenu", "1.9.0"
 
 local print, tostring, tonumber, type, pcall, ipairs, pairs = print, tostring, tonumber, type, pcall, ipairs, pairs
 local math, string, table, rawget, rawset = math, string, table, rawget, rawset
@@ -492,6 +492,7 @@ local function changeStat(def, dir)
     end
     if not ok then return def.label .. ": change failed" end
     if def.also then writeAttr(def.set, def.also, target) end
+    S.trainLP = nil -- free training keeps the learning points set here
     return ("%s: %s -> %s"):format(def.label, fmt(cur), fmt(readAttr(def.set, def.field) or target))
 end
 
@@ -642,6 +643,93 @@ local function removeSkill(name)
     return ok and ("Removed: " .. name:gsub("_", " ")) or "Removing failed"
 end
 
+local Training = {} do
+    -- Free training: a skill's price sits on the defaults of its effect class (SPCost learning points,
+    -- oreCost ore), which the teachers read; while on, both are 0 for every skill. Stat training is
+    -- paid in learning points only, so while on, any drop in them is undone (a raise is kept).
+    local LP_SET, LP_FIELD = "AttributeSet_LevelProgression", "SkillPoints"
+
+    local function skillDefaults(name)
+        local cls = scriptClass("GE_Skill_" .. name)
+        return cls and try(function() return cls:GetCDO() end)
+    end
+
+    -- the normal prices, read once while they are untouched; kept in S so that reloading the script
+    -- while free training is on does not take the zeros for the prices
+    function Training.prices()
+        if not S.skillPrices then
+            local prices, found = {}, false
+            for _, name in ipairs(SKILLS) do
+                local cdo = skillDefaults(name)
+                local sp = cdo and tonumber(try(function() return cdo.SPCost end))
+                local ore = cdo and tonumber(try(function() return cdo.oreCost end))
+                if sp and ore then prices[name], found = { sp = sp, ore = ore }, true end
+            end
+            if not found then return nil end
+            S.skillPrices = prices
+        end
+        return S.skillPrices
+    end
+
+    function Training.set(on)
+        if not select(2, player()) then return NOT_IN_GAME end
+        local prices = Training.prices()
+        if not prices then return "Free training: skill prices not found" end
+        for name, price in pairs(prices) do
+            local cdo = skillDefaults(name)
+            if cdo then
+                pcall(function()
+                    cdo.SPCost = on and 0 or price.sp
+                    cdo.oreCost = on and 0 or price.ore
+                end)
+            end
+        end
+        S.train, S.trainLP = on, nil
+        return "Free training " .. (on and "ON" or "OFF")
+    end
+
+    -- with the 250 ms loop while free training is on. A loaded save brings a new hero, whose points
+    -- are taken as they are.
+    function Training.tick()
+        local _, pawn = player()
+        local hero = pawn and tostring(try(function() return pawn:GetAddress() end))
+        local lp = readAttr(LP_SET, LP_FIELD)
+        if not (hero and lp) then return end
+        if S.trainLP and S.trainHero == hero and lp < S.trainLP then
+            writeAttr(LP_SET, LP_FIELD, S.trainLP)
+        else
+            S.trainLP, S.trainHero = lp, hero
+        end
+    end
+
+    -- Every skill the hero has is removed and its learning points are given back, at the normal price
+    -- also while free training is on. The ore paid for it is not given back.
+    function Training.reset()
+        local _, pawn, state = player()
+        if not (pawn and state) then return NOT_IN_GAME end
+        local asc, ext = playerASC(pawn, state), cheatExtension()
+        if not (asc and ext) then return "Skills: cheat extension unavailable" end
+        local prices = Training.prices() or {}
+        local function has(cls)
+            return (tonumber(try(function() return asc:GetGameplayEffectCount(cls, nil, true) end)) or 0) > 0
+        end
+        local removed, refund = 0, 0
+        for _, name in ipairs(SKILLS) do
+            local cls = scriptClass("GE_Skill_" .. name)
+            if cls and has(cls) then
+                pcall(function() ext:EffectRemove("GE_Skill_" .. name) end)
+                if not has(cls) then
+                    removed = removed + 1
+                    refund = refund + (prices[name] and prices[name].sp or 0)
+                end
+            end
+        end
+        if refund > 0 then writeAttr(LP_SET, LP_FIELD, (readAttr(LP_SET, LP_FIELD) or 0) + refund) end
+        S.trainLP = nil
+        return ("Skills reset: %d removed, %s learning points back"):format(removed, fmt(refund))
+    end
+end
+
 -- ---- items --
 local ITEMS = {
     { label = "Ore x100",                 id = "ItMi_Orenugget", count = 100 },
@@ -770,10 +858,51 @@ local Gear = { lists = {
     -- the world map is what opens the map screen; some area maps belong to quests
     maps = { prefix = "ItWr_Map_", ids = [[
         World WorldComplete OldCamp NewCamp SwampCamp OldMine OldMineSC Orc Temple Cliff Lighthouse Focus]] },
+    -- animal trophies (teeth, fur, claws, hides, horns ...), sold to traders and needed by some quests
+    trophies = { prefix = "ItAt_", count = 5, ids = [[
+        Biter_01 Biter_02 Biter_03 Bloodfly_01 Bloodfly_02 Bloodfly_03 Bloodhound_01 Bloodhound_02
+        Crawler_01 Crawler_02 Crawlerqueen Damlurker_01 Firegolem_01 Firegolem_02 Firelizard_01 Firelizard_02
+        Firelizard_03 Firelizard_04 Firelizard_05 Harpy_01 Harpy_02 Icegolem_01 Icegolem_02 Lizard_01
+        Lizard_02 Lizard_03 Lurker_01 Lurker_02 Lurker_03 Meatbug_01 Minecrawlerqueen_01 Orcdog_01 Orcdog_02
+        Razor_01 Razor_02 Scavenger_01 Scavenger_02 Shadow_01 Shadow_02 Shadow_03 Shadow_04 Shadow_05
+        Shadow_06 Snapper_01 Snapper_02 Stonegolem_01 Stonegolem_02 Swampshark_01 Swampshark_02 Swampshark_03
+        Swampshark_04 Teeth_01 Troll_01 Troll_02 Troll_03 Wolf_01 Wolf_02 Wolf_03]] },
+    -- smithing: metals, woods, gems and the raw blade
+    smithing = { prefix = "ItMi_Smith_", count = 10, ids = [[
+        Iron Steel Gold Ironwood Oak Willow Petrifiedwood Leatherstraps Obsidian Ruby Swordraw]] },
+    -- alchemy and scroll writing: ingredients, flasks, parchment, swamp weed
+    alchemy = { prefix = "ItMi_", count = 10, ids = [[
+        Alchemy_Flask Alchemy_Alcohol_01 Alchemy_Moleratlubric_01 Alchemy_Quicksilver_01 Alchemy_Salt_01
+        Alchemy_Sulphur_01 Alchemy_Syranoil_01 Inscription_Parchment Plants_Swampherb_01 Joint_01 Joint_02
+        Joint_03]] },
+    plants = { prefix = "ItFo_Plants_", count = 10, ids = [[
+        Berrys_01 Bloodwood_01 Coral Darkshade Dewleaf Duskbell Flameberry_01 Herb_01 Herb_02 Herb_03 Lobelia
+        Mistcap Mountainmoss_01 Mountainmoss_02 Mushroom_01 Mushroom_02 Nightshadow_01 Nightshadow_02
+        Orcherb_01 Orcherb_02 OrcSpore Ravenherb_01 Ravenherb_02 Seraphis_01 Siren Stoneroot_01 Stoneroot_02
+        Trollbane Velayis_01 Widow]] },
+    keys = { prefix = "ItKe_", distinct = true, ids = [[
+        AbandonedGallery_01 AbandonedMine_01 BanditCell Berg_01 CaptainShip Cavalorn_01 CellarCages_01
+        Dungeonkey FireMagesRoom FiskStorage Focus_04 Focus_05 Freemine Gomez_01 GomezCastleMaster
+        GraveyardLever Kalom_01 LeeDoor LootCage_01 MerchantCellarDoor Om_02 Om_03 OrcGraveyard
+        OrcGraveyardPiece_01 OrcGraveyardPiece_02 Quentin_01 RavenTower Ricelord_01 Smith_01 Storage_01
+        Sunkentower TavernDoor Tower_01]] },
+    -- story and quest items: focus stones, Uriziel and its gems, quest objects and notes
+    quest = { prefix = "", distinct = true, ids = [[
+        ItMs_Focus_01 ItMs_Focus_02 ItMs_Focus_03 ItMs_Focus_04 ItMs_Focus_05 ItMs_Uriziel ItMi_UrizielGem_01
+        ItMi_UrizielGem_02 ItMi_UrizielGem_03 ItMi_UrizielGem_04 ItMi_UrizielGem_05 ItMs_SunkenTowerStone_01
+        ItMs_SunkenTowerStone_02 ItMs_StoneSketch ItMs_Ashes ItMs_Axe_Bran ItMs_Book_Innos ItMs_Book_WaterMages
+        ItMs_Demonprank ItMs_DraxHunterKnife ItMs_ExplosionBarrel ItMs_ExplosionScroll ItMs_FakeDiggerClothes
+        ItMs_Lightbringer ItMs_Remedy ItMs_ScavengerWhistle ItMs_Spellblade ItMs_Timeblade ItMs_Winch
+        ItMs_Worldsplitter ItMi_Stuff_Gearwheel_01 ItMi_Stuff_Idolsleeper_01 ItMi_Specialjoint
+        ItMs_Scroll_AbandonedGuy ItMs_Scroll_InExtremo ItMs_Scroll_LoveInterest ItMs_Scroll_LoveInterest_2
+        ItMs_Scroll_LoveStoryFogTower ItMs_Scroll_LoveStoryWomen ItMs_Scroll_OldRecipe ItMs_Scroll_PaintersCave
+        ItMs_Scroll_SerialKiller ItMs_Scroll_SyraRecipe ItMs_Scroll_ToyMaker ItMs_Scroll_WeaponDesign
+        ItMs_Scroll_WomensRevenge]] },
 } }
 do
-    -- { id =, label = } for each item of a list whose class exists, sorted by name; items that share a
-    -- name are listed once
+    -- { id =, label = } for each item of a list whose class exists, sorted by name. Items that share a
+    -- name are listed once (weapon copies), except in lists marked distinct (keys, quest items: same
+    -- name, different item), where each gets its id in brackets.
     function Gear.entries(listName)
         local list = Gear.lists[listName]
         local out, seen = {}, {}
@@ -781,11 +910,16 @@ do
             local cls = scriptClass(list.prefix .. id)
             local cdo = cls and try(function() return cls:GetCDO() end)
             local label = cdo and try(function() return cdo.m_Name:ToString() end)
-            if type(label) == "string" and label ~= "" and not seen[label] then
-                seen[label] = true
-                out[#out + 1] = { id = list.prefix .. id, label = label, count = 1 }
+            if type(label) == "string" and label ~= "" and (list.distinct or not seen[label]) then
+                seen[label] = (seen[label] or 0) + 1
+                out[#out + 1] = { id = list.prefix .. id, label = label, count = list.count or 1 }
             elseif label then
                 dbg(("item %s%s skipped (name '%s')"):format(list.prefix, id, tostring(label)))
+            end
+        end
+        for _, e in ipairs(out) do
+            if seen[e.label] > 1 then
+                e.label = ("%s (%s)"):format(e.label, (e.id:gsub("^It%a%a_", ""):gsub("_", " ")))
             end
         end
         table.sort(out, function(a, b) return a.label < b.label end)
@@ -1076,7 +1210,8 @@ do
     -- One-hit kills: the game has no damage multiplier, so a hostile NPC near the hero whose health
     -- has dropped below its maximum (it was hit) is killed through the game's own Kill.
     local ONE_HIT_RANGE = 4000 -- 40 m
-    local function healthOf(actor, st)
+    -- the health attribute set of any character (st: its character state)
+    function Extra.healthSetOf(actor, st)
         local asc = heroComponent({ st, actor }, "AbilitySystemComponent",
             "/Script/G1R.GothicAbilitySystemComponent", "GetAbilitySystemComponent")
         local spawned = asc and try(function() return asc.SpawnedAttributes end)
@@ -1084,12 +1219,19 @@ do
         for i = 1, n do
             local s = try(function() return spawned[i] end)
             if isValid(s) and try(function() return s:GetClass():GetFName():ToString() end) == "AttributeSet_Health" then
-                return tonumber(try(function() return s.Health.CurrentValue end)),
-                    tonumber(try(function() return s.MaxHealth.CurrentValue end))
+                return s
             end
         end
         return nil
     end
+
+    local function healthOf(actor, st)
+        local s = Extra.healthSetOf(actor, st)
+        if not s then return nil end
+        return tonumber(try(function() return s.Health.CurrentValue end)),
+            tonumber(try(function() return s.MaxHealth.CurrentValue end))
+    end
+    Extra.healthOf = healthOf
 
     local function oneHitTick()
         local _, pawn, state = player()
@@ -1139,7 +1281,112 @@ do
         return "Unbreakable lockpicks " .. (on and "ON" or "OFF")
     end
 
-    -- runs with the 250 ms loop; one-hit checks every 2nd call (twice a second)
+    -- No fall damage: the game's fall-damage multiplier lives in script-only difficulty settings that
+    -- Lua cannot reach, and the damage follows the height of the fall, so capping the speed or
+    -- restarting the fall does not help (both tested). What works: the combat config's god flag
+    -- (see setGodMode) also covers fall damage. While the hero falls it is set from the 40 ms loop,
+    -- and one second after he lands it goes back to what the God mode switch says. Health lost
+    -- anyway is given back once he lands.
+    local GOD_AFTER_LANDING = 1 -- seconds
+    local landedAt
+    local function setGodFlag(on)
+        local cfg = libraryObject("CombatConfig")
+        if cfg then pcall(function() cfg.m_GodMode = on end) end
+    end
+
+    function Extra.setNoFall(on)
+        if not select(2, player()) then return NOT_IN_GAME end
+        S.noFall = on
+        if not on and landedAt then landedAt = nil; setGodFlag(S.god and true or false) end
+        return "No fall damage " .. (on and "ON" or "OFF")
+    end
+
+    function Extra.noFallFastTick()
+        local _, pawn = player()
+        local m = pawn and movementOf(pawn)
+        if not m then return end
+        if not S.fly and tonumber(try(function() return m.MovementMode end)) == MOVE_FALLING then
+            if not landedAt then setGodFlag(true) end
+            landedAt = os.clock()
+        elseif landedAt and os.clock() - landedAt > GOD_AFTER_LANDING then
+            landedAt = nil
+            setGodFlag(S.god and true or false)
+        end
+    end
+
+    local fallHealth
+    local function noFallTick(pawn)
+        local m = movementOf(pawn)
+        local falling = m and tonumber(try(function() return m.MovementMode end)) == MOVE_FALLING
+        if falling then
+            local hp = readAttr("AttributeSet_Health", "Health")
+            if hp and (not fallHealth or hp > fallHealth) then fallHealth = hp end
+        elseif fallHealth then
+            local hp = readAttr("AttributeSet_Health", "Health")
+            if hp and hp > 0 and hp < fallHealth then writeAttr("AttributeSet_Health", "Health", fallHealth) end
+            fallHealth = nil
+        end
+    end
+
+    -- Hero speed: the hero's own time dilation, so walking, running, climbing and attacks all run
+    -- faster (the game drives movement through animations, so a walk-speed value alone would not do).
+    -- Jump height: the character movement's jump velocity times the chosen factor.
+    local FACTORS = { 1, 1.5, 2, 3 }
+    local function nextFactor(cur, dir)
+        local idx = 1
+        for i, v in ipairs(FACTORS) do if v == cur then idx = i end end
+        return FACTORS[math.max(1, math.min(#FACTORS, idx + dir))]
+    end
+
+    local function applyMovement(pawn)
+        pcall(function() pawn.CustomTimeDilation = S.heroSpeed or 1 end)
+        local m = movementOf(pawn)
+        if not m then return end
+        local cur = tonumber(try(function() return m.JumpZVelocity end))
+        if not cur then return end
+        if not S.jumpBase then S.jumpBase = cur end
+        local want = S.jumpBase * (S.jump or 1)
+        if math.abs(cur - want) > 1 then pcall(function() m.JumpZVelocity = want end) end
+    end
+
+    function Extra.shiftHeroSpeed(dir)
+        local _, pawn = player()
+        if not pawn then return NOT_IN_GAME end
+        S.heroSpeed = nextFactor(S.heroSpeed or 1, dir)
+        applyMovement(pawn)
+        return "Hero speed: " .. fmt(S.heroSpeed) .. "x"
+    end
+
+    function Extra.shiftJump(dir)
+        local _, pawn = player()
+        if not pawn then return NOT_IN_GAME end
+        if not movementOf(pawn) then return "Jump: movement not found" end
+        S.jump = nextFactor(S.jump or 1, dir)
+        applyMovement(pawn)
+        return "Jump height: " .. fmt(S.jump) .. "x"
+    end
+
+    -- Infinite ammo: arrows and bolts are topped up to AMMO_FULL whenever they drop below AMMO_LOW.
+    local AMMO_LOW, AMMO_FULL = 50, 99
+    local function ammoTick(pawn, state)
+        local inv = inventory(pawn, state)
+        if not inv then return end
+        for _, id in ipairs({ "ItAm_Arrow", "ItAm_Bolt" }) do
+            local cls = scriptClass(id)
+            local n = cls and tonumber(try(function() return inv:CountItemsOfClass(cls) end))
+            if n and n < AMMO_LOW then pcall(function() inv:AddItemOfClass(cls, AMMO_FULL - n) end) end
+        end
+    end
+
+    function Extra.setAmmo(on)
+        local _, pawn, state = player()
+        if not pawn then return NOT_IN_GAME end
+        S.ammo = on
+        if on then ammoTick(pawn, state) end
+        return "Infinite ammo " .. (on and "ON" or "OFF")
+    end
+
+    -- runs with the 250 ms loop; one-hit checks every 2nd call (twice a second), ammo once a second
     local slowCount = 0
     function Extra.slowTick()
         if S.picks then
@@ -1148,6 +1395,12 @@ do
         end
         slowCount = slowCount + 1
         if S.oneHit and slowCount % 2 == 0 then oneHitTick() end
+        if not (S.noFall or S.ammo or (S.heroSpeed or 1) ~= 1 or (S.jump or 1) ~= 1) then return end
+        local _, pawn, state = player()
+        if not pawn then return end
+        if S.noFall then noFallTick(pawn) end
+        if (S.heroSpeed or 1) ~= 1 or (S.jump or 1) ~= 1 then applyMovement(pawn) end
+        if S.ammo and slowCount % 4 == 0 then ammoTick(pawn, state) end
     end
 end
 
@@ -1476,6 +1729,604 @@ local MapTp = {} do
     end
 
     MapTp.names = MARKER_NAMES
+end
+
+-- ---- people: teleport to an NPC, the NPC in view, invisibility, pickpocketing, locks, camps --
+-- Characters are told apart by their actor names, e.g. Character_OC_KDF_Damarok_401-WorldPointActor_Damarok:
+-- before the '-' come the camp (OC / OM Old Camp and Old Mine, NC New Camp, SC Swamp Camp), the
+-- guild and the name. Only the characters within about 45 m of the hero are loaded.
+local Npc = {} do
+    -- Where each person sleeps, from the beds in the game's map data (IO_<camp>_BED_<NAME> in
+    -- InteractionSpots.json): label, name key (lower case, no spaces), x, y, z, yaw. Going there
+    -- loads the area; then the hero is moved next to the person if he is around.
+    Npc.PEOPLE = {
+        old = {
+            { "Arto", "arto", 114356, -103865, -3194, 90 },
+            { "Baal Parvez", "baalparvez", 114344, -109802, -4807, 0 },
+            { "Balam", "balam", 112705, -100890, -3763, -91 },
+            { "Bartholo", "bartholo", 113427, -103223, -3197, 90 },
+            { "Bloodwyn", "bloodwyn", 112745, -100350, -3297, 0 },
+            { "Bullit", "bullit", 110875, -100624, -3294, 180 },
+            { "Corristo", "corristo", 109006, -103212, -4217, 90 },
+            { "Cutter", "cutter", 111104, -100117, -3295, 1 },
+            { "Damarok", "damarok", 109503, -103410, -4211, -90 },
+            { "Dexter", "dexter", 111378, -107656, -5382, 149 },
+            { "Diego", "diego", 114537, -98566, -4606, -119 },
+            { "Drago", "drago", 109528, -103205, -4212, 90 },
+            { "Dusty", "dusty", 113749, -109908, -4802, 0 },
+            { "Fingers", "fingers", 110344, -100178, -4588, -3 },
+            { "Fisk", "fisk", 112692, -106083, -5344, 88 },
+            { "Fletcher", "fletcher", 110881, -100188, -3294, 180 },
+            { "Gomez", "gomez", 112976, -105538, -3185, 0 },
+            { "Gor Hanis", "gorhanis", 106151, -100555, -5370, -125 },
+            { "Graham", "graham", 119918, -99311, -4410, 96 },
+            { "Gravo", "gravo", 116916, -99448, -4988, -177 },
+            { "Grim", "grim", 115116, -97732, -4643, 115 },
+            { "Guy", "guy", 105148, -96224, -4832, 115 },
+            { "Herek", "herek", 117410, -108626, -4391, 0 },
+            { "Huno", "huno", 105165, -101994, -4563, -7 },
+            { "Jackal", "jackal", 110892, -99719, -3294, 180 },
+            { "Jesse", "jesse", 118088, -108383, -4407, -73 },
+            { "Kharim", "kharim", 108705, -99971, -5283, 10 },
+            { "Kirgo", "kirgo", 107418, -101068, -5257, 15 },
+            { "Kyle", "kyle", 119218, -105176, -4526, 92 },
+            { "Milten", "milten", 108611, -103158, -4218, 0 },
+            { "Mordrag", "mordrag", 109303, -105696, -5219, -2 },
+            { "Mud", "mud", 112024, -98967, -4962, -4 },
+            { "Omid", "omid", 112687, -100666, -3760, 94 },
+            { "Raven", "raven", 115101, -105550, -3184, 0 },
+            { "Rodriguez", "rodriguez", 108255, -103224, -4217, 90 },
+            { "Scar", "scar", 112964, -103618, -3194, 90 },
+            { "Scatty", "scatty", 109804, -99305, -4848, 90 },
+            { "Scorpio", "scorpio", 112731, -100947, -3296, 0 },
+            { "Skip", "skip", 108925, -100870, -3269, 15 },
+            { "Sly", "sly", 119949, -102237, -4365, -94 },
+            { "Snaf", "snaf", 111421, -98947, -5004, 0 },
+            { "Stone", "stone", 112517, -100420, -3298, -180 },
+            { "Syra", "syra", 116822, -104934, -3872, -30 },
+            { "Thorus", "thorus", 114364, -103266, -3200, 90 },
+            { "Torrez", "torrez", 108286, -103328, -4220, -90 },
+            { "Whistler", "whistler", 116326, -107239, -5027, -87 },
+        },
+        new = {
+            { "Blade", "blade", 178995, -97258, -1426, 178 },
+            { "Bruce", "bruce", 175157, -100870, -808, 80 },
+            { "Buster", "buster", 175199, -100549, -467, -8 },
+            { "Butch", "butch", 176560, -100155, -1430, -123 },
+            { "Cipher", "cipher", 174164, -99935, -1157, -139 },
+            { "Cord", "cord", 179395, -98656, -455, 166 },
+            { "Cronos", "cronos", 179777, -100090, 647, 60 },
+            { "Gorn", "gorn", 178693, -96274, -1440, 48 },
+            { "Homer", "homer", 177323, -100443, -1418, -109 },
+            { "Horatio", "horatio", 163762, -86374, -1617, 20 },
+            { "Jeremiah", "jeremiah", 177262, -86560, 286, 170 },
+            { "Lares", "lares", 173464, -101145, -291, -55 },
+            { "Lee", "lee", 183111, -97563, -297, -89 },
+            { "Lefty", "lefty", 164392, -85777, -630, 114 },
+            { "Merdarion", "merdarion", 178613, -101934, 644, -85 },
+            { "Myxir", "myxir", 180963, -101151, 650, 120 },
+            { "Nefarius", "nefarius", 180133, -103216, 650, -165 },
+            { "Orik", "orik", 180398, -98948, -285, 69 },
+            { "Pock", "pock", 160337, -87066, -1308, -160 },
+            { "Riordian", "riordian", 178781, -102482, 643, -160 },
+            { "Rufus", "rufus", 164665, -86051, -1630, -162 },
+            { "Saturas", "saturas", 180793, -102411, 643, 12 },
+            { "Sharky", "sharky", 175437, -99244, -1178, 43 },
+            { "Shrike", "shrike", 175822, -96106, -1563, -117 },
+            { "Silas", "silas", 177393, -86587, 290, -8 },
+            { "Torlof", "torlof", 180239, -97793, -581, 180 },
+            { "Wedge", "wedge", 177047, -101369, -1012, 172 },
+            { "Wolf", "wolf", 177424, -102030, -312, -2 },
+        },
+        swamp = {
+            { "Baal Cadar", "baalcadar", 42798, -119459, -8774, -112 },
+            { "Baal Namib", "baalnamib", 49404, -118756, -8777, -126 },
+            { "Baal Orun", "baalorun", 47162, -121507, -8852, 114 },
+            { "Baal Tondral", "baaltondral", 45110, -119404, -7325, -145 },
+            { "Balor", "balor", 54276, -135932, -7476, 165 },
+            { "Caine", "caine", 45822, -124076, -8802, -170 },
+            { "Chani", "chani", 50440, -104722, -8204, 50 },
+            { "Cor Angar", "corangar", 43268, -118419, -6946, -26 },
+            { "Cor Kalom", "corkalom", 42327, -116172, -7546, 24 },
+            { "Darrion", "darrion", 45506, -117844, -8602, -79 },
+            { "Dusty", "dusty", 42007, -119166, -6929, 84 },
+            { "Fortuno", "fortuno", 45192, -118607, -7845, 128 },
+            { "Ghorim", "ghorim", 47132, -121469, -7867, 160 },
+            { "Gor Na Toth", "gornatoth", 45894, -119118, -7771, 15 },
+            { "Joru", "joru", 43881, -116775, -8623, 90 },
+            { "Melvin", "melvin", 46485, -123985, -8813, 10 },
+            { "Natalia", "natalia", 52226, -106205, -8187, 50 },
+            { "Nyras", "nyras", 42298, -119140, -7476, 140 },
+            { "Shrat", "shrat", 45287, -138405, -8659, 62 },
+            { "Viran", "viran", 44815, -120925, -7044, 40 },
+            { "Yberion", "yberion", 52536, -104449, -8071, -41 },
+        },
+        other = {
+            { "Aidan", "aidan", 142827, -98909, -3942, -6 },
+            { "Cavalorn", "cavalorn", 128315, -97082, -5258, 142 },
+            { "Cohsel", "cohsel", 134084, -102294, -4083, 91 },
+            { "Drax", "drax", 118620, -83338, -4927, 110 },
+            { "Gilbert", "gilbert", 118297, -116395, -2697, -53 },
+            { "Muk", "muk", 140195, -136652, 131, 180 },
+            { "Quentin", "quentin", 125356, -65231, 2674, 134 },
+            { "Ratford", "ratford", 118768, -83504, -4939, -98 },
+            { "Swiney", "swiney", 163845, -122622, 2886, -41 },
+            { "Xardas", "xardas", 126738, -143243, 4355, 180 },
+        },
+    }
+    Npc.GROUPS = {
+        { key = "old", label = "Old Camp" },
+        { key = "new", label = "New Camp" },
+        { key = "swamp", label = "Swamp Camp" },
+        { key = "other", label = "Outside the camps" },
+    }
+
+    local function nameTokens(actor)
+        local n = try(function() return actor:GetFName():ToString() end) or ""
+        local tokens = {}
+        for t in (n:match("^([^-]+)") or n):gmatch("[^_]+") do tokens[#tokens + 1] = t end
+        if tokens[1] == "Character" then table.remove(tokens, 1) end
+        return tokens
+    end
+
+    -- readable name: the parts that are neither camp / guild codes (capitals) nor numbers
+    local function displayName(actor)
+        local parts = {}
+        for _, t in ipairs(nameTokens(actor)) do
+            if not t:match("^[%u%d]+$") then parts[#parts + 1] = t end
+        end
+        return #parts > 0 and table.concat(parts, " ") or "?"
+    end
+
+    -- is this the person with the name key? up to three neighbouring parts are joined, for names
+    -- written like Baal_Parvez or Gor_Na_Toth
+    local function isPerson(actor, key)
+        local t = nameTokens(actor)
+        for i = 1, #t do
+            local joined = ""
+            for j = i, math.min(#t, i + 2) do
+                joined = joined .. t[j]:lower()
+                if joined == key then return true end
+            end
+        end
+        return false
+    end
+
+    -- the loaded characters except the hero
+    local function characters()
+        local _, pawn = player()
+        local selfName = pawn and try(function() return pawn:GetFullName() end)
+        local out = {}
+        for _, actor in ipairs(actorsOfClass("/Script/G1R.GothicCharacter")) do
+            if try(function() return actor:GetFullName() end) ~= selfName then out[#out + 1] = actor end
+        end
+        return out
+    end
+
+    local function stateOf(actor)
+        local st = try(function() return actor.m_CharacterState end)
+        if not isValid(st) then st = try(function() return actor.PlayerState end) end
+        return isValid(st) and st or nil
+    end
+
+    local function locOf(actor)
+        local l = try(function() return actor:K2_GetActorLocation() end)
+        local x = l and tonumber(try(function() return l.X end))
+        if not x then return nil end
+        return { x = x, y = l.Y, z = l.Z }
+    end
+
+    -- of the given actors, the one nearest the middle of the view, within maxDist of the camera;
+    -- close ones may be off the middle by up to a metre
+    local function inView(list, maxDist, maxAngle)
+        local pc = player()
+        local cam = pc and try(function() return pc.PlayerCameraManager end)
+        if not isValid(cam) then return nil end
+        local l = try(function() return cam:GetCameraLocation() end)
+        local r = try(function() return cam:GetCameraRotation() end)
+        if not (l and r) then return nil end
+        local pitch, yaw = tonumber(r.Pitch) or 0, math.rad(tonumber(r.Yaw) or 0)
+        if pitch > 180 then pitch = pitch - 360 end -- the engine may report 0..360
+        pitch = math.rad(pitch)
+        local fx, fy, fz = math.cos(pitch) * math.cos(yaw), math.cos(pitch) * math.sin(yaw), math.sin(pitch)
+        local best, bestAngle
+        for _, actor in ipairs(list) do
+            local at = locOf(actor)
+            if at then
+                local dx, dy, dz = at.x - l.X, at.y - l.Y, at.z - l.Z
+                local d = math.sqrt(dx * dx + dy * dy + dz * dz)
+                if d > 1 and d < maxDist then
+                    local cos = math.max(-1, math.min(1, (dx * fx + dy * fy + dz * fz) / d))
+                    local angle = math.deg(math.acos(cos))
+                    if angle < math.max(maxAngle, math.deg(math.atan(100 / d))) and (not best or angle < bestAngle) then
+                        best, bestAngle = actor, angle
+                    end
+                end
+            end
+        end
+        return best
+    end
+
+    -- ---- teleport to a person
+    local function findPerson(key)
+        for _, actor in ipairs(characters()) do
+            if isPerson(actor, key) then return actor end
+        end
+        return nil
+    end
+
+    -- a step in front of the person (or beside or behind him when that spot is blocked), facing him
+    local function stepTo(actor, label)
+        local at = locOf(actor)
+        if not at then return nil end
+        local yaw = tonumber(try(function() return actor:K2_GetActorRotation().Yaw end)) or 0
+        local msg
+        for _, turn in ipairs({ 0, 90, -90, 180 }) do
+            local r = math.rad(yaw + turn)
+            msg = teleportTo({ x = at.x + math.cos(r) * 150, y = at.y + math.sin(r) * 150, z = at.z,
+                yaw = yaw + turn + 180, exact = true }, label)
+            if msg:find("^Teleported") then break end
+        end
+        return msg
+    end
+
+    function Npc.go(person)
+        local label, key = person[1], person[2]
+        local live = findPerson(key)
+        if live then return stepTo(live, label) end
+        -- the bed itself, else a spot beside it when something is in the way
+        local msg
+        for _, off in ipairs({ { 0, 0 }, { 120, 0 }, { -120, 0 }, { 0, 120 }, { 0, -120 } }) do
+            msg = teleportTo({ x = person[3] + off[1], y = person[4] + off[2], z = person[5], yaw = person[6] }, label)
+            if msg:find("^Teleported") then break end
+        end
+        if not msg:find("^Teleported") then return msg end
+        -- People nearby take a moment to load in, so the person is looked for again over the next
+        -- seconds, through the teleport hold (made here when the trip was too short for one).
+        -- He may be at work elsewhere; then the hero stays at the bed.
+        if not S.hold then
+            local _, pawn = player()
+            local movement = pawn and try(function() return pawn.CharacterMovement end)
+            if not isValid(movement) then return msg end
+            S.hold = { movement = movement, gravity = tonumber(try(function() return movement.GravityScale end)) or 1,
+                untilTime = os.time() + 1 }
+        end
+        local hold, tries = S.hold, 0
+        hold.snap = function()
+            local found = findPerson(key)
+            if found then stepTo(found, label); return false end
+            -- the ground has loaded by now: the hero may stand while the search goes on
+            pcall(function() hold.movement.GravityScale = hold.gravity end)
+            tries = tries + 1
+            return tries <= 5
+        end
+        return msg
+    end
+
+    -- ---- the NPC in view: heal, kill
+    local TARGET_RANGE, TARGET_ANGLE = 2500, 12 -- 25 m from the camera, degrees off the middle
+
+    function Npc.target()
+        local living = {}
+        for _, actor in ipairs(characters()) do
+            local hp = Extra.healthOf(actor, stateOf(actor))
+            if not hp or hp > 0 then living[#living + 1] = actor end
+        end
+        return inView(living, TARGET_RANGE, TARGET_ANGLE)
+    end
+
+    -- shown next to the entries; looked up at most every half second
+    local labelAt, labelText = -1, "-"
+    function Npc.targetLabel()
+        if os.clock() - labelAt > 0.5 then
+            local actor = Npc.target()
+            labelAt, labelText = os.clock(), actor and displayName(actor) or "-"
+        end
+        return labelText
+    end
+
+    local function noTarget()
+        return select(2, player()) and "No NPC in view" or NOT_IN_GAME
+    end
+
+    function Npc.healTarget()
+        local actor = Npc.target()
+        if not actor then return noTarget() end
+        local set = Extra.healthSetOf(actor, stateOf(actor))
+        local max = set and tonumber(try(function() return set.MaxHealth.CurrentValue end))
+        if not (max and pcall(function() set.Health = { BaseValue = max, CurrentValue = max } end)) then
+            return "Healing failed"
+        end
+        return "Healed: " .. displayName(actor)
+    end
+
+    function Npc.killTarget()
+        local actor = Npc.target()
+        if not actor then return noTarget() end
+        local _, pawn = player()
+        local L, st = stateLib(), stateOf(actor)
+        if not (L and st and pcall(function() L:Kill(st, true, pawn) end)) then return "Killing failed" end
+        labelAt = -1
+        return "Killed: " .. displayName(actor)
+    end
+
+    -- ---- revive the dead NPC in view: his health is filled, his death ability is reverted and the
+    -- world simulation is told he lives. The body stays down until the area loads anew (travel away
+    -- and back); then he is up and about again.
+    function Npc.deadTarget()
+        local dead = {}
+        for _, actor in ipairs(characters()) do
+            local st = stateOf(actor)
+            if st and try(function() return st:IsDead() end) == true then dead[#dead + 1] = actor end
+        end
+        return inView(dead, TARGET_RANGE, TARGET_ANGLE)
+    end
+
+    local deadAt, deadText = -1, "-"
+    function Npc.deadTargetLabel()
+        if os.clock() - deadAt > 0.5 then
+            local actor = Npc.deadTarget()
+            deadAt, deadText = os.clock(), actor and displayName(actor) or "-"
+        end
+        return deadText
+    end
+
+    function Npc.reviveTarget()
+        local actor = Npc.deadTarget()
+        if not actor then return select(2, player()) and "No dead NPC in view" or NOT_IN_GAME end
+        local st = stateOf(actor)
+        local set = Extra.healthSetOf(actor, st)
+        local max = set and tonumber(try(function() return set.MaxHealth.CurrentValue end))
+        if max then pcall(function() set.Health = { BaseValue = max, CurrentValue = max } end) end
+        -- the death ability lives on the character state
+        local owner = try(function() return st:GetAddress() end)
+        for _, ability in ipairs(try(function() return FindAllOf("GameplayAbilityDeath") end) or {}) do
+            if owner and try(function() return ability:GetOuter():GetAddress() end) == owner then
+                pcall(function() ability:OnRevive() end)
+            end
+        end
+        local bloodClass = lib("/Script/G1R.GothicBloodComponent")
+        local blood = bloodClass and try(function() return actor:GetComponentByClass(bloodClass) end)
+        if isValid(blood) then pcall(function() blood:OnResurrect() end) end
+        pcall(function() st:ReviveInSimulation() end)
+        if try(function() return st:IsDead() end) ~= false then return "Reviving failed" end
+        deadAt, labelAt = -1, -1
+        return "Revived: " .. displayName(actor) .. ", stands up once the area reloads"
+    end
+
+    -- ---- spawn a creature: the game's own spawn definitions (SpawnAIAgentDefinition_<name>),
+    -- 6 m in front of the hero. The game places it a moment later.
+    Npc.CREATURES = {
+        { "Meatbug", "Meatbug" }, { "Bloodfly", "Bloodfly" }, { "Molerat", "Molerat" },
+        { "Scavenger", "ScavengerAdult" }, { "Wolf", "Wolf" }, { "Orc Dog", "OrcDog" },
+        { "Snapper", "Snapper" }, { "Razor", "Razor" }, { "Biter", "Biter" }, { "Bloodhound", "Bloodhound" },
+        { "Lurker", "Lurker" }, { "Lizard", "Lizard" }, { "Fire Lizard", "LizardFire" },
+        { "Swampshark", "Swampshark" }, { "Minecrawler", "Minecrawler" },
+        { "Minecrawler Warrior", "Minecrawler_Warrior" }, { "Harpy", "Harpy" }, { "Shadowbeast", "ShadowBeast" },
+        { "Goblin", "Goblin_Green_Sword" }, { "Black Goblin", "Goblin_Black" },
+        { "Young Troll", "TrollYoung" }, { "Troll", "Troll" },
+        { "Skeleton", "Skeleton" }, { "Skeleton Warrior", "SkeletonWarrior" }, { "Skeleton Mage", "SkeletonMage" },
+        { "Zombie", "Zombie" }, { "Stone Golem", "GolemStone" }, { "Fire Golem", "GolemFire" },
+        { "Ice Golem", "GolemIce" }, { "Demon", "DemonLesser" },
+    }
+    local SPAWN_DIST = 600
+
+    function Npc.spawnClass(creature)
+        local cls = scriptClass("SpawnAIAgentDefinition_" .. creature[2])
+        return isValid(cls) and cls or nil
+    end
+
+    function Npc.spawn(creature)
+        local _, pawn = player()
+        if not pawn then return NOT_IN_GAME end
+        -- the native spawn crashes the game when handed no class, so everything is checked first
+        local cls, spawner, w = Npc.spawnClass(creature), libraryObject("AIScriptLibrary"), world()
+        local at = locOf(pawn)
+        local yaw = math.rad(tonumber(try(function() return pawn:K2_GetActorRotation().Yaw end)) or 0)
+        if not (cls and isValid(spawner) and isValid(w) and at) then return "Spawning failed" end
+        local pos = { X = at.x + math.cos(yaw) * SPAWN_DIST, Y = at.y + math.sin(yaw) * SPAWN_DIST, Z = at.z + 50 }
+        local ok, request = pcall(function() return spawner:SpawnAIAgent(w, cls, pos) end)
+        if not (ok and isValid(request)) then return "Spawning failed" end
+        return "Spawned: " .. creature[1]
+    end
+
+    -- ---- invisible to NPCs: every loaded NPC's awareness of the hero is set to zero for sight,
+    -- hearing and smell, twice a second, and the hero carries the game's invisibility state tag
+    local SENSES = { 1, 2, 3 } -- EPerceptionSense: See, Hear, Smell
+    local INVISIBLE_TAG = "State.Invisible"
+    local function invisibleTag(on)
+        local _, pawn, state = player()
+        local asc = pawn and playerASC(pawn, state)
+        if not asc then return false end
+        local tag = { TagName = FName(INVISIBLE_TAG) }
+        local has = try(function() return asc:HasMatchingGameplayTag(tag) end)
+        if on and not has then
+            return pcall(function() asc:AddLooseTag(tag, 1) end)
+        elseif not on and has then
+            return pcall(function() asc:RemoveLooseTag(tag, 1) end)
+        end
+        return true
+    end
+
+    local function invisibleTick()
+        local _, pawn = player()
+        if not pawn then return end
+        invisibleTag(true)
+        for _, actor in ipairs(characters()) do
+            local perception = heroComponent({ actor }, "CharacterPerception",
+                "/Script/G1R.CharacterPerceptionComponent", nil)
+            if perception then
+                for _, sense in ipairs(SENSES) do
+                    pcall(function() perception:SetAwarenessToCharacter(pawn, sense, 0) end)
+                end
+            end
+        end
+    end
+
+    function Npc.setInvisible(on)
+        if not select(2, player()) then return NOT_IN_GAME end
+        S.invisible = on
+        if on then invisibleTick() else invisibleTag(false) end
+        return "Invisible to NPCs " .. (on and "ON" or "OFF")
+    end
+
+    -- ---- sure pickpocketing: the hero's pickpocketing value (-30 untrained) is held high; the
+    -- base and current value it had are put back when the switch goes off
+    local POCKET_SET, POCKET_FIELD, POCKET_HIGH = "AttributeSet_Pickpocketing", "PickPocketing", 100
+    function Npc.setPickpocket(on)
+        local set = attributeSet(POCKET_SET)
+        local cur = set and tonumber(try(function() return set[POCKET_FIELD].CurrentValue end))
+        if not cur then return NOT_IN_GAME end
+        if on then
+            if not S.pocket then
+                S.pocketSaved = { base = tonumber(try(function() return set[POCKET_FIELD].BaseValue end)) or cur, cur = cur }
+            end
+            writeAttr(POCKET_SET, POCKET_FIELD, POCKET_HIGH)
+        elseif S.pocketSaved then
+            local saved = S.pocketSaved
+            pcall(function() set[POCKET_FIELD] = { BaseValue = saved.base, CurrentValue = saved.cur } end)
+            S.pocketSaved = nil
+        end
+        S.pocket = on
+        return "Sure pickpocketing " .. (on and "ON" or "OFF")
+    end
+
+    -- ---- the chest or door in view is unlocked: the lockpicking subsystem keeps the names of
+    -- unlocked objects (their freepoint name, e.g. IO_OC_CHEST_FISK_01, not the actor name; the
+    -- lock itself is drawn at random per game and stays as it is), and doors are also unlocked
+    -- through the puzzle subsystem
+    local LOCK_RANGE, LOCK_ANGLE = 1500, 12
+    local function firstOf(className)
+        local list = try(function() return FindAllOf(className) end)
+        if type(list) ~= "table" then return nil end
+        for _, obj in ipairs(list) do if isValid(obj) then return obj end end
+        return nil
+    end
+
+    function Npc.lockInView()
+        local list = {}
+        for _, actor in ipairs(actorsOfClass("/Script/G1R.InteractiveObjectActor")) do
+            local cn = try(function() return actor:GetClass():GetFName():ToString() end) or ""
+            if cn:find("Chest") or cn:find("Door") then list[#list + 1] = actor end
+        end
+        return inView(list, LOCK_RANGE, LOCK_ANGLE)
+    end
+
+    function Npc.unlockInView()
+        local actor = Npc.lockInView()
+        if not actor then return select(2, player()) and "No chest or door in view" or NOT_IN_GAME end
+        local w = world()
+        local name = try(function() return actor.m_FreepointName:ToString() end)
+        if not name or name == "" then name = try(function() return actor:GetFName():ToString() end) end
+        local picks = firstOf("LockPickSubsystem")
+        local ok = picks and name and pcall(function() picks:SetActorUnlockedWorld(w, FName(name), true) end)
+        local door = try(function() return actor.m_InteractiveComponent.m_DoorComponent end)
+        local doorName = isValid(door) and try(function() return door.m_InternalDoorName end)
+        if doorName then
+            local puzzles = firstOf("PuzzlesSubsystem")
+            if puzzles and pcall(function() puzzles:GlobalUnlockDoor(w, doorName) end) then ok = true end
+        end
+        if not ok then return "Unlocking failed" end
+        return doorName and "Door unlocked" or "Chest unlocked"
+    end
+
+    -- ---- camp attitude: the loaded people of a camp are made friendly towards the hero (and he
+    -- towards them); people who load later follow within a second. What they thought of him
+    -- before is remembered by actor and put back when the camp is set to normal again.
+    -- There is no "hostile": a camp that starts fighting the hero stays hostile whatever the
+    -- relationship is set back to (tested), which could ruin a playthrough.
+    Npc.CAMPS = {
+        { key = "old", label = "Old Camp", prefixes = { OC = true, OM = true } },
+        { key = "new", label = "New Camp", prefixes = { NC = true } },
+        { key = "swamp", label = "Swamp Camp", prefixes = { SC = true } },
+    }
+    Npc.ATTITUDES = { "Normal", "Friendly" }
+    local RELATIONSHIP = { nil, 5 } -- ERelationship: Friend
+    local campOf = {}
+    for _, camp in ipairs(Npc.CAMPS) do
+        for prefix in pairs(camp.prefixes) do campOf[prefix] = camp.key end
+    end
+
+    function Npc.attitude(campKey)
+        return (S.camps and S.camps[campKey]) or 1
+    end
+
+    local function campTick()
+        local _, pawn, state = player()
+        local L = stateLib()
+        if not (pawn and state and L) then return end
+        S.campOrig = S.campOrig or {}
+        for _, actor in ipairs(characters()) do
+            local camp = campOf[nameTokens(actor)[1] or ""]
+            local key = camp and try(function() return actor:GetFullName() end)
+            local st = key and stateOf(actor)
+            if st then
+                local want = RELATIONSHIP[Npc.attitude(camp)]
+                local orig = S.campOrig[key]
+                if want then
+                    local cur = tonumber(try(function() return L:GetRelationshipTowards(st, state, pawn) end))
+                    if cur and cur ~= want then
+                        if not orig then
+                            S.campOrig[key] = { cur, tonumber(try(function() return L:GetRelationshipTowards(state, st, pawn) end)) or cur }
+                        end
+                        pcall(function() L:SetRelationshipTowards(st, state, want, pawn) end)
+                        pcall(function() L:SetRelationshipTowards(state, st, want, pawn) end)
+                    end
+                elseif orig then
+                    pcall(function() L:SetRelationshipTowards(st, state, orig[1], pawn) end)
+                    pcall(function() L:SetRelationshipTowards(state, st, orig[2], pawn) end)
+                    -- someone who fought the hero keeps a grudge "until defeated" on top
+                    local now = tonumber(try(function() return L:GetRelationshipTowards(st, state, pawn) end))
+                    if now ~= orig[1] then
+                        pcall(function() L:SetRelationshipUntilDefeat(st, state, orig[1], pawn) end)
+                        pcall(function() L:SetRelationshipUntilDefeat(state, st, orig[2], pawn) end)
+                        now = tonumber(try(function() return L:GetRelationshipTowards(st, state, pawn) end))
+                    end
+                    -- tried again each second for a while if it does not stick yet
+                    orig.tries = (orig.tries or 0) + 1
+                    if now == orig[1] or orig.tries >= 10 then
+                        if now ~= orig[1] then log("camp attitude: could not restore " .. key .. " (" .. tostring(now) .. ")") end
+                        S.campOrig[key] = nil
+                    end
+                end
+            end
+        end
+    end
+
+    function Npc.campBusy()
+        if S.campOrig and next(S.campOrig) then return true end
+        for _, camp in ipairs(Npc.CAMPS) do
+            if Npc.attitude(camp.key) ~= 1 then return true end
+        end
+        return false
+    end
+
+    function Npc.shiftAttitude(camp, dir)
+        if not select(2, player()) then return NOT_IN_GAME end
+        S.camps = S.camps or {}
+        local n = #Npc.ATTITUDES
+        S.camps[camp.key] = (Npc.attitude(camp.key) - 1 + dir) % n + 1
+        campTick()
+        return "Attitude of " .. camp.label .. ": " .. Npc.ATTITUDES[S.camps[camp.key]]
+    end
+
+    -- runs with the 250 ms loop: invisibility twice a second, camps once a second
+    local tickCount = 0
+    function Npc.busy()
+        return S.invisible or S.pocket or S.train or Npc.campBusy()
+    end
+    function Npc.slowTick()
+        tickCount = tickCount + 1
+        if S.invisible and tickCount % 2 == 0 then invisibleTick() end
+        if S.pocket then
+            local cur = readAttr(POCKET_SET, POCKET_FIELD)
+            if cur and cur < POCKET_HIGH then writeAttr(POCKET_SET, POCKET_FIELD, POCKET_HIGH) end
+        end
+        if tickCount % 4 == 0 and Npc.campBusy() then campTick() end
+        if S.train then Training.tick() end
+    end
+
+    Npc.displayName, Npc.characters, Npc.stateOf, Npc.isPerson = displayName, characters, stateOf, isPerson
 end
 
 -- ---- saved positions --
@@ -1846,6 +2697,13 @@ Pages.player = { title = "Player", items = {
     switch("Fly (PgUp / PgDn)", function() return S.fly end, Extra.setFly),
     switch("One-hit kills", function() return S.oneHit end, Extra.setOneHit),
     switch("Unbreakable lockpicks", function() return S.picks end, Extra.setPicks),
+    switch("No fall damage", function() return S.noFall end, Extra.setNoFall),
+    switch("Infinite ammo", function() return S.ammo end, Extra.setAmmo),
+    switch("Invisible to NPCs", function() return S.invisible end, Npc.setInvisible),
+    switch("Sure pickpocketing", function() return S.pocket end, Npc.setPickpocket),
+    { label = "Unlock chest or door in view", run = Npc.unlockInView },
+    { label = "Hero speed", value = function() return fmt(S.heroSpeed or 1) .. "x" end, adjust = Extra.shiftHeroSpeed },
+    { label = "Jump height", value = function() return fmt(S.jump or 1) .. "x" end, adjust = Extra.shiftJump },
     { label = "Restore health, mana, stamina", run = healFully },
     { label = "Clear crimes", run = clearCrimes },
 } }
@@ -1882,6 +2740,8 @@ end
 
 Pages.skills = { title = "Skills", hint = "[Enter] Learn     [Left] Remove     [Backspace] Back", items = {
     { label = "Learn all skills", run = learnAllSkills },
+    switch("Free training", function() return S.train end, Training.set),
+    { label = "Reset skills", run = Training.reset },
 } }
 for _, name in ipairs(SKILLS) do
     Pages.skills.items[#Pages.skills.items + 1] = {
@@ -1900,12 +2760,20 @@ for _, def in ipairs({
     { page = "ranged", title = "Ranged weapons", all = "All ranged weapons" },
     { page = "armours", title = "Armours", all = "All armours" },
     { page = "maps", title = "Maps", all = "All maps" },
+    { page = "trophies", title = "Animal trophies", all = "All animal trophies" },
+    { page = "smithing", title = "Smithing materials", all = "All smithing materials" },
+    { page = "alchemy", title = "Alchemy ingredients", all = "All alchemy ingredients" },
+    { page = "plants", title = "Plants", all = "All plants" },
+    { page = "keys", title = "Keys", all = "All keys" },
+    -- no "all" entry here: some quest items start or skip story steps when they turn up
+    { page = "quest", title = "Quest items" },
 }) do
     table.insert(Pages.items.items, #Pages.items.items + 1, { label = def.title, page = def.page })
     local page = { title = def.title, items = {} }
     page.build = function()
         local entries = Gear.entries(def.page)
-        local items = { { label = def.all, run = function() return Gear.giveAll(entries) end } }
+        local items = {}
+        if def.all then items[1] = { label = def.all, run = function() return Gear.giveAll(entries) end } end
         for _, e in ipairs(entries) do
             items[#items + 1] = { label = e.label, run = function() return giveItem(e) end }
         end
@@ -1947,6 +2815,7 @@ end
 
 Pages.teleport = { title = "Teleport", items = {
     { label = "Map markers", page = "markers" },
+    { label = "People", page = "people" },
     { label = "Saved positions", page = "saved",
       value = function() return #savedPositions .. " / " .. MAX_SAVED end },
 } }
@@ -2010,9 +2879,39 @@ Pages.world = { title = "World", items = {
 } }
 
 Pages.npcs = { title = "NPCs", items = {
+    { label = "Heal NPC in view", value = Npc.targetLabel, run = Npc.healTarget },
+    { label = "Kill NPC in view", value = Npc.targetLabel, run = Npc.killTarget },
+    { label = "Revive NPC in view", value = Npc.deadTargetLabel, run = Npc.reviveTarget },
+    { label = "Spawn creature", page = "spawn" },
+    { label = "Camp attitude", page = "camps" },
     { label = "Kill hostile NPCs (loaded area)", run = killHostiles },
     { label = "Make loaded NPCs friendly", run = befriendAll },
 } }
+
+Pages.spawn = { title = "Spawn creature", items = {} }
+for _, creature in ipairs(Npc.CREATURES) do
+    Pages.spawn.items[#Pages.spawn.items + 1] = { label = creature[1], run = function() return Npc.spawn(creature) end }
+end
+
+Pages.camps = { title = "Camp attitude", items = {} }
+for _, camp in ipairs(Npc.CAMPS) do
+    Pages.camps.items[#Pages.camps.items + 1] = {
+        label = camp.label,
+        value = function() return Npc.ATTITUDES[Npc.attitude(camp.key)] end,
+        adjust = function(dir) return Npc.shiftAttitude(camp, dir) end,
+    }
+end
+
+-- the people of each camp, with the place they sleep
+Pages.people = { title = "People", items = {} }
+for _, group in ipairs(Npc.GROUPS) do
+    local page = { title = group.label, items = {} }
+    for _, person in ipairs(Npc.PEOPLE[group.key]) do
+        page.items[#page.items + 1] = { label = person[1], run = function() return Npc.go(person) end }
+    end
+    Pages["people_" .. group.key] = page
+    Pages.people.items[#Pages.people.items + 1] = { label = group.label, page = "people_" .. group.key }
+end
 
 -- The two quest lists are read from the game each time the page opens (build) and after every
 -- change, since completing a quest moves it out of the list.
@@ -2454,6 +3353,7 @@ local function anyKeyDown(pc, names)
     return false
 end
 rawset(_G, "__g1rcm_fly", function() Extra.flyTick(anyKeyDown) end)
+rawset(_G, "__g1rcm_noFall", function() Extra.noFallFastTick() end)
 
 local function keyHeld(pc, action)
     local names = Config[REPEAT_ACTIONS[action]]
@@ -2576,12 +3476,14 @@ if not rawget(_G, "__g1rcm_loop") then
     gameLoop(250, function()
         local release = S.hold ~= nil and os.time() >= S.hold.untilTime
         local keepFull = S.god or S.mana or S.stamina or S.breath
-        local extra = S.oneHit or S.picks
-        if not (release or keepFull or extra) then return nil end
+        local extra = S.oneHit or S.picks or S.noFall or S.ammo or (S.heroSpeed or 1) ~= 1 or (S.jump or 1) ~= 1
+        local people = Npc.busy()
+        if not (release or keepFull or extra or people) then return nil end
         return function()
             if release then releaseTeleportHold() end
             if keepFull then keepFullTick() end
             if extra then Extra.slowTick() end
+            if people then Npc.slowTick() end
         end
     end)
 end
@@ -2592,14 +3494,65 @@ if not rawget(_G, "__g1rcm_repeatLoop") then
     rawset(_G, "__g1rcm_repeatLoop", true)
     gameLoop(40, function()
         local repeating = S.held and S.open
-        if not (repeating or S.fly) then return nil end
+        if not (repeating or S.fly or S.noFall) then return nil end
         return function()
             local f = repeating and rawget(_G, "__g1rcm_repeat")
             if f then f() end
             local fly = S.fly and rawget(_G, "__g1rcm_fly")
             if fly then fly() end
+            local noFall = S.noFall and rawget(_G, "__g1rcm_noFall")
+            if noFall then noFall() end
         end
     end)
+end
+
+-- Developer self-test: only when Scripts\selftest.lua exists (it is never shipped). F10 loads that
+-- file afresh; it returns a list of steps, run one after another on the game thread with the menu
+-- internals. A step returns the seconds to wait before the next one, and true as a second value to
+-- run again itself. (UE4SS cannot call into the game from a Lua coroutine, hence the step list.)
+do
+    local testPath = MOD_DIR .. "Scripts\\selftest.lua"
+    local f = io and io.open(testPath, "r")
+    if f then
+        f:close()
+        rawset(_G, "__g1rcm_internals", {
+            S = S, Config = Config, Extra = Extra, Gear = Gear, Pages = Pages, Lang = Lang, Npc = Npc,
+            stateLib = stateLib, world = world, actorsOfClass = actorsOfClass, playerASC = playerASC,
+            log = log, try = try, isValid = isValid, player = player, inventory = inventory,
+            scriptClass = scriptClass, libraryObject = libraryObject, giveItem = giveItem,
+            readAttr = readAttr, writeAttr = writeAttr, loadLanguage = loadLanguage, tr = tr,
+            setGodMode = setGodMode, healFully = healFully, runItem = runItem,
+            Training = Training,
+            learnSkill = learnSkill, SKILLS = SKILLS, cheatExtension = cheatExtension, changeStat = changeStat, STATS = STATS,
+        })
+        if not rawget(_G, "__g1rcm_testBound") then
+            rawset(_G, "__g1rcm_testBound", true)
+            local Key, RegisterKeyBind = rawget(_G, "Key"), rawget(_G, "RegisterKeyBind")
+            pcall(RegisterKeyBind, Key.F10, function()
+                if rawget(_G, "__g1rcm_test") then return end
+                local chunk, err = loadfile(testPath)
+                if not chunk then log("[CMTEST] load error: " .. tostring(err)); return end
+                local I = rawget(_G, "__g1rcm_internals")
+                local ok, steps = pcall(chunk, I)
+                if not ok or type(steps) ~= "table" then log("[CMTEST] bad selftest.lua: " .. tostring(steps)); return end
+                local i, resumeAt = 1, 0
+                rawset(_G, "__g1rcm_test", function()
+                    if os.clock() < resumeAt then return end
+                    local step = steps[i]
+                    if not step then rawset(_G, "__g1rcm_test", nil); return end
+                    local okS, wait, again = pcall(step)
+                    if not okS then log("[CMTEST] ERROR in step " .. i .. ": " .. tostring(wait)); wait, again = 0, false end
+                    if not again then i = i + 1 end
+                    resumeAt = os.clock() + (tonumber(wait) or 0)
+                end)
+            end)
+            gameLoop(100, function()
+                local step = rawget(_G, "__g1rcm_test")
+                return step
+            end)
+        end
+        log("[CMTEST] self-test armed: press F10 in a loaded game")
+    end
 end
 
 log(("Loaded %s: toggle key %s"):format(VERSION, table.concat(
