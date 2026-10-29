@@ -1,132 +1,144 @@
-# G1R Cheat-Menü (DIESE MOD WURDE MIT CLAUDE ERSTELLT)
+# G1R Cheat Menu (DIESE MOD WURDE MIT CLAUDE ERSTELLT)
 
-Ein Cheat-Menü für **Gothic 1 Remake**, geschrieben als UE4SS-Lua-Mod.
+Ein Cheat-Menü für **Gothic 1 Remake**, gebaut auf dem offiziellen Mod-System des Spiels
+(AngelScript), das mit Update 1.1 gekommen ist.
 
 English version: [README.md](README.md)
 
-Mit **F7** wird es im Spiel geöffnet. Das Menü ist eine Einblendung: Es pausiert das Spiel
-nicht, fängt die Maus nicht ein und wird nur mit der Tastatur bedient.
+Auch auf [Nexus Mods](https://www.nexusmods.com/gothic1remake/mods/661) und im
+[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3829622912).
+
+Im Spiel öffnet **F7** das Menü. Es liegt über dem Spiel: Es pausiert nicht, fängt die Maus
+nicht ein und wird nur mit der Tastatur bedient.
+
+> **Wichtig: UE4SS funktioniert nicht mehr.** Seit Update 1.1 startet das Spiel nicht, solange
+> UE4SS installiert ist. Wer es noch hat (etwa von Version 1.9.0 dieses Menüs), löscht
+> `dwmapi.dll` und den Ordner `ue4ss` in `G1R\Binaries\Win64`. Version 2.0.0 braucht kein UE4SS.
 
 ## Funktionen
 
-| Seite | Was sie kann |
+| Seite | Was sie macht |
 |---|---|
-| Spieler | Gottmodus, unendlich Mana / Ausdauer / Atem, Leben-Mana-Ausdauer auffüllen, Verbrechen löschen, durch Wände und Boden fliegen, Gegner mit einem Treffer töten, unzerbrechliche Dietriche, kein Fallschaden, unendlich Munition, unsichtbar für NPCs, sicherer Taschendiebstahl, Truhe oder Tür im Blick aufschließen, Heldentempo, Sprunghöhe |
-| Werte | Stärke, Geschicklichkeit, max. Mana, max. Lebenspunkte, Lernpunkte, Stufe, Erfahrung; Stärke, Geschicklichkeit und max. Mana in einem Schritt auf 100 |
+| Spieler | Gottmodus, unendlich Mana und Atem, Leben und Mana auffüllen, Verbrechen löschen, Fliegen (der Flugmodus des Spiels), Gegner mit einem Schlag töten, unzerbrechliche Dietriche, kein Fallschaden, unendlich Munition, für NPCs unsichtbar, sicherer Taschendiebstahl, Truhe oder Tür im Blick öffnen, Heldentempo, Sprunghöhe |
+| Attribute | Stärke, Geschick, max. Mana, max. Leben, Lernpunkte, Stufe, Erfahrung, mit Schrittweite; Stärke, Geschick und max. Mana in einem Schritt auf 100 |
 | Gilde | Zwischen den 12 Gilden von Altem Lager, Neuem Lager und Sumpflager wechseln oder die Gilde verlassen |
-| Talente | 58 Talente lernen oder entfernen, oder alle auf einmal lernen; kostenloses Training bei den Lehrern, alle Talente zurücksetzen und die Lernpunkte zurückbekommen |
-| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, dauerhafte Elixiere sowie Untermenüs mit Runen, Zauberschriftrollen, Nahkampfwaffen, Fernkampfwaffen, Rüstungen, Karten, Tiertrophäen, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder Gegenstand einzeln oder alle auf einmal) |
-| Teleport | Zu deinen Markierungen auf der Weltkarte, zu 105 Personen oder zu 28 Orten in der Kolonie springen oder bis zu 10 eigene Positionen speichern und dorthin zurückkehren |
-| Welt | Uhrzeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
-| NPCs | Den NPC im Blick heilen, töten oder wiederbeleben, 30 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich stimmen, feindliche NPCs töten, geladene NPCs freundlich machen |
-| Quests | Zeigt gescheiterte und laufende Quests mit ihren Namen aus dem Questlog; eine davon als erledigt markieren oder eine gescheiterte neu starten |
+| Fertigkeiten | 58 Fertigkeiten lernen oder entfernen oder alle auf einmal lernen; kostenloses Lernen bei den Lehrern, alle Fertigkeiten zurücksetzen und die Lernpunkte zurückbekommen |
+| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, permanente Elixiere und Untermenüs mit Runen, Spruchrollen, Nahkampf- und Fernkampfwaffen, Rüstungen, Karten, Jagdtrophäen, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder einzeln oder alle auf einmal) |
+| Teleport | Zu den Markierungen auf der Weltkarte, zu 105 Personen, zu 28 Orten der Kolonie, oder bis zu 10 eigene Positionen speichern und zu ihnen zurückkehren |
+| Welt | Tageszeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
+| NPCs | NPC im Blick heilen, töten oder wiederbeleben, 30 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich machen, feindliche NPCs töten, geladene NPCs freundlich machen |
+| Quests | Listet fehlgeschlagene und laufende Quests mit ihren Tagebuchnamen; eine als erledigt markieren oder eine fehlgeschlagene neu starten |
+| Erfolge | Einzelne Erfolge oder alle 42 auf einmal freischalten |
+
+## Cheat-Menü oder Marvin-Modus?
+
+Update 1.1 hat auch das Entwickler-Cheatwerkzeug des Spiels freigegeben, den Marvin-Modus.
+Wer ihn einschaltet, markiert den Spielstand, und das Spiel schaltet für diesen Spielstand
+Erfolge und automatisches Speichern dauerhaft ab. Das Cheat-Menü schaltet den Marvin-Modus nie
+ein und setzt diese Markierung nicht. Es hat außerdem Cheats, die dem Marvin-Modus fehlen
+(Gegner mit einem Schlag töten, unendlich Mana, Atem und Munition, Gildenwechsel, kostenloses
+Lernen und Zurücksetzen der Fertigkeiten, NPCs wiederbeleben, freundliche Lager, Teleport zu
+Kartenmarkierungen und gespeicherten Positionen, Erfolge), und zeigt lesbare Namen statt
+interner Codes.
 
 ## Sprachen
 
-Das Menü gibt es auf Englisch, Deutsch, Französisch, Italienisch, Spanisch, brasilianischem
-Portugiesisch, Polnisch und Russisch. Es richtet sich nach der Anzeigesprache des Spiels und
-prüft sie bei jedem Öffnen, sodass ein Wechsel in den Spieleinstellungen ohne Neustart
-übernommen wird.
+Englisch, Deutsch, Französisch, Italienisch, Spanisch, brasilianisches Portugiesisch, Polnisch
+und Russisch. Das Menü folgt der Anzeigesprache des Spiels und übernimmt einen Wechsel ohne
+Neustart.
 
-Um die Sprache selbst festzulegen, setze `language` in `Scripts\config.lua` auf `"en"`, `"de"`,
-`"fr"`, `"it"`, `"es"`, `"pt"`, `"pl"` oder `"ru"`.
-
-Die Texte jeder Sprache stehen in `Scripts\lang_<Code>.lua`. Die Namen der Lager und die
-Formulierungen der Errungenschaften folgen den Texten des Spiels. Andere Spielbegriffe
-(Gildenränge, Zauber, Talente, Orte) sind frei übersetzt und können von den Bezeichnungen im
-Spiel abweichen. Korrekturen sind willkommen; ein Text, der in einer Sprachdatei fehlt, wird
-auf Englisch angezeigt.
+Die Texte stehen in [translations/strings.json](translations/strings.json); `tools/gen-lang.py`
+erzeugt daraus `Script/CheatMenu/Lang/CMLang_<code>.as`. Die Übersetzungen wurden mit KI
+(Claude) geschrieben. Nur die deutschen Texte hat ein Muttersprachler geprüft. Lagernamen und
+die Erfolgstexte folgen den Texten des Spiels; andere Begriffe können abweichen. Korrekturen
+sind willkommen.
 
 ## Voraussetzungen
 
-- Gothic 1 Remake (Steam, Windows)
-- UE4SS für Gothic 1 Remake. Entwickelt mit dem AngelScript-Fix-Build
-  („G1R UE4SS“ auf Nexus Mods, Version 0.4). Andere UE4SS-Builds sind ungetestet.
+- Gothic 1 Remake (Steam, Windows) mit Update 1.1 oder neuer
+- Sonst nichts. UE4SS darf **nicht** installiert sein.
 
 ## Installation
 
-1. Installiere UE4SS für Gothic 1 Remake, falls noch nicht geschehen. Danach gibt es diesen
-   Ordner: `<Spielordner>\G1R\Binaries\Win64\ue4ss\Mods`
-2. Kopiere den Ordner `G1R_CheatMenu` aus diesem Repository in diesen `Mods`-Ordner. Das
-   Ergebnis muss so aussehen:
+**Steam Workshop:** den
+[Workshop-Eintrag](https://steamcommunity.com/sharedfiles/filedetails/?id=3829622912) abonnieren.
 
-   ```
-   ue4ss\Mods\G1R_CheatMenu\enabled.txt
-   ue4ss\Mods\G1R_CheatMenu\Scripts\main.lua
-   ue4ss\Mods\G1R_CheatMenu\Scripts\config.lua
-   ue4ss\Mods\G1R_CheatMenu\Scripts\lang_de.lua   (und die anderen lang_*.lua-Dateien)
-   ue4ss\Mods\G1R_CheatMenu\Assets\panel.png
-   ```
-3. Starte das Spiel und lade einen Spielstand. Drücke **F7**.
+**Von Hand:** den Ordner `Kandro78-G1RCheatMenu` aus diesem Repository nach
+`<Spielordner>\G1R\Mods` kopieren, sodass `G1R\Mods\Kandro78-G1RCheatMenu\GothicMod.json`
+existiert. (Das Release-Zip auf Nexus hat schon den Aufbau `G1R\Mods\...`; einfach in den
+Spielordner entpacken.)
 
-`enabled.txt` schaltet die Mod ein, in `mods.txt` muss also nichts eingetragen werden.
-Zum Deinstallieren den Ordner `G1R_CheatMenu` löschen.
+Danach:
 
-Erscheint das Menü nicht, öffne `ue4ss\UE4SS.log` und suche nach Zeilen mit
-`[G1R_CheatMenu]`. Die Zeile `Loaded 1.9.0: toggle key F7` bedeutet, dass die Mod gestartet
-wurde.
+1. In Steam auf Spielen klicken und **Gothic 1 Remake Mod Management UI** wählen.
+2. Darauf achten, dass **G1R Cheat Menu** angehakt ist, und **Start Game** klicken.
+3. Einen Spielstand laden und **F7** drücken.
+
+Ein Spielstand ohne die Mod zeigt beim Laden „This save was made with a different modlist“.
+**Continue anyway** klicken; der Spielstand lädt normal.
+
+Zum Entfernen die Mod in der Mod Management UI abhaken, das Abo beenden oder den Ordner
+löschen. Was die Cheats in einem Spielstand geändert haben (Gegenstände, Attribute,
+Fertigkeiten, Quests), bleibt.
 
 ## Steuerung
 
 | Taste | Aktion |
 |---|---|
 | F7 | Menü öffnen / schließen |
-| Hoch / Runter, Ziffernblock 8 / 2 | Auswahl bewegen (gedrückt halten zum Durchlaufen) |
-| Links / Rechts, Ziffernblock 4 / 6 | Wert ändern (Links entfernt ein Talent oder eine gespeicherte Position) |
-| Enter, Ziffernblock 5 | Seite öffnen, Cheat ausführen, an- / ausschalten |
-| Rücktaste, Ziffernblock `,` | Zurück zur vorherigen Seite |
-| W / A / S / D, Bild auf / Bild ab | Fliegen (wenn auf der Spieler-Seite eingeschaltet): entlang der Kamera, seitwärts, senkrecht hoch / runter |
+| Hoch / Runter, Num 8 / 2 | Auswahl bewegen (gedrückt halten zum Weiterlaufen) |
+| Bild hoch / Bild runter, Num 9 / 3 | Eine Seite weiter |
+| Pos1 / Ende, Num 7 / 1 | Erster / letzter Eintrag |
+| Enter, Num 5 | Seite öffnen, Cheat ausführen, an / aus |
+| Links / Rechts, Num 4 / 6 | Wert ändern, aus / an; Rechts öffnet eine Seite, Links geht zurück (Links entfernt auch eine Fertigkeit oder gespeicherte Position) |
+| Rücktaste | Zurück zur vorigen Seite |
 
-Tasten, Tastenwiederholung, Flugtasten und -tempo, Sprache, Position und Größe des Menüs, der Hintergrund und die Pause nach einem
-Teleport lassen sich in `Scripts\config.lua` ändern. Geänderte Tasten gelten erst nach einem
-Neustart des Spiels. Das Spiel erhält die gedrückten Tasten weiterhin, auch wenn das Menü
-offen ist.
+Jede Seite merkt sich ihre Auswahl. Die Kopfzeile zeigt, wo man ist (etwa
+Cheat Menu / Quests), und die Position in langen Listen.
 
-## Vor der Benutzung lesen
+## Vor dem Benutzen lesen
 
-- **Speichere vorher manuell.** Gilden- und Kapitelwechsel setzen den Wert direkt. Sie spielen
-  keinen Aufnahmedialog ab, vergeben keine Belohnungen und lösen keine Quest-Ereignisse aus.
-- **Eine erledigte Quest bleibt erledigt** in diesem Spielstand. Das Spiel führt seine eigene Erfolgsbehandlung aus (Questlog, Erfahrung), aber keinen Dialog, der normalerweise dazu führt; spätere Story-Schritte können von diesem Dialog abhängen.
-- **Eine gescheiterte Quest neu starten** setzt sie wieder auf „laufend“. Besteht der Grund für das Scheitern noch (zum Beispiel ist eine Figur tot), sagt das Menü das, statt sie neu zu starten, weil das Spiel sie sofort wieder scheitern ließe.
-- **Errungenschaften** werden dauerhaft auf deinem Steam-Konto freigeschaltet. Das Menü kann sie nicht wieder sperren.
-- Schalter wie der Gottmodus bleiben an, bis du sie ausschaltest oder das Spiel beendest. Sie
-  werden nicht im Spielstand gespeichert.
-- **Teleportieren:** Nach einem weiten Sprung schwebt der Held etwa drei Sekunden, während das
-  Gebiet lädt, und fällt dann auf den Boden. Fällst du bei der Ankunft durch die Welt, erhöhe
-  `teleportHoldSeconds` in `config.lua`. Manche Ziele sind gefährlich oder gehören zu späteren
-  Kapiteln (Orkstadt, Schläfertempel), also vorher speichern.
-- **Kartenmarkierungen:** Setze eine Markierung auf der Weltkarte (nicht auf einer Lagerkarte) und öffne dann Teleport > Kartenmarkierungen. Jede Markierung ist nach dem nächsten bekannten Ort benannt. Der Held landet auf der höchsten begehbaren Fläche an der Markierung, außer in der Nähe eines bekannten Ortes: Dort wird der Boden auf dessen Höhe genommen (eine Markierung im Neuen Lager führt also in die Höhle, nicht auf den Felsen darüber). Eine Markierung auf einem Dach oder unter einem Felsvorsprung kann dich oben absetzen.
-- **Fliegen** schaltet die Kollision ab: Du fliegst durch Wände und den Boden. Lande im Freien, bevor du es ausschaltest.
-- **Ein-Treffer-Kills** erledigt feindliche NPCs im Umkreis von 40 m, sobald sie Schaden nehmen. Das kann eine halbe Sekunde dauern.
-- **Kostenloses Training:** Solange es an ist, kostet Lernen bei den Lehrern keine Lernpunkte und kein Erz. **Talente zurücksetzen** erstattet die Lernpunkte, die die Talente normal kosten, aber nicht das dafür bezahlte Erz.
-- **NPC wiederbeleben:** Der NPC lebt sofort wieder, aber der Körper bleibt liegen, bis das Gebiet neu geladen wird (weg- und zurückreisen). Danach geht der NPC seinem Tagesablauf nach und ist vielleicht woanders. Beim Testen ist das Spiel einmal direkt nach dem Wiederbeleben abgestürzt; das ließ sich nicht wiederholen, trotzdem vorher speichern.
-- **Erschaffene Kreaturen** erscheinen kurz nach der Auswahl etwa 6 m vor dir. Sie verhalten sich wie in freier Wildbahn.
-- **Personen:** Der Held wird neben die Person gesetzt, wenn sie in der Nähe ist, sonst zuerst an ihr Bett und neben sie, sobald das Gebiet geladen ist.
-- Gespeicherte Positionen liegen in `saved_positions.txt` im Mod-Ordner.
-- Ein Spiel-Patch kann die Mod unbrauchbar machen, weil sie Spielfunktionen über ihren Namen
-  aufruft.
+- **Vorher von Hand speichern.** Gilden- und Kapitelwechsel setzen den Wert direkt. Sie spielen
+  keinen Aufnahmedialog ab, vergeben keine Belohnungen und lösen keine Quest-Auslöser aus.
+- **Eine Quest abzuschließen ist endgültig** in diesem Spielstand. Das Spiel führt seine eigene Erfolgsbehandlung aus (Tagebuch, Erfahrung), aber keinen Dialog, der normalerweise dorthin führt.
+- **Eine fehlgeschlagene Quest neu starten** setzt sie wieder auf laufend. Besteht der Grund für das Scheitern noch (etwa eine tote Figur), sagt das Menü das stattdessen.
+- **Erfolge** werden dauerhaft im Steam-Konto freigeschaltet. Das Menü kann sie nicht wieder sperren. „Unlock ALL“ verlangt ein zweites Enter.
+- Schalter wie der Gottmodus bleiben an, bis man sie abschaltet oder das Spiel beendet.
+- Nach einem weiten Teleport schwebt der Held einige Sekunden, während das Gebiet lädt, und fällt dann auf den Boden. Manche Ziele sind gefährlich oder gehören zu späteren Kapiteln.
+- **Kartenmarkierungen:** eine Markierung auf der Weltkarte setzen (nicht auf einer Lagerkarte), dann Teleport > Map markers öffnen. Eine Markierung auf einem Dach kann einen aufs Dach setzen.
+- **Fliegen** ist der Flugmodus des Spiels und schaltet die Kollision ab. Vor dem Abschalten im Freien landen.
+- **NPC wiederbeleben:** Der NPC lebt sofort wieder, aber der Körper bleibt liegen, bis das Gebiet neu lädt (weg- und zurückreisen).
+- Gespeicherte Positionen liegen in einem eigenen Speicherplatz (`Kandro78-G1RCheatMenu-Positions`) und bleiben so über Spielstände hinweg erhalten. Mit 1.9.0 gespeicherte Positionen werden nicht übernommen.
+- Nicht in 2.0.0: unendlich Ausdauer (die Skripte von 1.1 haben keinen Ausdauerwert) und die
+  Einstellungen aus `config.lua` von 1.9.0.
+
+## Entwicklung
+
+- `Kandro78-G1RCheatMenu/` ist das Mod-Paket (`GothicMod.json`, `Script/CheatMenu/*.as`, `Preview.jpg`).
+- `tools/deploy-mod.ps1` spiegelt es in den Ordner `G1R\Mods` des Spiels; `-Launch` startet das Spiel mit der Mod im AngelScript-Entwicklungsmodus (Hot Reload).
+- `tools/extract-strings.py` listet neue oder unbenutzte Texte; `tools/gen-lang.py` baut die Sprachdateien aus `translations/strings.json`.
+
+## Version 1.9.0 (UE4SS)
+
+Der Ordner `G1R_CheatMenu` ist die alte UE4SS-Lua-Version 1.9.0. Sie läuft nur auf
+Spielversionen vor Update 1.1 (Steam-Betazweig „previousrelease“) und braucht UE4SS. Sie bleibt
+zum Nachschlagen erhalten und wird nicht mehr weiterentwickelt.
 
 ## Stand
 
-Alle Seiten wurden im Spiel mit der Steam-Version und dem oben genannten UE4SS-Build getestet,
-und das Menü hat im Test auf jede der acht Sprachen umgeschaltet. Die Übersetzungen außer
-Deutsch wurden auf Vollständigkeit geprüft, aber nicht von Muttersprachlern gegengelesen.
-Funktioniert etwas bei dir nicht, melde es bitte zusammen mit den `[G1R_CheatMenu]`-Zeilen aus
-`UE4SS.log`.
+Alle Seiten wurden im Spiel auf der Steam-Version mit Update 1.1 getestet, sowohl bei normalem
+Start über die Mod Management UI als auch im Entwicklungsmodus.
 
 ## Danksagung
 
-Alle Spielfunktionen, Klassen und IDs, die die Mod verwendet, sind in den Dateien des Spiels
-deklariert und wurden damit abgeglichen. Viele davon habe ich zuerst beim Studium der Mod
-**G1R Console Tools** gefunden; wie man in diesem Spiel eine UMG-Einblendung aus Lua baut, habe
-ich von der Mod **MapFastTravel** („Fast Travel From Map“) gelernt. Danke an beide Autoren.
-Keine der beiden Mods wird benötigt oder ist enthalten, und keine ihrer Dateien ist Teil dieser
-Mod.
-
-Die Teleportziele sind Standpunkte aus den Kartendaten des Spiels
-(`G1R\Script\Map\MainMap\InteractionSpots.json`). Der Menühintergrund, `Assets\panel.png`,
-wurde für diese Mod erzeugt.
+Gebaut auf dem offiziellen Mod-System und den lesbaren Spielskripten, die Alkimia Interactive
+mit Update 1.1 ausliefert; die Befehle des Marvin-Modus zeigten, wie viele der Cheats
+funktionieren. Die Versionen bis 1.9.0 haben die Funktionsnamen des Spiels aus der Mod
+**G1R Console Tools** und die Lua-Overlay-Technik aus der Mod **MapFastTravel** („Fast Travel
+From Map“) gelernt. Danke an alle. Keine Dateien anderer Mods sind Teil dieser Mod.
 
 ## Lizenz
 
-Die Mod steht unter der MIT-Lizenz, siehe [LICENSE](LICENSE). Gothic 1 Remake, seine
+Die Mod steht unter der MIT-Lizenz, siehe [LICENSE](LICENSE). Gothic 1 Remake, seine Namen und
+Inhalte gehören ihren Eigentümern. Dies ist eine inoffizielle Modifikation. Sie wird nicht von
+THQ Nordic erstellt, unterstützt oder befürwortet.
