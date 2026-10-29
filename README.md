@@ -30,6 +30,15 @@ capture the mouse, and is controlled with the keyboard only.
 | Quests | Lists your failed and running quests by their quest-log names; mark one as completed, or restart a failed one |
 | Achievements | Unlock single achievements or all 42 at once |
 
+## Screenshots
+
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-01-main.jpg" width="49%" alt="main"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-02-player.jpg" width="49%" alt="player">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-03-stats.jpg" width="49%" alt="stats"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-04-faction.jpg" width="49%" alt="faction">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-05-skills.jpg" width="49%" alt="skills"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-06-items.jpg" width="49%" alt="items">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-07-teleport.jpg" width="49%" alt="teleport"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-08-world.jpg" width="49%" alt="world">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-09-npcs.jpg" width="49%" alt="npcs"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-10-spawn.jpg" width="49%" alt="spawn">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-11-quests.jpg" width="49%" alt="quests"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-12-achievements.jpg" width="49%" alt="achievements">
+
 ## Cheat Menu or Marvin Mode?
 
 Update 1.1 also opened up the game's own developer cheat tool, Marvin Mode. Switching it on

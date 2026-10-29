@@ -30,6 +30,15 @@ nicht ein und wird nur mit der Tastatur bedient.
 | Quests | Listet fehlgeschlagene und laufende Quests mit ihren Tagebuchnamen; eine als erledigt markieren oder eine fehlgeschlagene neu starten |
 | Erfolge | Einzelne Erfolge oder alle 42 auf einmal freischalten |
 
+## Screenshots
+
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-01-main.jpg" width="49%" alt="main"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-02-player.jpg" width="49%" alt="player">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-03-stats.jpg" width="49%" alt="stats"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-04-faction.jpg" width="49%" alt="faction">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-05-skills.jpg" width="49%" alt="skills"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-06-items.jpg" width="49%" alt="items">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-07-teleport.jpg" width="49%" alt="teleport"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-08-world.jpg" width="49%" alt="world">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-09-npcs.jpg" width="49%" alt="npcs"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-10-spawn.jpg" width="49%" alt="spawn">
+<img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-11-quests.jpg" width="49%" alt="quests"> <img src="https://github.com/Kandro78/Gothic-1-Remake-Cheatmenu/releases/download/v2.0.0/screenshot-12-achievements.jpg" width="49%" alt="achievements">
+
 ## Cheat-Menü oder Marvin-Modus?
 
 Update 1.1 hat auch das Entwickler-Cheatwerkzeug des Spiels freigegeben, den Marvin-Modus.
