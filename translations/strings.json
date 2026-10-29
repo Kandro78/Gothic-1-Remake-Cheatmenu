@@ -1,0 +1,3350 @@
+{
+ "Cheat Menu": {
+  "de": "Cheat-Menü",
+  "fr": "Menu de triche",
+  "it": "Menu trucchi",
+  "es": "Menú de trucos",
+  "pt": "Menu de trapaças",
+  "pl": "Menu cheatów",
+  "ru": "Чит-меню"
+ },
+ "[Enter] Select   [Left/Right] Change   [Backspace] Back   [F7] Close": {
+  "de": "[Enter] Auswählen   [Links/Rechts] Ändern   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Entrée] Choisir   [Gauche/Droite] Modifier   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Invio] Scegli   [Sinistra/Destra] Cambia   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Intro] Elegir   [Izq./Der.] Cambiar   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Enter] Escolher   [Esq./Dir.] Alterar   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Enter] Wybierz   [Lewo/Prawo] Zmień   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Enter] Выбрать   [Влево/Вправо] Изменить   [Backspace] Назад   [F7] Закрыть"
+ },
+ "Not in a running game": {
+  "de": "Nicht in einem laufenden Spiel",
+  "fr": "Aucune partie en cours",
+  "it": "Nessuna partita in corso",
+  "es": "No hay partida en curso",
+  "pt": "Nenhum jogo em andamento",
+  "pl": "Brak aktywnej gry",
+  "ru": "Игра не запущена"
+ },
+ "ON": {
+  "de": "AN",
+  "fr": "ACTIVÉ",
+  "it": "ATTIVO",
+  "es": "ACTIVADO",
+  "pt": "LIGADO",
+  "pl": "WŁ.",
+  "ru": "ВКЛ"
+ },
+ "OFF": {
+  "de": "AUS",
+  "fr": "DÉSACTIVÉ",
+  "it": "DISATTIVO",
+  "es": "DESACTIVADO",
+  "pt": "DESLIGADO",
+  "pl": "WYŁ.",
+  "ru": "ВЫКЛ"
+ },
+ "Achievements": {
+  "de": "Errungenschaften",
+  "fr": "Succès",
+  "it": "Obiettivi",
+  "es": "Logros",
+  "pt": "Conquistas",
+  "pl": "Osiągnięcia",
+  "ru": "Достижения"
+ },
+ "[Enter] Unlock (permanent)   [Backspace] Back   [F7] Close": {
+  "de": "[Enter] Freischalten (dauerhaft)   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Entrée] Débloquer (définitif)   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Invio] Sblocca (permanente)   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Intro] Desbloquear (permanente)   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Enter] Desbloquear (permanente)   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Enter] Odblokuj (na stałe)   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Enter] Открыть (навсегда)   [Backspace] Назад   [F7] Закрыть"
+ },
+ "Complete chapter 2": {
+  "de": "Kapitel 2 abschließen",
+  "fr": "Terminer le Chapitre 2",
+  "it": "Completa il capitolo 2",
+  "es": "Completa el capítulo 2",
+  "pt": "Conclua o Capítulo 2",
+  "pl": "Ukończ Rozdział 2",
+  "ru": "Завершить 2-ю главу"
+ },
+ "Complete chapter 3": {
+  "de": "Kapitel 3 abschließen",
+  "fr": "Terminer le Chapitre 3",
+  "it": "Completa il capitolo 3",
+  "es": "Completa el capítulo 3",
+  "pt": "Conclua o Capítulo 3",
+  "pl": "Ukończ Rozdział 3",
+  "ru": "Завершить 3-ю главу"
+ },
+ "Complete chapter 4": {
+  "de": "Kapitel 4 abschließen",
+  "fr": "Terminer le Chapitre 4",
+  "it": "Completa il capitolo 4",
+  "es": "Completa el capítulo 4",
+  "pt": "Conclua o Capítulo 4",
+  "pl": "Ukończ Rozdział 4",
+  "ru": "Завершить 4-ю главу"
+ },
+ "Complete chapter 5": {
+  "de": "Kapitel 5 abschließen",
+  "fr": "Terminer le Chapitre 5",
+  "it": "Completa il capitolo 5",
+  "es": "Completa el capítulo 5",
+  "pt": "Conclua o Capítulo 5",
+  "pl": "Ukończ Rozdział 5",
+  "ru": "Завершить 5-ю главу"
+ },
+ "Complete chapter 6": {
+  "de": "Kapitel 6 abschließen",
+  "fr": "Terminer le Chapitre 6",
+  "it": "Completa il capitolo 6",
+  "es": "Completa el capítulo 6",
+  "pt": "Conclua o Capítulo 6",
+  "pl": "Ukończ Rozdział 6",
+  "ru": "Завершить 6-ю главу"
+ },
+ "Enter the Sleeper Temple": {
+  "de": "Den Schläfertempel betreten",
+  "fr": "Entrer dans le temple du Dormeur",
+  "it": "Entra nel tempio del Dormiente",
+  "es": "Entra en el templo del Durmiente",
+  "pt": "Entre no Templo do Adormecido",
+  "pl": "Wejdź do Świątyni Śniącego",
+  "ru": "Войти в храм Спящего"
+ },
+ "Learn Orcish level 2": {
+  "de": "Orkisch Stufe 2 lernen",
+  "fr": "Apprendre la langue orc (niveau 2)",
+  "it": "Lingua degli orchi al livello 2",
+  "es": "Aprende orco a nivel 2",
+  "pt": "Aprenda o Nível 2 da Língua dos Orcs",
+  "pl": "Naucz się orczego na poziomie 2",
+  "ru": "Изучить орочий язык до 2-го уровня"
+ },
+ "Complete the 'Escape Plan' quest": {
+  "de": "Quest 'Fluchtplan' abschließen",
+  "fr": "Terminer la quête Plan d'évasion",
+  "it": "Completa la missione 'Piano di fuga'",
+  "es": "Completa la misión 'Plan de fuga'",
+  "pt": "Conclua a Missão 'Plano de Fuga'",
+  "pl": "Ukończ zadanie 'Plan ucieczki'",
+  "ru": "Выполнить задание «План побега»"
+ },
+ "Complete Cavalorn's book quests": {
+  "de": "Quest 'Monsterwissen' abschließen",
+  "fr": "Terminer les quêtes des livres de Cavalorn",
+  "it": "Completa le missioni dei libri di Cavalorn",
+  "es": "Completa las misiones de libros de Cavalorn",
+  "pt": "Conclua as Missões de Livros do Cavalorn",
+  "pl": "Ukończ zadanie z księgami Cavalorna",
+  "ru": "Выполнить задания Кавалорна с книгами"
+ },
+ "Complete the Chromanin quests": {
+  "de": "Die Chromanin-Quests abschließen",
+  "fr": "Terminer les quêtes de Chromanin",
+  "it": "Completa le missioni di Chromanin",
+  "es": "Completa las misiones de Cromanín",
+  "pt": "Conclua as Missões de Cromanina",
+  "pl": "Ukończ zadanie 'Chromanin'",
+  "ru": "Выполнить задания «Хроманин»"
+ },
+ "Spare Gomez's life": {
+  "de": "Gomez verschonen",
+  "fr": "Laisser la vie sauve à Gomez",
+  "it": "Risparmia la vita a Gomez",
+  "es": "Perdónale la vida a Gómez",
+  "pt": "Poupe a vida do Gomez",
+  "pl": "Daruj życie Gomezowi",
+  "ru": "Пощадить Гомеза"
+ },
+ "Join the Old Camp": {
+  "de": "Dem Alten Lager beitreten",
+  "fr": "Rejoindre l'ancien camp",
+  "it": "Unisciti a Campo Vecchio",
+  "es": "Únete al Campamento Viejo",
+  "pt": "Faça parte do Assentamento Antigo",
+  "pl": "Dołącz do Starego Obozu",
+  "ru": "Стать своим в Старом лагере"
+ },
+ "Join the New Camp": {
+  "de": "Dem Neuen Lager beitreten",
+  "fr": "Rejoindre le nouveau camp",
+  "it": "Unisciti a Campo Nuovo",
+  "es": "Únete al Campamento Nuevo",
+  "pt": "Faça parte do Assentamento Novo",
+  "pl": "Dołącz do Nowego Obozu",
+  "ru": "Стать своим в Новом лагере"
+ },
+ "Join the Swamp Camp": {
+  "de": "Dem Sumpflager beitreten",
+  "fr": "Rejoindre le camp du marais",
+  "it": "Unisciti a Campo Palude",
+  "es": "Únete al Campamento del Pantano",
+  "pt": "Faça parte do Assentamento do Pântano",
+  "pl": "Dołącz do Obozu Bractwa",
+  "ru": "Стать своим в Болотном лагере"
+ },
+ "Rank up in any guild": {
+  "de": "In einer Gilde aufsteigen",
+  "fr": "Monter en grade dans une guilde",
+  "it": "Scala i ranghi di una gilda",
+  "es": "Sube de nivel en cualquier cofradía",
+  "pt": "Suba na hierarquia de qualquer Guilda",
+  "pl": "Awansuj w dowolnej Gildii",
+  "ru": "Повысить положение в любой фракции"
+ },
+ "Get all maps": {
+  "de": "Alle Karten erhalten",
+  "fr": "Obtenir toutes les cartes",
+  "it": "Ottieni tutte le mappe",
+  "es": "Consigue todos los mapas",
+  "pt": "Obtenha todos os Mapas",
+  "pl": "Zdobądź wszystkie mapy",
+  "ru": "Заполучить все карты"
+ },
+ "Master all melee weapons": {
+  "de": "Alle Nahkampfwaffen meistern",
+  "fr": "Maîtriser les armes de corps-à-corps",
+  "it": "Maestro di tutte le armi corpo a corpo",
+  "es": "Maestro en todas las armas cuerpo a cuerpo",
+  "pt": "Domine todas as Armas Brancas",
+  "pl": "Opanuj wszystkie bronie do walki wręcz",
+  "ru": "Освоить всё оружие ближнего боя"
+ },
+ "Master all ranged weapons": {
+  "de": "Alle Fernkampfwaffen meistern",
+  "fr": "Maîtriser les armes à distance",
+  "it": "Maestro di tutte le armi a distanza",
+  "es": "Maestro en todas las armas a distancia",
+  "pt": "Domine todas as Armas de Alcance",
+  "pl": "Opanuj wszystkie bronie dystansowe",
+  "ru": "Освоить всё оружие дальнего боя"
+ },
+ "Reach the 6th magic circle": {
+  "de": "Den 6. Kreis der Magie erreichen",
+  "fr": "Accéder au Sixième cercle de magie",
+  "it": "Accedi al Sesto Cerchio Magico",
+  "es": "Alcanza el 6.º círculo mágico",
+  "pt": "Obtenha o 6° Círculo de Magia",
+  "pl": "Opanuj 6 krąg magiczny",
+  "ru": "Постичь шестой круг магии"
+ },
+ "Transform into all creatures": {
+  "de": "In alle Kreaturen verwandeln",
+  "fr": "Se transformer en toutes les créatures",
+  "it": "Trasformati in tutte le creature",
+  "es": "Transfórmate en todas las criaturas",
+  "pt": "Transforme-se em todas as criaturas",
+  "pl": "Przemień się we wszystkie stworzenia",
+  "ru": "Превратиться во всех существ"
+ },
+ "3 elemental damage types on one enemy": {
+  "de": "3 Elementarschäden an einem Gegner",
+  "fr": "3 types de dégâts élémentaires sur un ennemi",
+  "it": "3 tipi di danni elementali su un nemico",
+  "es": "3 tipos de daño elemental a un enemigo",
+  "pt": "3 tipos de dano elementar em um inimigo",
+  "pl": "3 rodzaje obrażeń od żywiołów na 1 wrogu",
+  "ru": "3 типа стихийного урона одному врагу"
+ },
+ "Get the ore armor": {
+  "de": "Die Erzrüstung erhalten",
+  "fr": "Obtenir l'armure de minerai",
+  "it": "Ottieni un'armatura di metallo blu",
+  "es": "Consigue una armadura de mineral",
+  "pt": "Obtenha Armadura de Minério",
+  "pl": "Zdobądź zbroję magiczną",
+  "ru": "Заполучить рудную броню"
+ },
+ "Get all mods for an armor": {
+  "de": "Alle Upgrades für eine Rüstung",
+  "fr": "Toutes les améliorations d'une armure",
+  "it": "Tutte le modifiche per un'armatura",
+  "es": "Todas las modificaciones de una armadura",
+  "pt": "Todas as modificações de uma Armadura",
+  "pl": "Wszystkie modyfikacje do zbroi",
+  "ru": "Все усовершенствования для доспехов"
+ },
+ "Pickpocket 20 characters": {
+  "de": "20 Charaktere bestehlen",
+  "fr": "Voler à la tire 20 personnages",
+  "it": "Borseggia 20 personaggi",
+  "es": "Roba a 20 personajes",
+  "pt": "Roube de 20 personagens",
+  "pl": "Okradnij 20 postaci",
+  "ru": "Совершить 20 карманных краж"
+ },
+ "Pick 20 locks": {
+  "de": "20 Schlösser knacken",
+  "fr": "Crocheter 20 serrures",
+  "it": "Scassina 20 serrature",
+  "es": "Abre 20 cerraduras",
+  "pt": "Abra 20 fechaduras",
+  "pl": "Otwórz 20 zamków wytrychami",
+  "ru": "Вскрыть 20 замков"
+ },
+ "Craft your first item": {
+  "de": "Den ersten Gegenstand herstellen",
+  "fr": "Fabriquer un premier objet",
+  "it": "Crea il tuo primo oggetto",
+  "es": "Fabrica tu primer objeto",
+  "pt": "Crie seu primeiro item",
+  "pl": "Wytwórz swój pierwszy przedmiot",
+  "ru": "Впервые изготовить предмет"
+ },
+ "Craft 5 weapons": {
+  "de": "5 Waffen herstellen",
+  "fr": "Fabriquer 5 armes",
+  "it": "Crea 5 armi",
+  "es": "Fabrica 5 armas",
+  "pt": "Crie 5 armas",
+  "pl": "Wytwórz 5 broni",
+  "ru": "Изготовить 5 единиц оружия"
+ },
+ "Craft 10 potions": {
+  "de": "10 Tränke herstellen",
+  "fr": "Fabriquer 10 potions",
+  "it": "Crea 10 pozioni",
+  "es": "Fabrica 10 pociones",
+  "pt": "Crie 10 poções",
+  "pl": "Wytwórz 10 mikstur",
+  "ru": "Приготовить 10 зелий"
+ },
+ "Craft a scroll": {
+  "de": "Eine Schriftrolle herstellen",
+  "fr": "Fabriquer un premier parchemin",
+  "it": "Crea la tua prima pergamena",
+  "es": "Fabrica tu primer pergamino",
+  "pt": "Crie seu primeiro pergaminho",
+  "pl": "Wytwórz swój pierwszy zwój",
+  "ru": "Впервые подготовить свиток"
+ },
+ "Defeat 10 enemies with your fists": {
+  "de": "10 Gegner mit den Fäusten besiegen",
+  "fr": "Vaincre 10 ennemis avec vos poings",
+  "it": "Sconfiggi 10 nemici usando i pugni",
+  "es": "Derrota a 10 enemigos con los puños",
+  "pt": "Derrote 10 inimigos com socos",
+  "pl": "Pokonaj 10 przeciwników pięściami",
+  "ru": "Победить 10 врагов кулаками"
+ },
+ "Parry 5 times without taking damage": {
+  "de": "5-mal parieren ohne Schaden",
+  "fr": "Parer 5 attaques sans subir de dégâts",
+  "it": "Para 5 attacchi senza subire danni",
+  "es": "Para 5 ataques sin recibir daño",
+  "pt": "Apare 5 vezes sem receber dano",
+  "pl": "Sparuj 5 razy bez otrzymania obrażeń",
+  "ru": "Парировать 5 атак без урона"
+ },
+ "Kill 10 enemies by headshot": {
+  "de": "10 Gegner per Kopfschuss töten",
+  "fr": "Tuer 10 ennemis d'un tir à la tête",
+  "it": "Uccidi 10 nemici con colpi in testa",
+  "es": "Mata a 10 enemigos con tiros a la cabeza",
+  "pt": "Mate 10 inimigos atirando na cabeça",
+  "pl": "Zabij 10 wrogów strzałami w głowę",
+  "ru": "Убить 10 врагов выстрелами в голову"
+ },
+ "Learn all lessons": {
+  "de": "Alle Lektionen lernen",
+  "fr": "Apprendre toutes les leçons",
+  "it": "Impara tutte le lezioni",
+  "es": "Aprende todas las lecciones",
+  "pt": "Aprenda todas as lições",
+  "pl": "Naucz się wszystkich lekcji",
+  "ru": "Получить все доступные уроки"
+ },
+ "Exhaust all of Mud's dialogue": {
+  "de": "Alle Dialoge mit Mud führen",
+  "fr": "Épuiser tous les dialogues de Mud",
+  "it": "Esaurisci i dialoghi di Mud",
+  "es": "Agota todos los diálogos de Mud",
+  "pt": "Esgote todos os diálogos com o Mud",
+  "pl": "Wyczerp wszystkie dialogi Wrzoda",
+  "ru": "Перебрать все диалоги с Мадом"
+ },
+ "Kill an enemy by falling damage": {
+  "de": "Gegner durch Fallschaden töten",
+  "fr": "Tuer un ennemi par dégâts de chute",
+  "it": "Uccidi un nemico con danni da caduta",
+  "es": "Mata a un enemigo con daño de caída",
+  "pt": "Mate um inimigo fazendo-o cair",
+  "pl": "Zabij wroga obrażeniami z upadku",
+  "ru": "Убить врага, сбросив с высоты"
+ },
+ "Read 10 books": {
+  "de": "10 Bücher lesen",
+  "fr": "Lire 10 livres",
+  "it": "Leggi 10 libri",
+  "es": "Lee 10 libros",
+  "pt": "Leia 10 livros",
+  "pl": "Przeczytaj 10 ksiąg",
+  "ru": "Прочитать 10 книг"
+ },
+ "Sneak into the Old Camp from chapter 4": {
+  "de": "Ab Kapitel 4 ins Alte Lager schleichen",
+  "fr": "S'infiltrer dans l'ancien camp (chap. 4+)",
+  "it": "Intrufolati a Campo Vecchio (cap. 4+)",
+  "es": "Cuélate en el Campamento Viejo (cap. 4+)",
+  "pt": "Infiltre-se no Assentamento Antigo (cap. 4+)",
+  "pl": "Wkradnij się do Starego Obozu (rozdz. 4+)",
+  "ru": "Пробраться в Старый лагерь (с 4-й главы)"
+ },
+ "Visit Xardas' room": {
+  "de": "Xardas' Zimmer besuchen",
+  "fr": "Entrer dans la chambre de Xardas",
+  "it": "Visita la stanza di Xardas",
+  "es": "Visita la habitación de Xardas",
+  "pt": "Visite o cômodo do Xardas",
+  "pl": "Wejdź do komnaty Xardasa",
+  "ru": "Посетить покои Ксардаса"
+ },
+ "Finish the game without sleeping": {
+  "de": "Spiel ohne Schlafen beenden",
+  "fr": "Terminer le jeu sans dormir",
+  "it": "Completa il gioco senza mai dormire",
+  "es": "Completa el juego sin dormir",
+  "pt": "Conclua o jogo sem dormir",
+  "pl": "Ukończ grę bez spania",
+  "ru": "Пройти игру без сна"
+ },
+ "Finish the game in permadeath mode": {
+  "de": "Spiel im Permadeath-Modus beenden",
+  "fr": "Terminer le jeu en mode Mort permanente",
+  "it": "Completa il gioco in morte permanente",
+  "es": "Completa el juego en muerte permanente",
+  "pt": "Conclua o jogo no modo de morte definitiva",
+  "pl": "Ukończ grę w trybie permanentnej śmierci",
+  "ru": "Пройти игру в режиме «Необратимая смерть»"
+ },
+ "Get all achievements": {
+  "de": "Alle Errungenschaften erhalten",
+  "fr": "Obtenir tous les succès",
+  "it": "Completa tutti gli obiettivi",
+  "es": "Consigue todos los logros",
+  "pt": "Obtenha todas as Conquistas",
+  "pl": "Zdobądź wszystkie osiągnięcia",
+  "ru": "Получить все достижения"
+ },
+ "Get all achievements (plus)": {
+  "de": "Alle Errungenschaften + Nyras-Demo",
+  "fr": "Tous les succès + démo Nyras",
+  "it": "Tutti gli obiettivi + demo di Nyras",
+  "es": "Todos los logros + demo de Nyras",
+  "pt": "Todas as Conquistas + Demo do Nyras",
+  "pl": "Wszystkie osiągnięcia + demo Nyras",
+  "ru": "Все достижения + Nyras Prologue"
+ },
+ "Unlock ALL achievements": {
+  "de": "ALLE Errungenschaften freischalten",
+  "fr": "Débloquer TOUS les succès",
+  "it": "Sblocca TUTTI gli obiettivi",
+  "es": "Desbloquear TODOS los logros",
+  "pt": "Desbloquear TODAS as conquistas",
+  "pl": "Odblokuj WSZYSTKIE osiągnięcia",
+  "ru": "Открыть ВСЕ достижения"
+ },
+ "Permanent on your account. Enter again to confirm": {
+  "de": "Dauerhaft auf deinem Konto. Zum Bestätigen erneut Enter",
+  "fr": "Définitif sur votre compte. Entrée pour confirmer",
+  "it": "Permanente sul tuo account. Premi di nuovo Invio",
+  "es": "Permanente en tu cuenta. Pulsa Intro otra vez",
+  "pt": "Permanente na sua conta. Enter de novo confirma",
+  "pl": "Trwałe na twoim koncie. Naciśnij Enter ponownie",
+  "ru": "Навсегда на аккаунте. Нажмите Enter ещё раз"
+ },
+ "Unlock sent for {0} of {1} achievements": {
+  "de": "Freischaltung für {0} von {1} Errungenschaften gesendet",
+  "fr": "Déblocage envoyé pour {0} succès sur {1}",
+  "it": "Sblocco inviato per {0} obiettivi su {1}",
+  "es": "Desbloqueo enviado para {0} de {1} logros",
+  "pt": "Desbloqueio enviado para {0} de {1} conquistas",
+  "pl": "Wysłano odblokowanie {0} z {1} osiągnięć",
+  "ru": "Запрос отправлен для {0} из {1} достижений"
+ },
+ "Unlock sent: {0}": {
+  "de": "Freischaltung gesendet: {0}",
+  "fr": "Déblocage envoyé : {0}",
+  "it": "Sblocco inviato: {0}",
+  "es": "Desbloqueo enviado: {0}",
+  "pt": "Desbloqueio enviado: {0}",
+  "pl": "Wysłano odblokowanie: {0}",
+  "ru": "Запрос отправлен: {0}"
+ },
+ "Unlock failed: {0}": {
+  "de": "Freischalten fehlgeschlagen: {0}",
+  "fr": "Échec du déblocage : {0}",
+  "it": "Sblocco non riuscito: {0}",
+  "es": "Desbloqueo fallido: {0}",
+  "pt": "Falha ao desbloquear: {0}",
+  "pl": "Odblokowanie nie powiodło się: {0}",
+  "ru": "Не удалось открыть: {0}"
+ },
+ "Faction": {
+  "de": "Gilde",
+  "fr": "Guilde",
+  "it": "Gilda",
+  "es": "Cofradía",
+  "pt": "Guilda",
+  "pl": "Gildia",
+  "ru": "Фракция"
+ },
+ "No faction": {
+  "de": "Keine Gilde",
+  "fr": "Aucune guilde",
+  "it": "Nessuna gilda",
+  "es": "Sin cofradía",
+  "pt": "Sem guilda",
+  "pl": "Brak gildii",
+  "ru": "Без фракции"
+ },
+ "Old Camp: Digger": {
+  "de": "Altes Lager: Buddler",
+  "fr": "Ancien camp : Mineur",
+  "it": "Campo Vecchio: Scavatore",
+  "es": "Campamento Viejo: Cavador",
+  "pt": "Assentamento Antigo: Escavador",
+  "pl": "Stary Obóz: Kopacz",
+  "ru": "Старый лагерь: Рудокоп"
+ },
+ "Old Camp: Shadow": {
+  "de": "Altes Lager: Schatten",
+  "fr": "Ancien camp : Ombre",
+  "it": "Campo Vecchio: Ombra",
+  "es": "Campamento Viejo: Sombra",
+  "pt": "Assentamento Antigo: Sombra",
+  "pl": "Stary Obóz: Cień",
+  "ru": "Старый лагерь: Призрак"
+ },
+ "Old Camp: Guard": {
+  "de": "Altes Lager: Gardist",
+  "fr": "Ancien camp : Garde",
+  "it": "Campo Vecchio: Guardia",
+  "es": "Campamento Viejo: Guardia",
+  "pt": "Assentamento Antigo: Guarda",
+  "pl": "Stary Obóz: Strażnik",
+  "ru": "Старый лагерь: Стражник"
+ },
+ "Old Camp: Fire Mage": {
+  "de": "Altes Lager: Feuermagier",
+  "fr": "Ancien camp : Mage du Feu",
+  "it": "Campo Vecchio: Mago del Fuoco",
+  "es": "Campamento Viejo: Mago del Fuego",
+  "pt": "Assentamento Antigo: Mago do Fogo",
+  "pl": "Stary Obóz: Mag Ognia",
+  "ru": "Старый лагерь: Маг Огня"
+ },
+ "New Camp: Scraper": {
+  "de": "Neues Lager: Schürfer",
+  "fr": "Nouveau camp : Gratteur",
+  "it": "Campo Nuovo: Raschiatore",
+  "es": "Campamento Nuevo: Raspador",
+  "pt": "Assentamento Novo: Raspador",
+  "pl": "Nowy Obóz: Kret",
+  "ru": "Новый лагерь: Скребок"
+ },
+ "New Camp: Peasant": {
+  "de": "Neues Lager: Bauer",
+  "fr": "Nouveau camp : Paysan",
+  "it": "Campo Nuovo: Contadino",
+  "es": "Campamento Nuevo: Campesino",
+  "pt": "Assentamento Novo: Camponês",
+  "pl": "Nowy Obóz: Zbieracz",
+  "ru": "Новый лагерь: Крестьянин"
+ },
+ "New Camp: Rogue": {
+  "de": "Neues Lager: Bandit",
+  "fr": "Nouveau camp : Bandit",
+  "it": "Campo Nuovo: Bandito",
+  "es": "Campamento Nuevo: Bandido",
+  "pt": "Assentamento Novo: Ladino",
+  "pl": "Nowy Obóz: Szkodnik",
+  "ru": "Новый лагерь: Вор"
+ },
+ "New Camp: Mercenary": {
+  "de": "Neues Lager: Söldner",
+  "fr": "Nouveau camp : Mercenaire",
+  "it": "Campo Nuovo: Mercenario",
+  "es": "Campamento Nuevo: Mercenario",
+  "pt": "Assentamento Novo: Mercenário",
+  "pl": "Nowy Obóz: Najemnik",
+  "ru": "Новый лагерь: Наёмник"
+ },
+ "New Camp: Water Mage": {
+  "de": "Neues Lager: Wassermagier",
+  "fr": "Nouveau camp : Mage de l'Eau",
+  "it": "Campo Nuovo: Mago dell'Acqua",
+  "es": "Campamento Nuevo: Mago del Agua",
+  "pt": "Assentamento Novo: Mago da Água",
+  "pl": "Nowy Obóz: Mag Wody",
+  "ru": "Новый лагерь: Маг Воды"
+ },
+ "Swamp Camp: Novice": {
+  "de": "Sumpflager: Novize",
+  "fr": "Camp du marais : Novice",
+  "it": "Campo Palude: Novizio",
+  "es": "Campamento del Pantano: Novicio",
+  "pt": "Assentamento do Pântano: Noviço",
+  "pl": "Obóz Bractwa: Nowicjusz",
+  "ru": "Болотный лагерь: Послушник"
+ },
+ "Swamp Camp: Templar": {
+  "de": "Sumpflager: Templer",
+  "fr": "Camp du marais : Templier",
+  "it": "Campo Palude: Templare",
+  "es": "Campamento del Pantano: Templario",
+  "pt": "Assentamento do Pântano: Templário",
+  "pl": "Obóz Bractwa: Strażnik Świątynny",
+  "ru": "Болотный лагерь: Страж"
+ },
+ "Swamp Camp: Guru": {
+  "de": "Sumpflager: Guru",
+  "fr": "Camp du marais : Gourou",
+  "it": "Campo Palude: Guru",
+  "es": "Campamento del Pantano: Gurú",
+  "pt": "Assentamento do Pântano: Guru",
+  "pl": "Obóz Bractwa: Guru",
+  "ru": "Болотный лагерь: Гуру"
+ },
+ "current": {
+  "de": "aktuell",
+  "fr": "actuelle",
+  "it": "attuale",
+  "es": "actual",
+  "pt": "atual",
+  "pl": "obecna",
+  "ru": "текущая"
+ },
+ "Faction change failed": {
+  "de": "Gildenwechsel fehlgeschlagen",
+  "fr": "Échec du changement de guilde",
+  "it": "Cambio di gilda non riuscito",
+  "es": "No se pudo cambiar de cofradía",
+  "pt": "Falha ao trocar de guilda",
+  "pl": "Zmiana gildii nie powiodła się",
+  "ru": "Не удалось сменить фракцию"
+ },
+ "Faction removed": {
+  "de": "Gilde entfernt",
+  "fr": "Guilde retirée",
+  "it": "Gilda rimossa",
+  "es": "Cofradía eliminada",
+  "pt": "Guilda removida",
+  "pl": "Usunięto gildię",
+  "ru": "Фракция снята"
+ },
+ "Faction set: {0}": {
+  "de": "Gilde gesetzt: {0}",
+  "fr": "Guilde définie : {0}",
+  "it": "Gilda impostata: {0}",
+  "es": "Cofradía establecida: {0}",
+  "pt": "Guilda definida: {0}",
+  "pl": "Ustawiono gildię: {0}",
+  "ru": "Фракция установлена: {0}"
+ },
+ "Inventory not found": {
+  "de": "Inventar nicht gefunden",
+  "fr": "Inventaire introuvable",
+  "it": "Inventario non trovato",
+  "es": "Inventario no encontrado",
+  "pt": "Inventário não encontrado",
+  "pl": "Nie znaleziono ekwipunku",
+  "ru": "Инвентарь не найден"
+ },
+ "Added: {0}": {
+  "de": "Hinzugefügt: {0}",
+  "fr": "Ajouté : {0}",
+  "it": "Aggiunto: {0}",
+  "es": "Añadido: {0}",
+  "pt": "Adicionado: {0}",
+  "pl": "Dodano: {0}",
+  "ru": "Добавлено: {0}"
+ },
+ "Added {0} of {1} items": {
+  "de": "{0} von {1} Gegenständen hinzugefügt",
+  "fr": "{0} objets sur {1} ajoutés",
+  "it": "Aggiunti {0} oggetti su {1}",
+  "es": "Añadidos {0} de {1} objetos",
+  "pt": "{0} de {1} itens adicionados",
+  "pl": "Dodano {0} z {1} przedmiotów",
+  "ru": "Добавлено предметов: {0} из {1}"
+ },
+ "[Enter] Add   [Backspace] Back   [F7] Close": {
+  "de": "[Enter] Hinzufügen   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Entrée] Ajouter   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Invio] Aggiungi   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Intro] Añadir   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Enter] Adicionar   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Enter] Dodaj   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Enter] Добавить   [Backspace] Назад   [F7] Закрыть"
+ },
+ "Items": {
+  "de": "Gegenstände",
+  "fr": "Objets",
+  "it": "Oggetti",
+  "es": "Objetos",
+  "pt": "Itens",
+  "pl": "Przedmioty",
+  "ru": "Предметы"
+ },
+ "Runes": {
+  "de": "Runen",
+  "fr": "Runes",
+  "it": "Rune",
+  "es": "Runas",
+  "pt": "Runas",
+  "pl": "Runy",
+  "ru": "Руны"
+ },
+ "All runes": {
+  "de": "Alle Runen",
+  "fr": "Toutes les runes",
+  "it": "Tutte le rune",
+  "es": "Todas las runas",
+  "pt": "Todas as runas",
+  "pl": "Wszystkie runy",
+  "ru": "Все руны"
+ },
+ "Scrolls": {
+  "de": "Schriftrollen",
+  "fr": "Parchemins",
+  "it": "Pergamene",
+  "es": "Pergaminos",
+  "pt": "Pergaminhos",
+  "pl": "Zwoje",
+  "ru": "Свитки"
+ },
+ "All scrolls": {
+  "de": "Alle Schriftrollen",
+  "fr": "Tous les parchemins",
+  "it": "Tutte le pergamene",
+  "es": "Todos los pergaminos",
+  "pt": "Todos os pergaminhos",
+  "pl": "Wszystkie zwoje",
+  "ru": "Все свитки"
+ },
+ "Melee weapons": {
+  "de": "Nahkampfwaffen",
+  "fr": "Armes de mêlée",
+  "it": "Armi da mischia",
+  "es": "Armas cuerpo a cuerpo",
+  "pt": "Armas corpo a corpo",
+  "pl": "Broń biała",
+  "ru": "Оружие ближнего боя"
+ },
+ "All melee weapons": {
+  "de": "Alle Nahkampfwaffen",
+  "fr": "Toutes les armes de mêlée",
+  "it": "Tutte le armi da mischia",
+  "es": "Todas las armas cuerpo a cuerpo",
+  "pt": "Todas as armas corpo a corpo",
+  "pl": "Cała broń biała",
+  "ru": "Всё оружие ближнего боя"
+ },
+ "Ranged weapons": {
+  "de": "Fernkampfwaffen",
+  "fr": "Armes à distance",
+  "it": "Armi a distanza",
+  "es": "Armas a distancia",
+  "pt": "Armas à distância",
+  "pl": "Broń dystansowa",
+  "ru": "Оружие дальнего боя"
+ },
+ "All ranged weapons": {
+  "de": "Alle Fernkampfwaffen",
+  "fr": "Toutes les armes à distance",
+  "it": "Tutte le armi a distanza",
+  "es": "Todas las armas a distancia",
+  "pt": "Todas as armas à distância",
+  "pl": "Cała broń dystansowa",
+  "ru": "Всё оружие дальнего боя"
+ },
+ "Armours": {
+  "de": "Rüstungen",
+  "fr": "Armures",
+  "it": "Armature",
+  "es": "Armaduras",
+  "pt": "Armaduras",
+  "pl": "Pancerze",
+  "ru": "Доспехи"
+ },
+ "All armours": {
+  "de": "Alle Rüstungen",
+  "fr": "Toutes les armures",
+  "it": "Tutte le armature",
+  "es": "Todas las armaduras",
+  "pt": "Todas as armaduras",
+  "pl": "Wszystkie pancerze",
+  "ru": "Все доспехи"
+ },
+ "Maps": {
+  "de": "Karten",
+  "fr": "Cartes",
+  "it": "Mappe",
+  "es": "Mapas",
+  "pt": "Mapas",
+  "pl": "Mapy",
+  "ru": "Карты"
+ },
+ "All maps": {
+  "de": "Alle Karten",
+  "fr": "Toutes les cartes",
+  "it": "Tutte le mappe",
+  "es": "Todos los mapas",
+  "pt": "Todos os mapas",
+  "pl": "Wszystkie mapy",
+  "ru": "Все карты"
+ },
+ "Animal trophies": {
+  "de": "Tiertrophäen",
+  "fr": "Trophées animaux",
+  "it": "Trofei animali",
+  "es": "Trofeos de animales",
+  "pt": "Troféus de animais",
+  "pl": "Trofea zwierzęce",
+  "ru": "Трофеи животных"
+ },
+ "All animal trophies": {
+  "de": "Alle Tiertrophäen",
+  "fr": "Tous les trophées animaux",
+  "it": "Tutti i trofei animali",
+  "es": "Todos los trofeos de animales",
+  "pt": "Todos os troféus de animais",
+  "pl": "Wszystkie trofea zwierzęce",
+  "ru": "Все трофеи животных"
+ },
+ "Smithing materials": {
+  "de": "Schmiedematerial",
+  "fr": "Matériaux de forge",
+  "it": "Materiali da forgia",
+  "es": "Materiales de herrería",
+  "pt": "Materiais de ferraria",
+  "pl": "Materiały kowalskie",
+  "ru": "Кузнечные материалы"
+ },
+ "All smithing materials": {
+  "de": "Alles Schmiedematerial",
+  "fr": "Tous les matériaux de forge",
+  "it": "Tutti i materiali da forgia",
+  "es": "Todos los materiales de herrería",
+  "pt": "Todos os materiais de ferraria",
+  "pl": "Wszystkie materiały kowalskie",
+  "ru": "Все кузнечные материалы"
+ },
+ "Alchemy ingredients": {
+  "de": "Alchemiezutaten",
+  "fr": "Ingrédients d'alchimie",
+  "it": "Ingredienti alchemici",
+  "es": "Ingredientes de alquimia",
+  "pt": "Ingredientes de alquimia",
+  "pl": "Składniki alchemiczne",
+  "ru": "Алхимические ингредиенты"
+ },
+ "All alchemy ingredients": {
+  "de": "Alle Alchemiezutaten",
+  "fr": "Tous les ingrédients d'alchimie",
+  "it": "Tutti gli ingredienti alchemici",
+  "es": "Todos los ingredientes de alquimia",
+  "pt": "Todos os ingredientes de alquimia",
+  "pl": "Wszystkie składniki alchemiczne",
+  "ru": "Все алхимические ингредиенты"
+ },
+ "Plants": {
+  "de": "Pflanzen",
+  "fr": "Plantes",
+  "it": "Piante",
+  "es": "Plantas",
+  "pt": "Plantas",
+  "pl": "Rośliny",
+  "ru": "Растения"
+ },
+ "All plants": {
+  "de": "Alle Pflanzen",
+  "fr": "Toutes les plantes",
+  "it": "Tutte le piante",
+  "es": "Todas las plantas",
+  "pt": "Todas as plantas",
+  "pl": "Wszystkie rośliny",
+  "ru": "Все растения"
+ },
+ "Keys": {
+  "de": "Schlüssel",
+  "fr": "Clés",
+  "it": "Chiavi",
+  "es": "Llaves",
+  "pt": "Chaves",
+  "pl": "Klucze",
+  "ru": "Ключи"
+ },
+ "All keys": {
+  "de": "Alle Schlüssel",
+  "fr": "Toutes les clés",
+  "it": "Tutte le chiavi",
+  "es": "Todas las llaves",
+  "pt": "Todas as chaves",
+  "pl": "Wszystkie klucze",
+  "ru": "Все ключи"
+ },
+ "Quest items": {
+  "de": "Questgegenstände",
+  "fr": "Objets de quête",
+  "it": "Oggetti delle missioni",
+  "es": "Objetos de misión",
+  "pt": "Itens de missão",
+  "pl": "Przedmioty fabularne",
+  "ru": "Квестовые предметы"
+ },
+ "Ore x100": {
+  "de": "Erz x100",
+  "fr": "Minerai x100",
+  "it": "Metallo blu x100",
+  "es": "Mineral x100",
+  "pt": "Minério x100",
+  "pl": "Ruda x100",
+  "ru": "Руда x100"
+ },
+ "Ore x1000": {
+  "de": "Erz x1000",
+  "fr": "Minerai x1000",
+  "it": "Metallo blu x1000",
+  "es": "Mineral x1000",
+  "pt": "Minério x1000",
+  "pl": "Ruda x1000",
+  "ru": "Руда x1000"
+ },
+ "Lockpicks x10": {
+  "de": "Dietriche x10",
+  "fr": "Crochets x10",
+  "it": "Grimaldelli x10",
+  "es": "Ganzúas x10",
+  "pt": "Gazuas x10",
+  "pl": "Wytrychy x10",
+  "ru": "Отмычки x10"
+ },
+ "Healing potions x5": {
+  "de": "Heiltränke x5",
+  "fr": "Potions de soin x5",
+  "it": "Pozioni curative x5",
+  "es": "Pociones de curación x5",
+  "pt": "Poções de cura x5",
+  "pl": "Mikstury lecznicze x5",
+  "ru": "Лечебные зелья x5"
+ },
+ "Mana potions x5": {
+  "de": "Manatränke x5",
+  "fr": "Potions de mana x5",
+  "it": "Pozioni di mana x5",
+  "es": "Pociones de maná x5",
+  "pt": "Poções de mana x5",
+  "pl": "Mikstury many x5",
+  "ru": "Зелья маны x5"
+ },
+ "Speed potions x3": {
+  "de": "Tränke der Eile x3",
+  "fr": "Potions de rapidité x3",
+  "it": "Pozioni di velocità x3",
+  "es": "Pociones de velocidad x3",
+  "pt": "Poções de velocidade x3",
+  "pl": "Mikstury szybkości x3",
+  "ru": "Зелья ускорения x3"
+ },
+ "Arrows x50": {
+  "de": "Pfeile x50",
+  "fr": "Flèches x50",
+  "it": "Frecce x50",
+  "es": "Flechas x50",
+  "pt": "Flechas x50",
+  "pl": "Strzały x50",
+  "ru": "Стрелы x50"
+ },
+ "Bolts x50": {
+  "de": "Bolzen x50",
+  "fr": "Carreaux x50",
+  "it": "Dardi x50",
+  "es": "Virotes x50",
+  "pt": "Virotes x50",
+  "pl": "Bełty x50",
+  "ru": "Болты x50"
+ },
+ "Torches x5": {
+  "de": "Fackeln x5",
+  "fr": "Torches x5",
+  "it": "Torce x5",
+  "es": "Antorchas x5",
+  "pt": "Tochas x5",
+  "pl": "Pochodnie x5",
+  "ru": "Факелы x5"
+ },
+ "Strength elixir": {
+  "de": "Elixier der Stärke",
+  "fr": "Élixir de force",
+  "it": "Elisir di forza",
+  "es": "Elixir de fuerza",
+  "pt": "Elixir de força",
+  "pl": "Eliksir siły",
+  "ru": "Эликсир силы"
+ },
+ "Dexterity elixir": {
+  "de": "Elixier der Geschicklichkeit",
+  "fr": "Élixir de dextérité",
+  "it": "Elisir di destrezza",
+  "es": "Elixir de destreza",
+  "pt": "Elixir de destreza",
+  "pl": "Eliksir zręczności",
+  "ru": "Эликсир ловкости"
+ },
+ "Elixir of life (max HP)": {
+  "de": "Elixier des Lebens (max. LP)",
+  "fr": "Élixir de vie (vie max.)",
+  "it": "Elisir di vita (vita max)",
+  "es": "Elixir de vida (vida máx.)",
+  "pt": "Elixir da vida (vida máx.)",
+  "pl": "Eliksir życia (maks. zdrowie)",
+  "ru": "Эликсир жизни (макс. здоровье)"
+ },
+ "Elixir of spirit (max MP)": {
+  "de": "Elixier des Geistes (max. Mana)",
+  "fr": "Élixir d'esprit (mana max.)",
+  "it": "Elisir dello spirito (mana max)",
+  "es": "Elixir de espíritu (maná máx.)",
+  "pt": "Elixir do espírito (mana máx.)",
+  "pl": "Eliksir ducha (maks. mana)",
+  "ru": "Эликсир духа (макс. мана)"
+ },
+ "Spawn creature": {
+  "de": "Kreatur erschaffen",
+  "fr": "Faire apparaître une créature",
+  "it": "Genera creatura",
+  "es": "Generar criatura",
+  "pt": "Gerar criatura",
+  "pl": "Przywołaj stworzenie",
+  "ru": "Создать существо"
+ },
+ "[Enter] Spawn   [Backspace] Back   [F7] Close": {
+  "de": "[Enter] Erschaffen   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Entrée] Faire apparaître   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Invio] Evoca   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Intro] Generar   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Enter] Gerar   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Enter] Przywołaj   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Enter] Создать   [Backspace] Назад   [F7] Закрыть"
+ },
+ "Meatbug": {
+  "de": "Fleischwanze",
+  "fr": "Punaise à viande",
+  "it": "Cimice della carne",
+  "es": "Chinche de carne",
+  "pt": "Percevejo de carne",
+  "pl": "Chrząszcz",
+  "ru": "Мясной жук"
+ },
+ "Bloodfly": {
+  "de": "Blutfliege",
+  "fr": "Mouche sanguinaire",
+  "it": "Mosca sanguinaria",
+  "es": "Mosca de sangre",
+  "pt": "Mosca de sangue",
+  "pl": "Krwiopijca",
+  "ru": "Кровяной шершень"
+ },
+ "Molerat": {
+  "de": "Molerat",
+  "fr": "Rat-taupe",
+  "it": "Ratto talpa",
+  "es": "Topo-rata",
+  "pt": "Rato-toupeira",
+  "pl": "Kretoszczur",
+  "ru": "Кротокрыс"
+ },
+ "Scavenger": {
+  "de": "Scavenger",
+  "fr": "Charognard",
+  "it": "Spazzino",
+  "es": "Carroñero",
+  "pt": "Carniceiro",
+  "pl": "Ścierwojad",
+  "ru": "Падальщик"
+ },
+ "Wolf": {
+  "de": "Wolf",
+  "fr": "Loup",
+  "it": "Lupo",
+  "es": "Lobo",
+  "pt": "Lobo",
+  "pl": "Wilk",
+  "ru": "Волк"
+ },
+ "Orc Dog": {
+  "de": "Orkhund",
+  "fr": "Chien orque",
+  "it": "Cane orco",
+  "es": "Perro orco",
+  "pt": "Cão orc",
+  "pl": "Pies orków",
+  "ru": "Орочья собака"
+ },
+ "Snapper": {
+  "de": "Snapper",
+  "fr": "Snapper",
+  "it": "Snapper",
+  "es": "Snapper",
+  "pt": "Snapper",
+  "pl": "Zębacz",
+  "ru": "Глорх"
+ },
+ "Razor": {
+  "de": "Razor",
+  "fr": "Razor",
+  "it": "Razor",
+  "es": "Razor",
+  "pt": "Razor",
+  "pl": "Brzytwiak",
+  "ru": "Бритвозуб"
+ },
+ "Biter": {
+  "de": "Beißer",
+  "fr": "Mordeur",
+  "it": "Morditore",
+  "es": "Mordedor",
+  "pt": "Mordedor",
+  "pl": "Kąsacz",
+  "ru": "Кусач"
+ },
+ "Bloodhound": {
+  "de": "Bluthund",
+  "fr": "Limier sanglant",
+  "it": "Segugio sanguinario",
+  "es": "Sabueso sangriento",
+  "pt": "Cão de sangue",
+  "pl": "Krwawy ogar",
+  "ru": "Кровавая гончая"
+ },
+ "Lurker": {
+  "de": "Lurker",
+  "fr": "Rôdeur",
+  "it": "Lurker",
+  "es": "Lurker",
+  "pt": "Lurker",
+  "pl": "Topielec",
+  "ru": "Шныг"
+ },
+ "Lizard": {
+  "de": "Waran",
+  "fr": "Lézard",
+  "it": "Lucertola",
+  "es": "Lagarto",
+  "pt": "Lagarto",
+  "pl": "Jaszczur",
+  "ru": "Ящер"
+ },
+ "Fire Lizard": {
+  "de": "Feuerwaran",
+  "fr": "Lézard de feu",
+  "it": "Lucertola di fuoco",
+  "es": "Lagarto de fuego",
+  "pt": "Lagarto de fogo",
+  "pl": "Ognisty jaszczur",
+  "ru": "Огненный ящер"
+ },
+ "Swampshark": {
+  "de": "Sumpfhai",
+  "fr": "Requin des marais",
+  "it": "Squalo di palude",
+  "es": "Tiburón de pantano",
+  "pt": "Tubarão do pântano",
+  "pl": "Błotny wąż",
+  "ru": "Болотожор"
+ },
+ "Minecrawler": {
+  "de": "Minecrawler",
+  "fr": "Rampant des mines",
+  "it": "Strisciatore delle miniere",
+  "es": "Reptador de mina",
+  "pt": "Rastejador das minas",
+  "pl": "Pełzacz",
+  "ru": "Ползун"
+ },
+ "Minecrawler Warrior": {
+  "de": "Minecrawler-Krieger",
+  "fr": "Rampant des mines guerrier",
+  "it": "Strisciatore delle miniere guerriero",
+  "es": "Reptador de mina guerrero",
+  "pt": "Rastejador das minas guerreiro",
+  "pl": "Pełzacz wojownik",
+  "ru": "Ползун-воин"
+ },
+ "Harpy": {
+  "de": "Harpie",
+  "fr": "Harpie",
+  "it": "Arpia",
+  "es": "Arpía",
+  "pt": "Harpia",
+  "pl": "Harpia",
+  "ru": "Гарпия"
+ },
+ "Shadowbeast": {
+  "de": "Schattenläufer",
+  "fr": "Bête de l'ombre",
+  "it": "Bestia d'ombra",
+  "es": "Bestia sombría",
+  "pt": "Fera das sombras",
+  "pl": "Cieniostwór",
+  "ru": "Мракорис"
+ },
+ "Goblin": {
+  "de": "Goblin",
+  "fr": "Gobelin",
+  "it": "Goblin",
+  "es": "Goblin",
+  "pt": "Goblin",
+  "pl": "Goblin",
+  "ru": "Гоблин"
+ },
+ "Black Goblin": {
+  "de": "Schwarzer Goblin",
+  "fr": "Gobelin noir",
+  "it": "Goblin nero",
+  "es": "Goblin negro",
+  "pt": "Goblin negro",
+  "pl": "Czarny goblin",
+  "ru": "Чёрный гоблин"
+ },
+ "Young Troll": {
+  "de": "Junger Troll",
+  "fr": "Jeune troll",
+  "it": "Troll giovane",
+  "es": "Trol joven",
+  "pt": "Troll jovem",
+  "pl": "Młody troll",
+  "ru": "Молодой тролль"
+ },
+ "Troll": {
+  "de": "Troll",
+  "fr": "Troll",
+  "it": "Troll",
+  "es": "Trol",
+  "pt": "Troll",
+  "pl": "Troll",
+  "ru": "Тролль"
+ },
+ "Skeleton": {
+  "de": "Skelett",
+  "fr": "Squelette",
+  "it": "Scheletro",
+  "es": "Esqueleto",
+  "pt": "Esqueleto",
+  "pl": "Szkielet",
+  "ru": "Скелет"
+ },
+ "Skeleton Warrior": {
+  "de": "Skelettkrieger",
+  "fr": "Guerrier squelette",
+  "it": "Guerriero scheletro",
+  "es": "Guerrero esqueleto",
+  "pt": "Guerreiro esqueleto",
+  "pl": "Szkielet wojownik",
+  "ru": "Скелет-воин"
+ },
+ "Skeleton Mage": {
+  "de": "Skelettmagier",
+  "fr": "Mage squelette",
+  "it": "Mago scheletro",
+  "es": "Mago esqueleto",
+  "pt": "Mago esqueleto",
+  "pl": "Szkielet mag",
+  "ru": "Скелет-маг"
+ },
+ "Zombie": {
+  "de": "Zombie",
+  "fr": "Zombie",
+  "it": "Zombi",
+  "es": "Zombi",
+  "pt": "Zumbi",
+  "pl": "Zombie",
+  "ru": "Зомби"
+ },
+ "Stone Golem": {
+  "de": "Steingolem",
+  "fr": "Golem de pierre",
+  "it": "Golem di pietra",
+  "es": "Gólem de piedra",
+  "pt": "Golem de pedra",
+  "pl": "Kamienny golem",
+  "ru": "Каменный голем"
+ },
+ "Fire Golem": {
+  "de": "Feuergolem",
+  "fr": "Golem de feu",
+  "it": "Golem di fuoco",
+  "es": "Gólem de fuego",
+  "pt": "Golem de fogo",
+  "pl": "Ognisty golem",
+  "ru": "Огненный голем"
+ },
+ "Ice Golem": {
+  "de": "Eisgolem",
+  "fr": "Golem de glace",
+  "it": "Golem di ghiaccio",
+  "es": "Gólem de hielo",
+  "pt": "Golem de gelo",
+  "pl": "Lodowy golem",
+  "ru": "Ледяной голем"
+ },
+ "Demon": {
+  "de": "Dämon",
+  "fr": "Démon",
+  "it": "Demone",
+  "es": "Demonio",
+  "pt": "Demônio",
+  "pl": "Demon",
+  "ru": "Демон"
+ },
+ "Creature not found: {0}": {
+  "de": "Kreatur nicht gefunden: {0}",
+  "fr": "Créature introuvable : {0}",
+  "it": "Creatura non trovata: {0}",
+  "es": "Criatura no encontrada: {0}",
+  "pt": "Criatura não encontrada: {0}",
+  "pl": "Nie znaleziono stworzenia: {0}",
+  "ru": "Существо не найдено: {0}"
+ },
+ "Spawned: {0}": {
+  "de": "Erschaffen: {0}",
+  "fr": "Apparu : {0}",
+  "it": "Generato: {0}",
+  "es": "Generado: {0}",
+  "pt": "Gerado: {0}",
+  "pl": "Przywołano: {0}",
+  "ru": "Создано: {0}"
+ },
+ "Camp attitude": {
+  "de": "Haltung der Lager",
+  "fr": "Attitude des camps",
+  "it": "Atteggiamento dei campi",
+  "es": "Actitud de los campamentos",
+  "pt": "Atitude dos assentamentos",
+  "pl": "Nastawienie obozów",
+  "ru": "Отношение лагерей"
+ },
+ "[Left/Right] Change   [Backspace] Back   [F7] Close": {
+  "de": "[Links/Rechts] Ändern   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Gauche/Droite] Modifier   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Sinistra/Destra] Cambia   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Izquierda/Derecha] Cambiar   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Esquerda/Direita] Alterar   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Lewo/Prawo] Zmień   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Влево/Вправо] Изменить   [Backspace] Назад   [F7] Закрыть"
+ },
+ "Old Camp": {
+  "de": "Altes Lager",
+  "fr": "Ancien camp",
+  "it": "Campo Vecchio",
+  "es": "Campamento Viejo",
+  "pt": "Assentamento Antigo",
+  "pl": "Stary Obóz",
+  "ru": "Старый лагерь"
+ },
+ "New Camp": {
+  "de": "Neues Lager",
+  "fr": "Nouveau camp",
+  "it": "Campo Nuovo",
+  "es": "Campamento Nuevo",
+  "pt": "Assentamento Novo",
+  "pl": "Nowy Obóz",
+  "ru": "Новый лагерь"
+ },
+ "Swamp Camp": {
+  "de": "Sumpflager",
+  "fr": "Camp du marais",
+  "it": "Campo Palude",
+  "es": "Campamento del Pantano",
+  "pt": "Assentamento do Pântano",
+  "pl": "Obóz Bractwa",
+  "ru": "Болотный лагерь"
+ },
+ "Friendly": {
+  "de": "Freundlich",
+  "fr": "Amicale",
+  "it": "Amichevole",
+  "es": "Amistosa",
+  "pt": "Amigável",
+  "pl": "Przyjazne",
+  "ru": "Дружелюбное"
+ },
+ "Normal": {
+  "de": "Normal",
+  "fr": "Normale",
+  "it": "Normale",
+  "es": "Normal",
+  "pt": "Normal",
+  "pl": "Normalne",
+  "ru": "Обычное"
+ },
+ "Attitude of {0}: {1}": {
+  "de": "Haltung {0}: {1}",
+  "fr": "Attitude ({0}) : {1}",
+  "it": "Atteggiamento ({0}): {1}",
+  "es": "Actitud ({0}): {1}",
+  "pt": "Atitude ({0}): {1}",
+  "pl": "Nastawienie ({0}): {1}",
+  "ru": "Отношение ({0}): {1}"
+ },
+ "NPCs": {
+  "de": "NPCs",
+  "fr": "PNJ",
+  "it": "PNG",
+  "es": "PNJ",
+  "pt": "NPCs",
+  "pl": "NPC",
+  "ru": "NPC"
+ },
+ "Heal NPC in view": {
+  "de": "NPC im Blick heilen",
+  "fr": "Soigner le PNJ en vue",
+  "it": "Cura il PNG in vista",
+  "es": "Curar al PNJ a la vista",
+  "pt": "Curar NPC à vista",
+  "pl": "Ulecz NPC w polu widzenia",
+  "ru": "Вылечить NPC перед собой"
+ },
+ "Kill NPC in view": {
+  "de": "NPC im Blick töten",
+  "fr": "Tuer le PNJ en vue",
+  "it": "Uccidi il PNG in vista",
+  "es": "Matar al PNJ a la vista",
+  "pt": "Matar NPC à vista",
+  "pl": "Zabij NPC w polu widzenia",
+  "ru": "Убить NPC перед собой"
+ },
+ "Revive NPC in view": {
+  "de": "Toten NPC im Blick wiederbeleben",
+  "fr": "Ranimer le PNJ mort en vue",
+  "it": "Rianima il PNG morto in vista",
+  "es": "Revivir al PNJ muerto a la vista",
+  "pt": "Reviver NPC morto à vista",
+  "pl": "Wskrześ martwego NPC w polu widzenia",
+  "ru": "Воскресить мёртвого NPC перед собой"
+ },
+ "Kill hostile NPCs (loaded area)": {
+  "de": "Feindliche NPCs töten (geladenes Gebiet)",
+  "fr": "Tuer les PNJ hostiles (zone chargée)",
+  "it": "Uccidi i PNG ostili (area caricata)",
+  "es": "Matar PNJ hostiles (zona cargada)",
+  "pt": "Matar NPCs hostis (área carregada)",
+  "pl": "Zabij wrogich NPC (wczytany obszar)",
+  "ru": "Убить враждебных NPC (в этой зоне)"
+ },
+ "Make loaded NPCs friendly": {
+  "de": "Geladene NPCs freundlich machen",
+  "fr": "Rendre amicaux les PNJ chargés",
+  "it": "Rendi amichevoli i PNG caricati",
+  "es": "Volver amistosos a los PNJ cargados",
+  "pt": "Tornar amigáveis os NPCs carregados",
+  "pl": "Zaprzyjaźnij wczytanych NPC",
+  "ru": "Сделать NPC в зоне дружелюбными"
+ },
+ "No NPC in view": {
+  "de": "Kein NPC im Blick",
+  "fr": "Aucun PNJ en vue",
+  "it": "Nessun PNG in vista",
+  "es": "Ningún PNJ a la vista",
+  "pt": "Nenhum NPC à vista",
+  "pl": "Brak NPC w polu widzenia",
+  "ru": "Нет NPC перед собой"
+ },
+ "Healed: {0}": {
+  "de": "Geheilt: {0}",
+  "fr": "Soigné : {0}",
+  "it": "Curato: {0}",
+  "es": "Curado: {0}",
+  "pt": "Curado: {0}",
+  "pl": "Uleczono: {0}",
+  "ru": "Вылечен: {0}"
+ },
+ "Killing failed": {
+  "de": "Töten fehlgeschlagen",
+  "fr": "Échec de la mise à mort",
+  "it": "Uccisione fallita",
+  "es": "No se pudo matar",
+  "pt": "Falha ao matar",
+  "pl": "Zabicie nie powiodło się",
+  "ru": "Не удалось убить"
+ },
+ "Killed: {0}": {
+  "de": "Getötet: {0}",
+  "fr": "Tué : {0}",
+  "it": "Ucciso: {0}",
+  "es": "Asesinado: {0}",
+  "pt": "Morto: {0}",
+  "pl": "Zabito: {0}",
+  "ru": "Убит: {0}"
+ },
+ "No dead NPC in view": {
+  "de": "Kein toter NPC im Blick",
+  "fr": "Aucun PNJ mort en vue",
+  "it": "Nessun PNG morto in vista",
+  "es": "Ningún PNJ muerto a la vista",
+  "pt": "Nenhum NPC morto à vista",
+  "pl": "Brak martwego NPC w polu widzenia",
+  "ru": "Нет мёртвого NPC перед собой"
+ },
+ "Reviving failed": {
+  "de": "Wiederbeleben fehlgeschlagen",
+  "fr": "Échec de la réanimation",
+  "it": "Rianimazione fallita",
+  "es": "No se pudo revivir",
+  "pt": "Falha ao reviver",
+  "pl": "Wskrzeszenie nie powiodło się",
+  "ru": "Не удалось воскресить"
+ },
+ "Revived: {0}, stands up once the area reloads": {
+  "de": "Wiederbelebt: {0}, steht auf, sobald die Gegend neu geladen wird",
+  "fr": "Ranimé : {0}, se relève quand la zone est rechargée",
+  "it": "Rianimato: {0}, si rialza quando l'area viene ricaricata",
+  "es": "Revivido: {0}, se levanta cuando la zona se vuelve a cargar",
+  "pt": "Revivido: {0}, levanta-se quando a área for recarregada",
+  "pl": "Wskrzeszono: {0}, wstanie po ponownym wczytaniu okolicy",
+  "ru": "Воскрешён: {0}, встанет после перезагрузки местности"
+ },
+ "Killed {0} hostile NPC(s)": {
+  "de": "{0} feindliche NPCs getötet",
+  "fr": "PNJ hostiles tués : {0}",
+  "it": "PNG ostili uccisi: {0}",
+  "es": "PNJ hostiles eliminados: {0}",
+  "pt": "NPCs hostis mortos: {0}",
+  "pl": "Zabito wrogich NPC: {0}",
+  "ru": "Убито враждебных NPC: {0}"
+ },
+ "{0} loaded NPC(s) are now friendly": {
+  "de": "{0} geladene NPCs sind jetzt freundlich",
+  "fr": "PNJ chargés désormais amicaux : {0}",
+  "it": "PNG caricati ora amichevoli: {0}",
+  "es": "PNJ cargados ahora amistosos: {0}",
+  "pt": "NPCs carregados agora amigáveis: {0}",
+  "pl": "Zaprzyjaźnionych NPC: {0}",
+  "ru": "Дружелюбных NPC теперь: {0}"
+ },
+ "Player": {
+  "de": "Spieler",
+  "fr": "Joueur",
+  "it": "Giocatore",
+  "es": "Jugador",
+  "pt": "Jogador",
+  "pl": "Gracz",
+  "ru": "Игрок"
+ },
+ "God mode": {
+  "de": "Gottmodus",
+  "fr": "Mode dieu",
+  "it": "Modalità dio",
+  "es": "Modo dios",
+  "pt": "Modo deus",
+  "pl": "Tryb boga",
+  "ru": "Режим бога"
+ },
+ "Infinite mana": {
+  "de": "Unendlich Mana",
+  "fr": "Mana infini",
+  "it": "Mana infinito",
+  "es": "Maná infinito",
+  "pt": "Mana infinita",
+  "pl": "Nieskończona mana",
+  "ru": "Бесконечная мана"
+ },
+ "Infinite breath": {
+  "de": "Unendlich Atem",
+  "fr": "Souffle infini",
+  "it": "Respiro infinito",
+  "es": "Aliento infinito",
+  "pt": "Fôlego infinito",
+  "pl": "Nieskończony oddech",
+  "ru": "Бесконечное дыхание"
+ },
+ "Fly": {
+  "de": "Fliegen",
+  "fr": "Voler",
+  "it": "Volo",
+  "es": "Volar",
+  "pt": "Voar",
+  "pl": "Latanie",
+  "ru": "Полёт"
+ },
+ "One-hit kills": {
+  "de": "Ein-Treffer-Kills",
+  "fr": "Mort en un coup",
+  "it": "Uccisioni con un colpo",
+  "es": "Muerte de un golpe",
+  "pt": "Morte com um golpe",
+  "pl": "Zabicie jednym ciosem",
+  "ru": "Убийство с одного удара"
+ },
+ "Unbreakable lockpicks": {
+  "de": "Unzerbrechliche Dietriche",
+  "fr": "Crochets incassables",
+  "it": "Grimaldelli indistruttibili",
+  "es": "Ganzúas irrompibles",
+  "pt": "Gazuas inquebráveis",
+  "pl": "Niezniszczalne wytrychy",
+  "ru": "Неломающиеся отмычки"
+ },
+ "No fall damage": {
+  "de": "Kein Fallschaden",
+  "fr": "Pas de dégâts de chute",
+  "it": "Nessun danno da caduta",
+  "es": "Sin daño por caída",
+  "pt": "Sem dano de queda",
+  "pl": "Brak obrażeń od upadku",
+  "ru": "Без урона от падения"
+ },
+ "Infinite ammo": {
+  "de": "Unendlich Munition",
+  "fr": "Munitions infinies",
+  "it": "Munizioni infinite",
+  "es": "Munición infinita",
+  "pt": "Munição infinita",
+  "pl": "Nieskończona amunicja",
+  "ru": "Бесконечные боеприпасы"
+ },
+ "Invisible to NPCs": {
+  "de": "Unsichtbar für NPCs",
+  "fr": "Invisible pour les PNJ",
+  "it": "Invisibile ai PNG",
+  "es": "Invisible para los PNJ",
+  "pt": "Invisível para NPCs",
+  "pl": "Niewidzialność dla NPC",
+  "ru": "Невидимость для NPC"
+ },
+ "Sure pickpocketing": {
+  "de": "Sicherer Taschendiebstahl",
+  "fr": "Vol à la tire assuré",
+  "it": "Borseggio sicuro",
+  "es": "Hurto seguro",
+  "pt": "Furto garantido",
+  "pl": "Pewna kradzież kieszonkowa",
+  "ru": "Верная карманная кража"
+ },
+ "Unlock chest or door in view": {
+  "de": "Truhe oder Tür im Blick aufschließen",
+  "fr": "Déverrouiller le coffre ou la porte en vue",
+  "it": "Sblocca forziere o porta in vista",
+  "es": "Desbloquear cofre o puerta a la vista",
+  "pt": "Destrancar baú ou porta à vista",
+  "pl": "Otwórz skrzynię lub drzwi w polu widzenia",
+  "ru": "Отпереть сундук или дверь перед собой"
+ },
+ "Hero speed": {
+  "de": "Heldentempo",
+  "fr": "Vitesse du héros",
+  "it": "Velocità dell'eroe",
+  "es": "Velocidad del héroe",
+  "pt": "Velocidade do herói",
+  "pl": "Szybkość bohatera",
+  "ru": "Скорость героя"
+ },
+ "Jump height": {
+  "de": "Sprunghöhe",
+  "fr": "Hauteur de saut",
+  "it": "Altezza del salto",
+  "es": "Altura de salto",
+  "pt": "Altura do pulo",
+  "pl": "Wysokość skoku",
+  "ru": "Высота прыжка"
+ },
+ "Restore health and mana": {
+  "de": "Leben und Mana auffüllen",
+  "fr": "Restaurer vie et mana",
+  "it": "Ripristina salute e mana",
+  "es": "Restaurar salud y maná",
+  "pt": "Restaurar vida e mana",
+  "pl": "Przywróć zdrowie i manę",
+  "ru": "Восстановить здоровье и ману"
+ },
+ "Clear crimes": {
+  "de": "Verbrechen löschen",
+  "fr": "Effacer les crimes",
+  "it": "Cancella i crimini",
+  "es": "Borrar delitos",
+  "pt": "Limpar crimes",
+  "pl": "Wyczyść przestępstwa",
+  "ru": "Снять обвинения"
+ },
+ "God mode {0}": {
+  "de": "Gottmodus {0}",
+  "fr": "Mode dieu {0}",
+  "it": "Modalità dio {0}",
+  "es": "Modo dios {0}",
+  "pt": "Modo deus {0}",
+  "pl": "Tryb boga {0}",
+  "ru": "Режим бога {0}"
+ },
+ "Infinite mana {0}": {
+  "de": "Unendlich Mana {0}",
+  "fr": "Mana infini {0}",
+  "it": "Mana infinito {0}",
+  "es": "Maná infinito {0}",
+  "pt": "Mana infinita {0}",
+  "pl": "Nieskończona mana {0}",
+  "ru": "Бесконечная мана {0}"
+ },
+ "Infinite breath {0}": {
+  "de": "Unendlich Atem {0}",
+  "fr": "Souffle infini {0}",
+  "it": "Respiro infinito {0}",
+  "es": "Aliento infinito {0}",
+  "pt": "Fôlego infinito {0}",
+  "pl": "Nieskończony oddech {0}",
+  "ru": "Бесконечное дыхание {0}"
+ },
+ "Fly {0}": {
+  "de": "Fliegen {0}",
+  "fr": "Voler {0}",
+  "it": "Volo {0}",
+  "es": "Volar {0}",
+  "pt": "Voar {0}",
+  "pl": "Latanie {0}",
+  "ru": "Полёт {0}"
+ },
+ "One-hit kills {0}": {
+  "de": "Ein-Treffer-Kills {0}",
+  "fr": "Mort en un coup {0}",
+  "it": "Uccisioni con un colpo {0}",
+  "es": "Muerte de un golpe {0}",
+  "pt": "Morte com um golpe {0}",
+  "pl": "Zabicie jednym ciosem {0}",
+  "ru": "Убийство с одного удара {0}"
+ },
+ "Unbreakable lockpicks {0}": {
+  "de": "Unzerbrechliche Dietriche {0}",
+  "fr": "Crochets incassables {0}",
+  "it": "Grimaldelli indistruttibili {0}",
+  "es": "Ganzúas irrompibles {0}",
+  "pt": "Gazuas inquebráveis {0}",
+  "pl": "Niezniszczalne wytrychy {0}",
+  "ru": "Неломающиеся отмычки {0}"
+ },
+ "No fall damage {0}": {
+  "de": "Kein Fallschaden {0}",
+  "fr": "Pas de dégâts de chute {0}",
+  "it": "Nessun danno da caduta {0}",
+  "es": "Sin daño por caída {0}",
+  "pt": "Sem dano de queda {0}",
+  "pl": "Brak obrażeń od upadku {0}",
+  "ru": "Без урона от падения {0}"
+ },
+ "Infinite ammo {0}": {
+  "de": "Unendlich Munition {0}",
+  "fr": "Munitions infinies {0}",
+  "it": "Munizioni infinite {0}",
+  "es": "Munición infinita {0}",
+  "pt": "Munição infinita {0}",
+  "pl": "Nieskończona amunicja {0}",
+  "ru": "Бесконечные боеприпасы {0}"
+ },
+ "Invisible to NPCs {0}": {
+  "de": "Unsichtbar für NPCs {0}",
+  "fr": "Invisible pour les PNJ {0}",
+  "it": "Invisibile ai PNG {0}",
+  "es": "Invisible para los PNJ {0}",
+  "pt": "Invisível para NPCs {0}",
+  "pl": "Niewidzialność dla NPC {0}",
+  "ru": "Невидимость для NPC {0}"
+ },
+ "Sure pickpocketing {0}": {
+  "de": "Sicherer Taschendiebstahl {0}",
+  "fr": "Vol à la tire assuré {0}",
+  "it": "Borseggio sicuro {0}",
+  "es": "Hurto seguro {0}",
+  "pt": "Furto garantido {0}",
+  "pl": "Pewna kradzież kieszonkowa {0}",
+  "ru": "Верная карманная кража {0}"
+ },
+ "Unlock: done (works on the chest or door the hero faces)": {
+  "de": "Entriegelt (wirkt auf die Truhe oder Tür vor dem Helden)",
+  "fr": "Déverrouillé (agit sur le coffre ou la porte face au héros)",
+  "it": "Sbloccato (agisce sul baule o la porta davanti all'eroe)",
+  "es": "Desbloqueado (actúa sobre el cofre o la puerta frente al héroe)",
+  "pt": "Destrancado (age no baú ou na porta à frente do herói)",
+  "pl": "Odblokowano (działa na skrzynię lub drzwi przed bohaterem)",
+  "ru": "Открыто (действует на сундук или дверь перед героем)"
+ },
+ "Hero speed: {0}x": {
+  "de": "Heldentempo: {0}x",
+  "fr": "Vitesse du héros : {0}x",
+  "it": "Velocità dell'eroe: {0}x",
+  "es": "Velocidad del héroe: {0}x",
+  "pt": "Velocidade do herói: {0}x",
+  "pl": "Szybkość bohatera: {0}x",
+  "ru": "Скорость героя: {0}x"
+ },
+ "Jump height: {0}x": {
+  "de": "Sprunghöhe: {0}x",
+  "fr": "Hauteur de saut : {0}x",
+  "it": "Altezza del salto: {0}x",
+  "es": "Altura de salto: {0}x",
+  "pt": "Altura do salto: {0}x",
+  "pl": "Wysokość skoku: {0}x",
+  "ru": "Высота прыжка: {0}x"
+ },
+ "Health and mana restored": {
+  "de": "Leben und Mana aufgefüllt",
+  "fr": "Vie et mana restaurés",
+  "it": "Salute e mana ripristinati",
+  "es": "Salud y maná restaurados",
+  "pt": "Vida e mana restaurados",
+  "pl": "Zdrowie i mana przywrócone",
+  "ru": "Здоровье и мана восстановлены"
+ },
+ "Crime memory not found": {
+  "de": "Verbrechensregister nicht gefunden",
+  "fr": "Registre des crimes introuvable",
+  "it": "Registro dei crimini non trovato",
+  "es": "Registro de delitos no encontrado",
+  "pt": "Registro de crimes não encontrado",
+  "pl": "Nie znaleziono rejestru przestępstw",
+  "ru": "Реестр преступлений не найден"
+ },
+ "No crimes on record": {
+  "de": "Keine Verbrechen verzeichnet",
+  "fr": "Aucun crime enregistré",
+  "it": "Nessun crimine registrato",
+  "es": "No hay delitos registrados",
+  "pt": "Nenhum crime registrado",
+  "pl": "Brak zapisanych przestępstw",
+  "ru": "Преступлений не числится"
+ },
+ "Crimes cleared": {
+  "de": "Verbrechen gelöscht",
+  "fr": "Crimes effacés",
+  "it": "Crimini cancellati",
+  "es": "Crímenes borrados",
+  "pt": "Crimes apagados",
+  "pl": "Przestępstwa wyczyszczone",
+  "ru": "Обвинения сняты"
+ },
+ "[Enter] Complete   [Left] Restart   [Backspace] Back": {
+  "de": "[Enter] Erledigen   [Links] Neu starten   [Rücktaste] Zurück",
+  "fr": "[Entrée] Terminer   [Gauche] Relancer   [Retour arr.] Retour",
+  "it": "[Invio] Completa   [Sinistra] Riavvia   [Backspace] Indietro",
+  "es": "[Intro] Completar   [Izquierda] Reiniciar   [Retroceso] Volver",
+  "pt": "[Enter] Concluir   [Esquerda] Reiniciar   [Backspace] Voltar",
+  "pl": "[Enter] Ukończ   [W lewo] Zacznij od nowa   [Backspace] Wstecz",
+  "ru": "[Enter] Выполнить   [Влево] Начать заново   [Backspace] Назад"
+ },
+ "[Enter] Mark as completed (save first)   [Backspace] Back": {
+  "de": "[Enter] Als erledigt markieren (vorher speichern)   [Rücktaste] Zurück",
+  "fr": "[Entrée] Marquer comme terminée (sauvegardez avant)   [Retour arr.] Retour",
+  "it": "[Invio] Segna come completata (salva prima)   [Backspace] Indietro",
+  "es": "[Intro] Marcar como completada (guarda antes)   [Retroceso] Volver",
+  "pt": "[Enter] Marcar como concluída (salve antes)   [Backspace] Voltar",
+  "pl": "[Enter] Oznacz jako ukończone (najpierw zapisz)   [Backspace] Wstecz",
+  "ru": "[Enter] Отметить выполненным (сначала сохранитесь)   [Backspace] Назад"
+ },
+ "Quest no longer available": {
+  "de": "Quest nicht mehr verfügbar",
+  "fr": "Cette quête n'est plus disponible",
+  "it": "Missione non più disponibile",
+  "es": "La misión ya no está disponible",
+  "pt": "A missão não está mais disponível",
+  "pl": "Zadanie nie jest już dostępne",
+  "ru": "Задание больше недоступно"
+ },
+ "Quest completed: {0}": {
+  "de": "Quest erledigt: {0}",
+  "fr": "Quête terminée : {0}",
+  "it": "Missione completata: {0}",
+  "es": "Misión completada: {0}",
+  "pt": "Missão concluída: {0}",
+  "pl": "Zadanie ukończone: {0}",
+  "ru": "Задание выполнено: {0}"
+ },
+ "Could not complete: {0}": {
+  "de": "Konnte nicht erledigt werden: {0}",
+  "fr": "Impossible de terminer : {0}",
+  "it": "Impossibile completare: {0}",
+  "es": "No se pudo completar: {0}",
+  "pt": "Não foi possível concluir: {0}",
+  "pl": "Nie udało się ukończyć: {0}",
+  "ru": "Не удалось выполнить: {0}"
+ },
+ "Would fail again at once: {0}": {
+  "de": "Würde sofort wieder scheitern: {0}",
+  "fr": "Échouerait de nouveau aussitôt : {0}",
+  "it": "Fallirebbe di nuovo subito: {0}",
+  "es": "Volvería a fallar de inmediato: {0}",
+  "pt": "Falharia de novo na hora: {0}",
+  "pl": "Od razu znów by się nie powiodło: {0}",
+  "ru": "Сразу провалится снова: {0}"
+ },
+ "Could not restart: {0}": {
+  "de": "Konnte nicht neu gestartet werden: {0}",
+  "fr": "Impossible de relancer : {0}",
+  "it": "Impossibile riavviare: {0}",
+  "es": "No se pudo reiniciar: {0}",
+  "pt": "Não foi possível reiniciar: {0}",
+  "pl": "Nie udało się zacząć od nowa: {0}",
+  "ru": "Не удалось начать заново: {0}"
+ },
+ "Quest restarted: {0}": {
+  "de": "Quest neu gestartet: {0}",
+  "fr": "Quête relancée : {0}",
+  "it": "Missione riavviata: {0}",
+  "es": "Misión reiniciada: {0}",
+  "pt": "Missão reiniciada: {0}",
+  "pl": "Zadanie zaczęte od nowa: {0}",
+  "ru": "Задание начато заново: {0}"
+ },
+ "Quests": {
+  "de": "Quests",
+  "fr": "Quêtes",
+  "it": "Missioni",
+  "es": "Misiones",
+  "pt": "Missões",
+  "pl": "Zadania",
+  "ru": "Задания"
+ },
+ "Failed quests": {
+  "de": "Gescheiterte Quests",
+  "fr": "Quêtes échouées",
+  "it": "Missioni fallite",
+  "es": "Misiones fallidas",
+  "pt": "Missões fracassadas",
+  "pl": "Nieudane zadania",
+  "ru": "Проваленные задания"
+ },
+ "No failed quests": {
+  "de": "Keine gescheiterten Quests",
+  "fr": "Aucune quête échouée",
+  "it": "Nessuna missione fallita",
+  "es": "No hay misiones fallidas",
+  "pt": "Nenhuma missão fracassada",
+  "pl": "Brak nieudanych zadań",
+  "ru": "Нет проваленных заданий"
+ },
+ "Running quests": {
+  "de": "Laufende Quests",
+  "fr": "Quêtes en cours",
+  "it": "Missioni in corso",
+  "es": "Misiones en curso",
+  "pt": "Missões em andamento",
+  "pl": "Trwające zadania",
+  "ru": "Текущие задания"
+ },
+ "No running quests": {
+  "de": "Keine laufenden Quests",
+  "fr": "Aucune quête en cours",
+  "it": "Nessuna missione in corso",
+  "es": "No hay misiones en curso",
+  "pt": "Nenhuma missão em andamento",
+  "pl": "Brak trwających zadań",
+  "ru": "Нет текущих заданий"
+ },
+ "Skills": {
+  "de": "Talente",
+  "fr": "Compétences",
+  "it": "Abilità",
+  "es": "Habilidades",
+  "pt": "Habilidades",
+  "pl": "Umiejętności",
+  "ru": "Навыки"
+ },
+ "[Enter] Learn   [Left] Remove   [Backspace] Back   [F7] Close": {
+  "de": "[Enter] Lernen   [Links] Entfernen   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Entrée] Apprendre   [Gauche] Retirer   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Invio] Impara   [Sinistra] Rimuovi   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Intro] Aprender   [Izquierda] Quitar   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Enter] Aprender   [Esquerda] Remover   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Enter] Naucz się   [Lewo] Usuń   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Enter] Изучить   [Влево] Убрать   [Backspace] Назад   [F7] Закрыть"
+ },
+ "Acrobatics": {
+  "de": "Akrobatik",
+  "fr": "Acrobatie",
+  "it": "Acrobazia",
+  "es": "Acrobacias",
+  "pt": "Acrobacia",
+  "pl": "Akrobatyka",
+  "ru": "Акробатика"
+ },
+ "Sneak": {
+  "de": "Schleichen",
+  "fr": "Furtivité",
+  "it": "Furtività",
+  "es": "Sigilo",
+  "pt": "Furtividade",
+  "pl": "Skradanie się",
+  "ru": "Скрытность"
+ },
+ "Diving": {
+  "de": "Tauchen",
+  "fr": "Plongée",
+  "it": "Immersione",
+  "es": "Buceo",
+  "pt": "Mergulho",
+  "pl": "Nurkowanie",
+  "ru": "Ныряние"
+ },
+ "Wall climbing": {
+  "de": "Klettern",
+  "fr": "Escalade",
+  "it": "Arrampicata",
+  "es": "Escalada",
+  "pt": "Escalada",
+  "pl": "Wspinaczka",
+  "ru": "Лазание"
+ },
+ "Riding": {
+  "de": "Reiten",
+  "fr": "Équitation",
+  "it": "Equitazione",
+  "es": "Equitación",
+  "pt": "Equitação",
+  "pl": "Jazda konna",
+  "ru": "Верховая езда"
+ },
+ "Scavenging": {
+  "de": "Plündern",
+  "fr": "Récupération",
+  "it": "Recupero",
+  "es": "Rebusca",
+  "pt": "Coleta",
+  "pl": "Zbieractwo",
+  "ru": "Собирательство"
+ },
+ "One-handed: trained": {
+  "de": "Einhandkampf: Geübt",
+  "fr": "Armes à une main : Entraîné",
+  "it": "Armi a una mano: Addestrato",
+  "es": "Armas a una mano: Entrenado",
+  "pt": "Armas de uma mão: Treinado",
+  "pl": "Broń jednoręczna: Wyszkolony",
+  "ru": "Одноручное оружие: Обучен"
+ },
+ "One-handed: master": {
+  "de": "Einhandkampf: Meister",
+  "fr": "Armes à une main : Maître",
+  "it": "Armi a una mano: Maestro",
+  "es": "Armas a una mano: Maestro",
+  "pt": "Armas de uma mão: Mestre",
+  "pl": "Broń jednoręczna: Mistrz",
+  "ru": "Одноручное оружие: Мастер"
+ },
+ "Two-handed: trained": {
+  "de": "Zweihandkampf: Geübt",
+  "fr": "Armes à deux mains : Entraîné",
+  "it": "Armi a due mani: Addestrato",
+  "es": "Armas a dos manos: Entrenado",
+  "pt": "Armas de duas mãos: Treinado",
+  "pl": "Broń dwuręczna: Wyszkolony",
+  "ru": "Двуручное оружие: Обучен"
+ },
+ "Two-handed: master": {
+  "de": "Zweihandkampf: Meister",
+  "fr": "Armes à deux mains : Maître",
+  "it": "Armi a due mani: Maestro",
+  "es": "Armas a dos manos: Maestro",
+  "pt": "Armas de duas mãos: Mestre",
+  "pl": "Broń dwuręczna: Mistrz",
+  "ru": "Двуручное оружие: Мастер"
+ },
+ "Fists: trained": {
+  "de": "Faustkampf: Geübt",
+  "fr": "Poings : Entraîné",
+  "it": "Pugni: Addestrato",
+  "es": "Puños: Entrenado",
+  "pt": "Punhos: Treinado",
+  "pl": "Pięści: Wyszkolony",
+  "ru": "Кулаки: Обучен"
+ },
+ "Fists: master": {
+  "de": "Faustkampf: Meister",
+  "fr": "Poings : Maître",
+  "it": "Pugni: Maestro",
+  "es": "Puños: Maestro",
+  "pt": "Punhos: Mestre",
+  "pl": "Pięści: Mistrz",
+  "ru": "Кулаки: Мастер"
+ },
+ "Orc weapons: trained": {
+  "de": "Orkwaffen: Geübt",
+  "fr": "Armes orques : Entraîné",
+  "it": "Armi degli orchi: Addestrato",
+  "es": "Armas orcas: Entrenado",
+  "pt": "Armas dos orcs: Treinado",
+  "pl": "Broń orków: Wyszkolony",
+  "ru": "Оружие орков: Обучен"
+ },
+ "Orc weapons: master": {
+  "de": "Orkwaffen: Meister",
+  "fr": "Armes orques : Maître",
+  "it": "Armi degli orchi: Maestro",
+  "es": "Armas orcas: Maestro",
+  "pt": "Armas dos orcs: Mestre",
+  "pl": "Broń orków: Mistrz",
+  "ru": "Оружие орков: Мастер"
+ },
+ "Bow: trained": {
+  "de": "Bogen: Geübt",
+  "fr": "Arc : Entraîné",
+  "it": "Arco: Addestrato",
+  "es": "Arco: Entrenado",
+  "pt": "Arco: Treinado",
+  "pl": "Łuk: Wyszkolony",
+  "ru": "Лук: Обучен"
+ },
+ "Bow: master": {
+  "de": "Bogen: Meister",
+  "fr": "Arc : Maître",
+  "it": "Arco: Maestro",
+  "es": "Arco: Maestro",
+  "pt": "Arco: Mestre",
+  "pl": "Łuk: Mistrz",
+  "ru": "Лук: Мастер"
+ },
+ "Crossbow: trained": {
+  "de": "Armbrust: Geübt",
+  "fr": "Arbalète : Entraîné",
+  "it": "Balestra: Addestrato",
+  "es": "Ballesta: Entrenado",
+  "pt": "Besta: Treinado",
+  "pl": "Kusza: Wyszkolony",
+  "ru": "Арбалет: Обучен"
+ },
+ "Crossbow: master": {
+  "de": "Armbrust: Meister",
+  "fr": "Arbalète : Maître",
+  "it": "Balestra: Maestro",
+  "es": "Ballesta: Maestro",
+  "pt": "Besta: Mestre",
+  "pl": "Kusza: Mistrz",
+  "ru": "Арбалет: Мастер"
+ },
+ "Magic: circle 1": {
+  "de": "Kreis der Magie 1",
+  "fr": "Cercle de magie 1",
+  "it": "Cerchio Magico 1",
+  "es": "Círculo mágico 1",
+  "pt": "Círculo de Magia 1",
+  "pl": "Krąg magiczny 1",
+  "ru": "Круг магии 1"
+ },
+ "Magic: circle 2": {
+  "de": "Kreis der Magie 2",
+  "fr": "Cercle de magie 2",
+  "it": "Cerchio Magico 2",
+  "es": "Círculo mágico 2",
+  "pt": "Círculo de Magia 2",
+  "pl": "Krąg magiczny 2",
+  "ru": "Круг магии 2"
+ },
+ "Magic: circle 3": {
+  "de": "Kreis der Magie 3",
+  "fr": "Cercle de magie 3",
+  "it": "Cerchio Magico 3",
+  "es": "Círculo mágico 3",
+  "pt": "Círculo de Magia 3",
+  "pl": "Krąg magiczny 3",
+  "ru": "Круг магии 3"
+ },
+ "Magic: circle 4": {
+  "de": "Kreis der Magie 4",
+  "fr": "Cercle de magie 4",
+  "it": "Cerchio Magico 4",
+  "es": "Círculo mágico 4",
+  "pt": "Círculo de Magia 4",
+  "pl": "Krąg magiczny 4",
+  "ru": "Круг магии 4"
+ },
+ "Magic: circle 5": {
+  "de": "Kreis der Magie 5",
+  "fr": "Cercle de magie 5",
+  "it": "Cerchio Magico 5",
+  "es": "Círculo mágico 5",
+  "pt": "Círculo de Magia 5",
+  "pl": "Krąg magiczny 5",
+  "ru": "Круг магии 5"
+ },
+ "Magic: circle 6": {
+  "de": "Kreis der Magie 6",
+  "fr": "Cercle de magie 6",
+  "it": "Cerchio Magico 6",
+  "es": "Círculo mágico 6",
+  "pt": "Círculo de Magia 6",
+  "pl": "Krąg magiczny 6",
+  "ru": "Круг магии 6"
+ },
+ "Lockpicking: skilled": {
+  "de": "Schlösser knacken: Fortgeschritten",
+  "fr": "Crochetage : Confirmé",
+  "it": "Scasso: Esperto",
+  "es": "Ganzúas: Experto",
+  "pt": "Arrombamento: Experiente",
+  "pl": "Otwieranie zamków: Zaawansowany",
+  "ru": "Взлом замков: Опытный"
+ },
+ "Lockpicking: master": {
+  "de": "Schlösser knacken: Meister",
+  "fr": "Crochetage : Maître",
+  "it": "Scasso: Maestro",
+  "es": "Ganzúas: Maestro",
+  "pt": "Arrombamento: Mestre",
+  "pl": "Otwieranie zamków: Mistrz",
+  "ru": "Взлом замков: Мастер"
+ },
+ "Pickpocketing: skilled": {
+  "de": "Taschendiebstahl: Fortgeschritten",
+  "fr": "Vol à la tire : Confirmé",
+  "it": "Borseggio: Esperto",
+  "es": "Hurto: Experto",
+  "pt": "Furto: Experiente",
+  "pl": "Kradzież kieszonkowa: Zaawansowany",
+  "ru": "Карманная кража: Опытный"
+ },
+ "Pickpocketing: master": {
+  "de": "Taschendiebstahl: Meister",
+  "fr": "Vol à la tire : Maître",
+  "it": "Borseggio: Maestro",
+  "es": "Hurto: Maestro",
+  "pt": "Furto: Mestre",
+  "pl": "Kradzież kieszonkowa: Mistrz",
+  "ru": "Карманная кража: Мастер"
+ },
+ "Mining: skilled": {
+  "de": "Schürfen: Fortgeschritten",
+  "fr": "Minage : Confirmé",
+  "it": "Estrazione: Esperto",
+  "es": "Minería: Experto",
+  "pt": "Mineração: Experiente",
+  "pl": "Górnictwo: Zaawansowany",
+  "ru": "Горное дело: Опытный"
+ },
+ "Mining: master": {
+  "de": "Schürfen: Meister",
+  "fr": "Minage : Maître",
+  "it": "Estrazione: Maestro",
+  "es": "Minería: Maestro",
+  "pt": "Mineração: Mestre",
+  "pl": "Górnictwo: Mistrz",
+  "ru": "Горное дело: Мастер"
+ },
+ "Orcish: skilled": {
+  "de": "Orkisch: Fortgeschritten",
+  "fr": "Langue orc : Confirmé",
+  "it": "Lingua degli orchi: Esperto",
+  "es": "Idioma orco: Experto",
+  "pt": "Língua dos Orcs: Experiente",
+  "pl": "Orczy: Zaawansowany",
+  "ru": "Орочий язык: Опытный"
+ },
+ "Orcish: master": {
+  "de": "Orkisch: Meister",
+  "fr": "Langue orc : Maître",
+  "it": "Lingua degli orchi: Maestro",
+  "es": "Idioma orco: Maestro",
+  "pt": "Língua dos Orcs: Mestre",
+  "pl": "Orczy: Mistrz",
+  "ru": "Орочий язык: Мастер"
+ },
+ "Alchemy": {
+  "de": "Handwerk: Alchemie",
+  "fr": "Artisanat : Alchimie",
+  "it": "Artigianato: Alchimia",
+  "es": "Artesanía: Alquimia",
+  "pt": "Criação: Alquimia",
+  "pl": "Rzemiosło: Alchemia",
+  "ru": "Ремесло: Алхимия"
+ },
+ "Scroll inscription": {
+  "de": "Handwerk: Schriftrollen",
+  "fr": "Artisanat : Parchemins",
+  "it": "Artigianato: Pergamene",
+  "es": "Artesanía: Pergaminos",
+  "pt": "Criação: Pergaminhos",
+  "pl": "Rzemiosło: Zwoje",
+  "ru": "Ремесло: Свитки"
+ },
+ "Smithing: trained": {
+  "de": "Handwerk: Schmieden (Geübt)",
+  "fr": "Artisanat : Forge (Entraîné)",
+  "it": "Artigianato: Forgiatura (Addestrato)",
+  "es": "Artesanía: Herrería (Entrenado)",
+  "pt": "Criação: Ferraria (Treinado)",
+  "pl": "Rzemiosło: Kowalstwo (Wyszkolony)",
+  "ru": "Ремесло: Кузнечное дело (Обучен)"
+ },
+ "Smithing: master": {
+  "de": "Handwerk: Schmieden (Meister)",
+  "fr": "Artisanat : Forge (Maître)",
+  "it": "Artigianato: Forgiatura (Maestro)",
+  "es": "Artesanía: Herrería (Maestro)",
+  "pt": "Criação: Ferraria (Mestre)",
+  "pl": "Rzemiosło: Kowalstwo (Mistrz)",
+  "ru": "Ремесло: Кузнечное дело (Мастер)"
+ },
+ "Hunting: teeth": {
+  "de": "Jagd: Zähne",
+  "fr": "Chasse : Dents",
+  "it": "Caccia: Denti",
+  "es": "Caza: Dientes",
+  "pt": "Caça: Dentes",
+  "pl": "Łowiectwo: Zęby",
+  "ru": "Охота: Зубы"
+ },
+ "Hunting: claws": {
+  "de": "Jagd: Krallen",
+  "fr": "Chasse : Griffes",
+  "it": "Caccia: Artigli",
+  "es": "Caza: Garras",
+  "pt": "Caça: Garras",
+  "pl": "Łowiectwo: Pazury",
+  "ru": "Охота: Когти"
+ },
+ "Hunting: fur": {
+  "de": "Jagd: Felle",
+  "fr": "Chasse : Fourrures",
+  "it": "Caccia: Pellicce",
+  "es": "Caza: Pelajes",
+  "pt": "Caça: Pelagens",
+  "pl": "Łowiectwo: Futra",
+  "ru": "Охота: Меха"
+ },
+ "Hunting: skin": {
+  "de": "Jagd: Häute",
+  "fr": "Chasse : Peaux",
+  "it": "Caccia: Pelli",
+  "es": "Caza: Pieles",
+  "pt": "Caça: Peles",
+  "pl": "Łowiectwo: Skóry",
+  "ru": "Охота: Шкуры"
+ },
+ "Hunting: reptile skin": {
+  "de": "Jagd: Reptilienhäute",
+  "fr": "Chasse : Peaux de reptiles",
+  "it": "Caccia: Pelli di rettile",
+  "es": "Caza: Pieles de reptil",
+  "pt": "Caça: Peles de répteis",
+  "pl": "Łowiectwo: Skóry gadów",
+  "ru": "Охота: Шкуры рептилий"
+ },
+ "Hunting: stings": {
+  "de": "Jagd: Stachel",
+  "fr": "Chasse : Dards",
+  "it": "Caccia: Pungiglioni",
+  "es": "Caza: Aguijones",
+  "pt": "Caça: Ferrões",
+  "pl": "Łowiectwo: Żądła",
+  "ru": "Охота: Жала"
+ },
+ "Hunting: bloodfly stings": {
+  "de": "Jagd: Blutfliegenstachel",
+  "fr": "Chasse : Dards de mouche de sang",
+  "it": "Caccia: Pungiglioni di mosca del sangue",
+  "es": "Caza: Aguijones de mosca de sangre",
+  "pt": "Caça: Ferrões de mosca-de-sangue",
+  "pl": "Łowiectwo: Żądła krwiopijców",
+  "ru": "Охота: Жала шершней"
+ },
+ "Hunting: organs": {
+  "de": "Jagd: Organe",
+  "fr": "Chasse : Organes",
+  "it": "Caccia: Organi",
+  "es": "Caza: Órganos",
+  "pt": "Caça: Órgãos",
+  "pl": "Łowiectwo: Organy",
+  "ru": "Охота: Органы"
+ },
+ "Hunting: fins": {
+  "de": "Jagd: Flossen",
+  "fr": "Chasse : Nageoires",
+  "it": "Caccia: Pinne",
+  "es": "Caza: Aletas",
+  "pt": "Caça: Barbatanas",
+  "pl": "Łowiectwo: Płetwy",
+  "ru": "Охота: Плавники"
+ },
+ "Hunting: secretion": {
+  "de": "Jagd: Sekrete",
+  "fr": "Chasse : Sécrétions",
+  "it": "Caccia: Secrezioni",
+  "es": "Caza: Secreciones",
+  "pt": "Caça: Secreções",
+  "pl": "Łowiectwo: Wydzieliny",
+  "ru": "Охота: Выделения"
+ },
+ "Hunting: spines": {
+  "de": "Jagd: Dornen",
+  "fr": "Chasse : Épines",
+  "it": "Caccia: Spine",
+  "es": "Caza: Espinas",
+  "pt": "Caça: Espinhos",
+  "pl": "Łowiectwo: Kolce",
+  "ru": "Охота: Шипы"
+ },
+ "Hunting: scutes": {
+  "de": "Jagd: Panzerplatten (Geübt)",
+  "fr": "Chasse : Plaques (Entraîné)",
+  "it": "Caccia: Placche (Addestrato)",
+  "es": "Caza: Placas (Entrenado)",
+  "pt": "Caça: Placas (Treinado)",
+  "pl": "Łowiectwo: Płyty pancerza (Wyszkolony)",
+  "ru": "Охота: Пластины (Обучен)"
+ },
+ "Hunting: scutes master": {
+  "de": "Jagd: Panzerplatten (Meister)",
+  "fr": "Chasse : Plaques (Maître)",
+  "it": "Caccia: Placche (Maestro)",
+  "es": "Caza: Placas (Maestro)",
+  "pt": "Caça: Placas (Mestre)",
+  "pl": "Łowiectwo: Płyty pancerza (Mistrz)",
+  "ru": "Охота: Пластины (Мастер)"
+ },
+ "Hunting: minecrawler plates": {
+  "de": "Jagd: Minecrawler-Platten",
+  "fr": "Chasse : Plaques de minecrawler",
+  "it": "Caccia: Placche di minecrawler",
+  "es": "Caza: Placas de minecrawler",
+  "pt": "Caça: Placas de minecrawler",
+  "pl": "Łowiectwo: Płyty pełzaczy",
+  "ru": "Охота: Панцири ползунов"
+ },
+ "Hunting: minecrawler mandibles": {
+  "de": "Jagd: Minecrawler-Zangen",
+  "fr": "Chasse : Mandibules de minecrawler",
+  "it": "Caccia: Mandibole di minecrawler",
+  "es": "Caza: Mandíbulas de minecrawler",
+  "pt": "Caça: Mandíbulas de minecrawler",
+  "pl": "Łowiectwo: Żuwaczki pełzaczy",
+  "ru": "Охота: Жвалы ползунов"
+ },
+ "Hunting: shadowbeast horn": {
+  "de": "Jagd: Horn des Schattenläufers",
+  "fr": "Chasse : Corne de bête de l'ombre",
+  "it": "Caccia: Corno di bestia d'ombra",
+  "es": "Caza: Cuerno de bestia de las sombras",
+  "pt": "Caça: Chifre de fera das sombras",
+  "pl": "Łowiectwo: Róg cieniostwora",
+  "ru": "Охота: Рог мракориса"
+ },
+ "Hunting: troll horn": {
+  "de": "Jagd: Trollhorn",
+  "fr": "Chasse : Corne de troll",
+  "it": "Caccia: Corno di troll",
+  "es": "Caza: Cuerno de trol",
+  "pt": "Caça: Chifre de troll",
+  "pl": "Łowiectwo: Róg trolla",
+  "ru": "Охота: Рог тролля"
+ },
+ "Hunting: swampshark skin": {
+  "de": "Jagd: Sumpfhaihaut",
+  "fr": "Chasse : Peau de requin des marais",
+  "it": "Caccia: Pelle di squalo di palude",
+  "es": "Caza: Piel de tiburón del pantano",
+  "pt": "Caça: Pele de tubarão do pântano",
+  "pl": "Łowiectwo: Skóra błotnego węża",
+  "ru": "Охота: Шкура болотожора"
+ },
+ "Hunting: swampshark teeth": {
+  "de": "Jagd: Sumpfhaizähne",
+  "fr": "Chasse : Dents de requin des marais",
+  "it": "Caccia: Denti di squalo di palude",
+  "es": "Caza: Dientes de tiburón del pantano",
+  "pt": "Caça: Dentes de tubarão do pântano",
+  "pl": "Łowiectwo: Zęby błotnego węża",
+  "ru": "Охота: Зубы болотожора"
+ },
+ "Hunting: fire tongue": {
+  "de": "Jagd: Feuerzunge",
+  "fr": "Chasse : Langue de feu",
+  "it": "Caccia: Lingua di fuoco",
+  "es": "Caza: Lengua de fuego",
+  "pt": "Caça: Língua de fogo",
+  "pl": "Łowiectwo: Ognisty język",
+  "ru": "Охота: Огненный язык"
+ },
+ "Hunting: skull armour": {
+  "de": "Jagd: Schädelpanzer",
+  "fr": "Chasse : Armure de crâne",
+  "it": "Caccia: Armatura di teschio",
+  "es": "Caza: Armadura de cráneo",
+  "pt": "Caça: Armadura de crânio",
+  "pl": "Łowiectwo: Pancerz z czaszki",
+  "ru": "Охота: Броня из черепа"
+ },
+ "Hunting: Ulu-Mulu": {
+  "de": "Jagd: Ulu-Mulu",
+  "fr": "Chasse : Ulu-Mulu",
+  "it": "Caccia: Ulu-Mulu",
+  "es": "Caza: Ulu-Mulu",
+  "pt": "Caça: Ulu-Mulu",
+  "pl": "Łowiectwo: Ulu-Mulu",
+  "ru": "Охота: Улу-Мулу"
+ },
+ "Learn all skills": {
+  "de": "Alle Talente lernen",
+  "fr": "Apprendre tous les talents",
+  "it": "Impara tutte le abilità",
+  "es": "Aprender todas las habilidades",
+  "pt": "Aprender todas as habilidades",
+  "pl": "Naucz się wszystkich umiejętności",
+  "ru": "Изучить все навыки"
+ },
+ "Free training": {
+  "de": "Kostenloses Training",
+  "fr": "Entraînement gratuit",
+  "it": "Addestramento gratuito",
+  "es": "Entrenamiento gratuito",
+  "pt": "Treinamento grátis",
+  "pl": "Darmowa nauka",
+  "ru": "Бесплатное обучение"
+ },
+ "Reset skills": {
+  "de": "Talente zurücksetzen",
+  "fr": "Réinitialiser les compétences",
+  "it": "Azzera abilità",
+  "es": "Restablecer habilidades",
+  "pt": "Redefinir habilidades",
+  "pl": "Zresetuj umiejętności",
+  "ru": "Сбросить навыки"
+ },
+ "Learned {0} of {1} skills": {
+  "de": "{0} von {1} Talenten gelernt",
+  "fr": "{0} talents sur {1} appris",
+  "it": "Imparate {0} abilità su {1}",
+  "es": "Aprendidas {0} de {1} habilidades",
+  "pt": "{0} de {1} habilidades aprendidas",
+  "pl": "Nauczono {0} z {1} umiejętności",
+  "ru": "Изучено навыков: {0} из {1}"
+ },
+ "{0}: not learned": {
+  "de": "{0}: nicht gelernt",
+  "fr": "{0} : non appris",
+  "it": "{0}: non appreso",
+  "es": "{0}: no aprendido",
+  "pt": "{0}: não aprendido",
+  "pl": "{0}: nie wyuczono",
+  "ru": "{0}: не изучено"
+ },
+ "Removing failed": {
+  "de": "Entfernen fehlgeschlagen",
+  "fr": "Échec du retrait",
+  "it": "Rimozione non riuscita",
+  "es": "No se pudo quitar",
+  "pt": "Falha ao remover",
+  "pl": "Usuwanie nie powiodło się",
+  "ru": "Не удалось убрать"
+ },
+ "Removed: {0}": {
+  "de": "Entfernt: {0}",
+  "fr": "Retiré : {0}",
+  "it": "Rimosso: {0}",
+  "es": "Quitado: {0}",
+  "pt": "Removido: {0}",
+  "pl": "Usunięto: {0}",
+  "ru": "Убрано: {0}"
+ },
+ "{0}: already learned": {
+  "de": "{0}: schon gelernt",
+  "fr": "{0} : déjà appris",
+  "it": "{0}: già appreso",
+  "es": "{0}: ya aprendido",
+  "pt": "{0}: já aprendido",
+  "pl": "{0}: już wyuczono",
+  "ru": "{0}: уже изучено"
+ },
+ "Learned: {0}": {
+  "de": "Gelernt: {0}",
+  "fr": "Appris : {0}",
+  "it": "Appreso: {0}",
+  "es": "Aprendido: {0}",
+  "pt": "Aprendido: {0}",
+  "pl": "Nauczono: {0}",
+  "ru": "Изучено: {0}"
+ },
+ "Learning failed": {
+  "de": "Lernen fehlgeschlagen",
+  "fr": "Échec de l'apprentissage",
+  "it": "Apprendimento non riuscito",
+  "es": "No se pudo aprender",
+  "pt": "Falha ao aprender",
+  "pl": "Nauka nie powiodła się",
+  "ru": "Не удалось изучить"
+ },
+ "Free training {0}": {
+  "de": "Kostenloses Training {0}",
+  "fr": "Entraînement gratuit {0}",
+  "it": "Addestramento gratuito {0}",
+  "es": "Entrenamiento gratuito {0}",
+  "pt": "Treinamento grátis {0}",
+  "pl": "Darmowa nauka {0}",
+  "ru": "Бесплатное обучение {0}"
+ },
+ "Removed {0} skill(s), {1} learning points back": {
+  "de": "{0} Talent(e) entfernt, {1} Lernpunkte zurück",
+  "fr": "{0} compétence(s) retirée(s), {1} points d'apprentissage rendus",
+  "it": "{0} abilità rimosse, {1} punti apprendimento restituiti",
+  "es": "{0} habilidad(es) quitada(s), {1} puntos de aprendizaje devueltos",
+  "pt": "{0} habilidade(s) removida(s), {1} pontos de aprendizagem devolvidos",
+  "pl": "Usunięto umiejętności: {0}, zwrócono punkty nauki: {1}",
+  "ru": "Убрано навыков: {0}, возвращено очков обучения: {1}"
+ },
+ "Stats": {
+  "de": "Werte",
+  "fr": "Attributs",
+  "it": "Attributi",
+  "es": "Atributos",
+  "pt": "Atributos",
+  "pl": "Atrybuty",
+  "ru": "Характеристики"
+ },
+ "Strength": {
+  "de": "Stärke",
+  "fr": "Force",
+  "it": "Forza",
+  "es": "Fuerza",
+  "pt": "Força",
+  "pl": "Siła",
+  "ru": "Сила"
+ },
+ "Dexterity": {
+  "de": "Geschicklichkeit",
+  "fr": "Dextérité",
+  "it": "Destrezza",
+  "es": "Destreza",
+  "pt": "Destreza",
+  "pl": "Zręczność",
+  "ru": "Ловкость"
+ },
+ "Max mana": {
+  "de": "Max. Mana",
+  "fr": "Mana max.",
+  "it": "Mana max",
+  "es": "Maná máx.",
+  "pt": "Mana máx.",
+  "pl": "Maks. mana",
+  "ru": "Макс. мана"
+ },
+ "Max health": {
+  "de": "Max. Lebenspunkte",
+  "fr": "Vie max.",
+  "it": "Vita max",
+  "es": "Vida máx.",
+  "pt": "Vida máx.",
+  "pl": "Maks. zdrowie",
+  "ru": "Макс. здоровье"
+ },
+ "Learning points": {
+  "de": "Lernpunkte",
+  "fr": "Points d'apprentissage",
+  "it": "Punti apprendimento",
+  "es": "Puntos de aprendizaje",
+  "pt": "Pontos de aprendizado",
+  "pl": "Punkty nauki",
+  "ru": "Очки обучения"
+ },
+ "Level": {
+  "de": "Stufe",
+  "fr": "Niveau",
+  "it": "Livello",
+  "es": "Nivel",
+  "pt": "Nível",
+  "pl": "Poziom",
+  "ru": "Уровень"
+ },
+ "Experience": {
+  "de": "Erfahrung",
+  "fr": "Expérience",
+  "it": "Esperienza",
+  "es": "Experiencia",
+  "pt": "Experiência",
+  "pl": "Doświadczenie",
+  "ru": "Опыт"
+ },
+ "Strength, dexterity, max mana to {0}": {
+  "de": "Stärke, Geschick, max. Mana auf {0}",
+  "fr": "Force, dextérité, mana max à {0}",
+  "it": "Forza, destrezza, mana max a {0}",
+  "es": "Fuerza, destreza, maná máx. a {0}",
+  "pt": "Força, destreza, mana máx. para {0}",
+  "pl": "Siła, zręczność, maks. mana na {0}",
+  "ru": "Сила, ловкость, макс. мана до {0}"
+ },
+ "Step multiplier": {
+  "de": "Schrittweite",
+  "fr": "Multiplicateur de pas",
+  "it": "Moltiplicatore passo",
+  "es": "Multiplicador de paso",
+  "pt": "Multiplicador de passo",
+  "pl": "Mnożnik kroku",
+  "ru": "Множитель шага"
+ },
+ "Step multiplier x{0}": {
+  "de": "Schrittweite x{0}",
+  "fr": "Multiplicateur de pas x{0}",
+  "it": "Moltiplicatore passo x{0}",
+  "es": "Multiplicador de paso x{0}",
+  "pt": "Multiplicador de passo x{0}",
+  "pl": "Mnożnik kroku x{0}",
+  "ru": "Множитель шага x{0}"
+ },
+ "{0}: value not found": {
+  "de": "{0}: Wert nicht gefunden",
+  "fr": "{0} : valeur introuvable",
+  "it": "{0}: valore non trovato",
+  "es": "{0}: valor no encontrado",
+  "pt": "{0}: valor não encontrado",
+  "pl": "{0}: nie znaleziono wartości",
+  "ru": "{0}: значение не найдено"
+ },
+ "Experience can only be increased": {
+  "de": "Erfahrung kann nur erhöht werden",
+  "fr": "L'expérience ne peut qu'augmenter",
+  "it": "L'esperienza può solo aumentare",
+  "es": "La experiencia solo puede aumentar",
+  "pt": "A experiência só pode aumentar",
+  "pl": "Doświadczenie można tylko zwiększyć",
+  "ru": "Опыт можно только увеличить"
+ },
+ "{0}: change failed": {
+  "de": "{0}: Änderung fehlgeschlagen",
+  "fr": "{0} : échec de la modification",
+  "it": "{0}: modifica non riuscita",
+  "es": "{0}: no se pudo cambiar",
+  "pt": "{0}: falha ao alterar",
+  "pl": "{0}: zmiana nie powiodła się",
+  "ru": "{0}: не удалось изменить"
+ },
+ "Raised {0} stat(s) to {1}": {
+  "de": "{0} Wert(e) auf {1} erhöht",
+  "fr": "{0} attribut(s) portés à {1}",
+  "it": "{0} attributi portati a {1}",
+  "es": "{0} atributo(s) subidos a {1}",
+  "pt": "{0} atributo(s) elevados para {1}",
+  "pl": "Podniesiono {0} atrybut(y) do {1}",
+  "ru": "Повышено характеристик: {0} (до {1})"
+ },
+ "Teleport failed: no free spot at the destination": {
+  "de": "Teleport fehlgeschlagen: kein freier Platz am Ziel",
+  "fr": "Échec : aucune place libre à destination",
+  "it": "Non riuscito: nessun posto libero a destinazione",
+  "es": "Fallido: no hay sitio libre en el destino",
+  "pt": "Falha: sem espaço livre no destino",
+  "pl": "Błąd: brak wolnego miejsca u celu",
+  "ru": "Не удалось: в точке назначения нет места"
+ },
+ "Teleported: {0}": {
+  "de": "Teleportiert: {0}",
+  "fr": "Téléporté : {0}",
+  "it": "Teletrasportato: {0}",
+  "es": "Teletransportado: {0}",
+  "pt": "Teleportado: {0}",
+  "pl": "Teleportowano: {0}",
+  "ru": "Телепорт: {0}"
+ },
+ "Map markers": {
+  "de": "Kartenmarkierungen",
+  "fr": "Marqueurs de carte",
+  "it": "Segnalini mappa",
+  "es": "Marcadores del mapa",
+  "pt": "Marcadores do mapa",
+  "pl": "Znaczniki mapy",
+  "ru": "Метки на карте"
+ },
+ "[Enter] Teleport   [Backspace] Back   [F7] Close": {
+  "de": "[Enter] Teleportieren   [Rücktaste] Zurück   [F7] Schließen",
+  "fr": "[Entrée] Téléporter   [Retour arr.] Retour   [F7] Fermer",
+  "it": "[Invio] Vai   [Backspace] Indietro   [F7] Chiudi",
+  "es": "[Intro] Ir   [Retroceso] Volver   [F7] Cerrar",
+  "pt": "[Enter] Teleportar   [Backspace] Voltar   [F7] Fechar",
+  "pl": "[Enter] Teleportuj   [Backspace] Wstecz   [F7] Zamknij",
+  "ru": "[Enter] Телепорт   [Backspace] Назад   [F7] Закрыть"
+ },
+ "No markers on the world map": {
+  "de": "Keine Markierungen auf der Weltkarte",
+  "fr": "Aucun marqueur sur la carte du monde",
+  "it": "Nessun segnalino sulla mappa del mondo",
+  "es": "No hay marcadores en el mapa del mundo",
+  "pt": "Nenhum marcador no mapa-múndi",
+  "pl": "Brak znaczników na mapie świata",
+  "ru": "На карте мира нет меток"
+ },
+ "Teleport failed": {
+  "de": "Teleport fehlgeschlagen",
+  "fr": "Échec de la téléportation",
+  "it": "Teletrasporto fallito",
+  "es": "Teletransporte fallido",
+  "pt": "Falha no teletransporte",
+  "pl": "Teleport nieudany",
+  "ru": "Телепорт не удался"
+ },
+ "marker {0}": {
+  "de": "Markierung {0}",
+  "fr": "Marqueur {0}",
+  "it": "Segnalino {0}",
+  "es": "Marcador {0}",
+  "pt": "Marcador {0}",
+  "pl": "Znacznik {0}",
+  "ru": "Метка {0}"
+ },
+ "Teleporting to marker {0}": {
+  "de": "Teleport zu Markierung {0}",
+  "fr": "Téléportation vers le marqueur {0}",
+  "it": "Teletrasporto al segnalino {0}",
+  "es": "Teletransportando a la marca {0}",
+  "pt": "Teletransportando para o marcador {0}",
+  "pl": "Teleport do znacznika {0}",
+  "ru": "Телепорт к метке {0}"
+ },
+ "People": {
+  "de": "Personen",
+  "fr": "Personnages",
+  "it": "Persone",
+  "es": "Personas",
+  "pt": "Pessoas",
+  "pl": "Postacie",
+  "ru": "Люди"
+ },
+ "Outside the camps": {
+  "de": "Außerhalb der Lager",
+  "fr": "Hors des camps",
+  "it": "Fuori dai campi",
+  "es": "Fuera de los campamentos",
+  "pt": "Fora dos assentamentos",
+  "pl": "Poza obozami",
+  "ru": "Вне лагерей"
+ },
+ "Saved positions": {
+  "de": "Gespeicherte Positionen",
+  "fr": "Positions enregistrées",
+  "it": "Posizioni salvate",
+  "es": "Posiciones guardadas",
+  "pt": "Posições salvas",
+  "pl": "Zapisane pozycje",
+  "ru": "Сохранённые позиции"
+ },
+ "[Enter] Save / Teleport   [Left] Delete   [Backspace] Back": {
+  "de": "[Enter] Speichern / Teleportieren   [Links] Löschen   [Rücktaste] Zurück",
+  "fr": "[Entrée] Enregistrer / Téléporter   [Gauche] Supprimer   [Retour arr.] Retour",
+  "it": "[Invio] Salva / Vai   [Sinistra] Elimina   [Backspace] Indietro",
+  "es": "[Intro] Guardar / Ir   [Izquierda] Borrar   [Retroceso] Volver",
+  "pt": "[Enter] Guardar / Teleportar   [Esquerda] Apagar   [Backspace] Voltar",
+  "pl": "[Enter] Zapisz / Teleportuj   [Lewo] Usuń   [Backspace] Wstecz",
+  "ru": "[Enter] Сохранить / Телепорт   [Влево] Удалить   [Backspace] Назад"
+ },
+ "Save current position": {
+  "de": "Aktuelle Position speichern",
+  "fr": "Enregistrer la position actuelle",
+  "it": "Salva la posizione attuale",
+  "es": "Guardar posición actual",
+  "pt": "Salvar posição atual",
+  "pl": "Zapisz obecną pozycję",
+  "ru": "Сохранить текущую позицию"
+ },
+ "All {0} slots are used. Delete one first": {
+  "de": "Alle {0} Plätze sind belegt. Lösche zuerst einen",
+  "fr": "Les {0} emplacements sont pris. Supprimez-en un",
+  "it": "Tutti i {0} slot sono occupati. Eliminane uno",
+  "es": "Los {0} huecos están ocupados. Borra uno primero",
+  "pt": "Os {0} espaços estão ocupados. Apague um primeiro",
+  "pl": "Wszystkie {0} miejsc zajęte. Najpierw usuń jedno",
+  "ru": "Все {0} ячеек заняты. Сначала удалите одну"
+ },
+ "Saved for this session only: the slot could not be written": {
+  "de": "Nur für diese Sitzung gespeichert: der Speicherplatz ließ sich nicht schreiben",
+  "fr": "Enregistré pour cette session seulement : l'emplacement n'a pas pu être écrit",
+  "it": "Salvato solo per questa sessione: impossibile scrivere lo slot",
+  "es": "Guardado solo para esta sesión: no se pudo escribir la ranura",
+  "pt": "Guardado só para esta sessão: não foi possível escrever o espaço",
+  "pl": "Zapisano tylko na tę sesję: nie udało się zapisać slotu",
+  "ru": "Сохранено только на этот сеанс: не удалось записать слот"
+ },
+ "Position saved as number {0}": {
+  "de": "Position als Nummer {0} gespeichert",
+  "fr": "Position enregistrée sous le numéro {0}",
+  "it": "Posizione salvata con il numero {0}",
+  "es": "Posición guardada con el número {0}",
+  "pt": "Posição salva com o número {0}",
+  "pl": "Zapisano pozycję pod numerem {0}",
+  "ru": "Позиция сохранена под номером {0}"
+ },
+ "Saved position deleted": {
+  "de": "Gespeicherte Position gelöscht",
+  "fr": "Position enregistrée supprimée",
+  "it": "Posizione salvata eliminata",
+  "es": "Posición guardada borrada",
+  "pt": "Posição salva apagada",
+  "pl": "Usunięto zapisaną pozycję",
+  "ru": "Сохранённая позиция удалена"
+ },
+ "saved position {0}": {
+  "de": "gespeicherte Position {0}",
+  "fr": "position enregistrée {0}",
+  "it": "posizione salvata {0}",
+  "es": "posición guardada {0}",
+  "pt": "posição salva {0}",
+  "pl": "zapisana pozycja {0}",
+  "ru": "сохранённая позиция {0}"
+ },
+ "Teleport": {
+  "de": "Teleport",
+  "fr": "Téléportation",
+  "it": "Teletrasporto",
+  "es": "Teletransporte",
+  "pt": "Teleporte",
+  "pl": "Teleport",
+  "ru": "Телепорт"
+ },
+ "Exchange place (game start)": {
+  "de": "Austauschstelle (Spielstart)",
+  "fr": "Lieu d'échange (début du jeu)",
+  "it": "Luogo di scambio (inizio)",
+  "es": "Lugar de intercambio (inicio)",
+  "pt": "Local de troca (início)",
+  "pl": "Plac Wymian (początek gry)",
+  "ru": "Место обмена (начало игры)"
+ },
+ "Abandoned mine: entrance": {
+  "de": "Verlassene Mine: Eingang",
+  "fr": "Mine abandonnée : entrée",
+  "it": "Miniera abbandonata: ingresso",
+  "es": "Mina abandonada: entrada",
+  "pt": "Mina abandonada: entrada",
+  "pl": "Opuszczona Kopalnia: wejście",
+  "ru": "Заброшенная шахта: вход"
+ },
+ "Old Camp: main gate": {
+  "de": "Altes Lager: Haupttor",
+  "fr": "Ancien camp : porte principale",
+  "it": "Campo Vecchio: porta principale",
+  "es": "Campamento Viejo: puerta principal",
+  "pt": "Assentamento Antigo: portão principal",
+  "pl": "Stary Obóz: brama główna",
+  "ru": "Старый лагерь: главные ворота"
+ },
+ "Old Camp: second gate": {
+  "de": "Altes Lager: Zweites Tor",
+  "fr": "Ancien camp : seconde porte",
+  "it": "Campo Vecchio: seconda porta",
+  "es": "Campamento Viejo: segunda puerta",
+  "pt": "Assentamento Antigo: segundo portão",
+  "pl": "Stary Obóz: druga brama",
+  "ru": "Старый лагерь: вторые ворота"
+ },
+ "Old Camp: Fire Mages": {
+  "de": "Altes Lager: Feuermagier",
+  "fr": "Ancien camp : Mages du Feu",
+  "it": "Campo Vecchio: Maghi del Fuoco",
+  "es": "Campamento Viejo: Magos del Fuego",
+  "pt": "Assentamento Antigo: Magos do Fogo",
+  "pl": "Stary Obóz: Magowie Ognia",
+  "ru": "Старый лагерь: Маги Огня"
+ },
+ "Old Mine: entrance area": {
+  "de": "Alte Mine: Eingangsbereich",
+  "fr": "Vieille mine : zone d'entrée",
+  "it": "Vecchia miniera: zona d'ingresso",
+  "es": "Mina Vieja: zona de entrada",
+  "pt": "Mina Antiga: área de entrada",
+  "pl": "Stara Kopalnia: okolice wejścia",
+  "ru": "Старая шахта: у входа"
+ },
+ "New Camp: entrance": {
+  "de": "Neues Lager: Eingang",
+  "fr": "Nouveau camp : entrée",
+  "it": "Campo Nuovo: ingresso",
+  "es": "Campamento Nuevo: entrada",
+  "pt": "Assentamento Novo: entrada",
+  "pl": "Nowy Obóz: wejście",
+  "ru": "Новый лагерь: вход"
+ },
+ "New Camp: tavern": {
+  "de": "Neues Lager: Kneipe",
+  "fr": "Nouveau camp : taverne",
+  "it": "Campo Nuovo: taverna",
+  "es": "Campamento Nuevo: taberna",
+  "pt": "Assentamento Novo: taverna",
+  "pl": "Nowy Obóz: karczma",
+  "ru": "Новый лагерь: таверна"
+ },
+ "New Camp: Water Mages": {
+  "de": "Neues Lager: Wassermagier",
+  "fr": "Nouveau camp : Mages de l'Eau",
+  "it": "Campo Nuovo: Maghi dell'Acqua",
+  "es": "Campamento Nuevo: Magos del Agua",
+  "pt": "Assentamento Novo: Magos da Água",
+  "pl": "Nowy Obóz: Magowie Wody",
+  "ru": "Новый лагерь: Маги Воды"
+ },
+ "Free Mine: camp gate": {
+  "de": "Freie Mine: Lagertor",
+  "fr": "Mine libre : porte du camp",
+  "it": "Miniera libera: porta del campo",
+  "es": "Mina Libre: puerta del campamento",
+  "pt": "Mina Livre: portão do acampamento",
+  "pl": "Wolna Kopalnia: brama obozu",
+  "ru": "Свободная шахта: ворота лагеря"
+ },
+ "Swamp Camp: entrance": {
+  "de": "Sumpflager: Eingang",
+  "fr": "Camp du marais : entrée",
+  "it": "Campo Palude: ingresso",
+  "es": "Campamento del Pantano: entrada",
+  "pt": "Assentamento do Pântano: entrada",
+  "pl": "Obóz Bractwa: wejście",
+  "ru": "Болотный лагерь: вход"
+ },
+ "Swamp Camp: temple square": {
+  "de": "Sumpflager: Tempelplatz",
+  "fr": "Camp du marais : place du temple",
+  "it": "Campo Palude: piazza del tempio",
+  "es": "Campamento del Pantano: plaza del templo",
+  "pt": "Assentamento do Pântano: praça do templo",
+  "pl": "Obóz Bractwa: plac świątynny",
+  "ru": "Болотный лагерь: храмовая площадь"
+ },
+ "Xardas' tower": {
+  "de": "Xardas' Turm",
+  "fr": "Tour de Xardas",
+  "it": "Torre di Xardas",
+  "es": "Torre de Xardas",
+  "pt": "Torre do Xardas",
+  "pl": "Wieża Xardasa",
+  "ru": "Башня Ксардаса"
+ },
+ "Sunken tower": {
+  "de": "Versunkener Turm",
+  "fr": "Tour engloutie",
+  "it": "Torre sommersa",
+  "es": "Torre hundida",
+  "pt": "Torre submersa",
+  "pl": "Zatopiona Wieża",
+  "ru": "Затонувшая башня"
+ },
+ "Stonehenge": {
+  "de": "Steinkreis",
+  "fr": "Cercle de pierres",
+  "it": "Cerchio di pietre",
+  "es": "Círculo de piedras",
+  "pt": "Círculo de pedras",
+  "pl": "Kamienny krąg",
+  "ru": "Каменный круг"
+ },
+ "Monastery ruins": {
+  "de": "Klosterruine",
+  "fr": "Ruines du monastère",
+  "it": "Rovine del monastero",
+  "es": "Ruinas del monasterio",
+  "pt": "Ruínas do mosteiro",
+  "pl": "Ruiny klasztoru",
+  "ru": "Руины монастыря"
+ },
+ "Castle ruins": {
+  "de": "Burgruine",
+  "fr": "Ruines du château",
+  "it": "Rovine del castello",
+  "es": "Ruinas del castillo",
+  "pt": "Ruínas do castelo",
+  "pl": "Ruiny zamku",
+  "ru": "Руины замка"
+ },
+ "Harpy tower": {
+  "de": "Harpyienturm",
+  "fr": "Tour des harpies",
+  "it": "Torre delle arpie",
+  "es": "Torre de las arpías",
+  "pt": "Torre das harpias",
+  "pl": "Wieża harpii",
+  "ru": "Башня гарпий"
+ },
+ "Troll canyon": {
+  "de": "Trollschlucht",
+  "fr": "Canyon des trolls",
+  "it": "Canyon dei troll",
+  "es": "Cañón de los trols",
+  "pt": "Cânion dos trolls",
+  "pl": "Kanion trolli",
+  "ru": "Каньон троллей"
+ },
+ "Lighthouse": {
+  "de": "Leuchtturm",
+  "fr": "Phare",
+  "it": "Faro",
+  "es": "Faro",
+  "pt": "Farol",
+  "pl": "Latarnia morska",
+  "ru": "Маяк"
+ },
+ "Smugglers": {
+  "de": "Schmuggler",
+  "fr": "Contrebandiers",
+  "it": "Contrabbandieri",
+  "es": "Contrabandistas",
+  "pt": "Contrabandistas",
+  "pl": "Przemytnicy",
+  "ru": "Контрабандисты"
+ },
+ "Nyras' focus stone": {
+  "de": "Nyras' Fokusstein",
+  "fr": "Pierre focale de Nyras",
+  "it": "Pietra focale di Nyras",
+  "es": "Piedra focal de Nyras",
+  "pt": "Pedra focal do Nyras",
+  "pl": "Kamień ogniskujący Nyrasa",
+  "ru": "Фокус-камень Нираса"
+ },
+ "Orc cemetery": {
+  "de": "Orkfriedhof",
+  "fr": "Cimetière orc",
+  "it": "Cimitero degli orchi",
+  "es": "Cementerio orco",
+  "pt": "Cemitério dos orcs",
+  "pl": "Cmentarzysko orków",
+  "ru": "Кладбище орков"
+ },
+ "Orc town: bridge": {
+  "de": "Orkstadt: Brücke",
+  "fr": "Ville orque : pont",
+  "it": "Città degli orchi: ponte",
+  "es": "Ciudad orca: puente",
+  "pt": "Cidade dos orcs: ponte",
+  "pl": "Miasto orków: most",
+  "ru": "Город орков: мост"
+ },
+ "Sleeper temple: entrance": {
+  "de": "Schläfertempel: Eingang",
+  "fr": "Temple du Dormeur : entrée",
+  "it": "Tempio del Dormiente: ingresso",
+  "es": "Templo del Durmiente: entrada",
+  "pt": "Templo do Adormecido: entrada",
+  "pl": "Świątynia Śniącego: wejście",
+  "ru": "Храм Спящего: вход"
+ },
+ "Tundra: Innos temple": {
+  "de": "Tundra: Innos-Tempel",
+  "fr": "Toundra : temple d'Innos",
+  "it": "Tundra: tempio di Innos",
+  "es": "Tundra: templo de Innos",
+  "pt": "Tundra: templo de Innos",
+  "pl": "Tundra: świątynia Innosa",
+  "ru": "Тундра: храм Инноса"
+ },
+ "Tundra: plateau": {
+  "de": "Tundra: Hochebene",
+  "fr": "Toundra : plateau",
+  "it": "Tundra: altopiano",
+  "es": "Tundra: meseta",
+  "pt": "Tundra: planalto",
+  "pl": "Tundra: płaskowyż",
+  "ru": "Тундра: плато"
+ },
+ "Tundra: waterfall": {
+  "de": "Tundra: Wasserfall",
+  "fr": "Toundra : cascade",
+  "it": "Tundra: cascata",
+  "es": "Tundra: cascada",
+  "pt": "Tundra: cachoeira",
+  "pl": "Tundra: wodospad",
+  "ru": "Тундра: водопад"
+ },
+ "start (no ground at the marker)": {
+  "de": "Startpunkt (kein Boden an der Markierung)",
+  "fr": "point de départ (pas de sol au marqueur)",
+  "it": "punto di partenza (nessun terreno al segnalino)",
+  "es": "punto de partida (no hay suelo en la marca)",
+  "pt": "ponto de partida (sem chão no marcador)",
+  "pl": "punkt startowy (brak gruntu przy znaczniku)",
+  "ru": "исходная точка (у метки нет земли)"
+ },
+ "World": {
+  "de": "Welt",
+  "fr": "Monde",
+  "it": "Mondo",
+  "es": "Mundo",
+  "pt": "Mundo",
+  "pl": "Świat",
+  "ru": "Мир"
+ },
+ "Time (1 hour steps)": {
+  "de": "Uhrzeit (1-Stunden-Schritte)",
+  "fr": "Heure (pas d'1 heure)",
+  "it": "Ora (passi di 1 ora)",
+  "es": "Hora (pasos de 1 hora)",
+  "pt": "Hora (passos de 1 hora)",
+  "pl": "Czas (co 1 godzinę)",
+  "ru": "Время (шаг 1 час)"
+ },
+ "Freeze time": {
+  "de": "Zeit anhalten",
+  "fr": "Figer le temps",
+  "it": "Ferma il tempo",
+  "es": "Detener el tiempo",
+  "pt": "Parar o tempo",
+  "pl": "Zatrzymaj czas",
+  "ru": "Остановить время"
+ },
+ "Weather": {
+  "de": "Wetter",
+  "fr": "Météo",
+  "it": "Meteo",
+  "es": "Clima",
+  "pt": "Clima",
+  "pl": "Pogoda",
+  "ru": "Погода"
+ },
+ "Game speed": {
+  "de": "Spieltempo",
+  "fr": "Vitesse du jeu",
+  "it": "Velocità di gioco",
+  "es": "Velocidad del juego",
+  "pt": "Velocidade do jogo",
+  "pl": "Szybkość gry",
+  "ru": "Скорость игры"
+ },
+ "Story chapter": {
+  "de": "Kapitel",
+  "fr": "Chapitre",
+  "it": "Capitolo",
+  "es": "Capítulo",
+  "pt": "Capítulo",
+  "pl": "Rozdział",
+  "ru": "Глава"
+ },
+ "Day {0}, {1}:{2}": {
+  "de": "Tag {0}, {1}:{2}",
+  "fr": "Jour {0}, {1}:{2}",
+  "it": "Giorno {0}, {1}:{2}",
+  "es": "Día {0}, {1}:{2}",
+  "pt": "Dia {0}, {1}:{2}",
+  "pl": "Dzień {0}, {1}:{2}",
+  "ru": "День {0}, {1}:{2}"
+ },
+ "Sunny": {
+  "de": "Sonnig",
+  "fr": "Ensoleillé",
+  "it": "Soleggiato",
+  "es": "Soleado",
+  "pt": "Ensolarado",
+  "pl": "Słonecznie",
+  "ru": "Солнечно"
+ },
+ "Cloudy": {
+  "de": "Bewölkt",
+  "fr": "Nuageux",
+  "it": "Nuvoloso",
+  "es": "Nublado",
+  "pt": "Nublado",
+  "pl": "Pochmurno",
+  "ru": "Облачно"
+ },
+ "Light rain": {
+  "de": "Leichter Regen",
+  "fr": "Pluie légère",
+  "it": "Pioggia leggera",
+  "es": "Lluvia ligera",
+  "pt": "Chuva leve",
+  "pl": "Lekki deszcz",
+  "ru": "Лёгкий дождь"
+ },
+ "Rain": {
+  "de": "Regen",
+  "fr": "Pluie",
+  "it": "Pioggia",
+  "es": "Lluvia",
+  "pt": "Chuva",
+  "pl": "Deszcz",
+  "ru": "Дождь"
+ },
+ "Storm": {
+  "de": "Sturm",
+  "fr": "Orage",
+  "it": "Tempesta",
+  "es": "Tormenta",
+  "pt": "Tempestade",
+  "pl": "Burza",
+  "ru": "Гроза"
+ },
+ "Time frozen": {
+  "de": "Zeit angehalten",
+  "fr": "Temps figé",
+  "it": "Tempo fermo",
+  "es": "Tiempo detenido",
+  "pt": "Tempo parado",
+  "pl": "Czas zatrzymany",
+  "ru": "Время остановлено"
+ },
+ "Time running": {
+  "de": "Zeit läuft",
+  "fr": "Le temps s'écoule",
+  "it": "Il tempo scorre",
+  "es": "El tiempo corre",
+  "pt": "O tempo corre",
+  "pl": "Czas płynie",
+  "ru": "Время идёт"
+ },
+ "Weather controller not found": {
+  "de": "Wettersteuerung nicht gefunden",
+  "fr": "Contrôleur météo introuvable",
+  "it": "Controllo meteo non trovato",
+  "es": "Controlador del clima no encontrado",
+  "pt": "Controlador do clima não encontrado",
+  "pl": "Nie znaleziono kontrolera pogody",
+  "ru": "Контроллер погоды не найден"
+ },
+ "Weather: {0}": {
+  "de": "Wetter: {0}",
+  "fr": "Météo : {0}",
+  "it": "Meteo: {0}",
+  "es": "Clima: {0}",
+  "pt": "Clima: {0}",
+  "pl": "Pogoda: {0}",
+  "ru": "Погода: {0}"
+ },
+ "Game speed: {0}x": {
+  "de": "Spieltempo: {0}x",
+  "fr": "Vitesse du jeu : {0}x",
+  "it": "Velocità di gioco: {0}x",
+  "es": "Velocidad del juego: {0}x",
+  "pt": "Velocidade do jogo: {0}x",
+  "pl": "Szybkość gry: {0}x",
+  "ru": "Скорость игры: {0}x"
+ },
+ "Chapter: {0}": {
+  "de": "Kapitel: {0}",
+  "fr": "Chapitre : {0}",
+  "it": "Capitolo: {0}",
+  "es": "Capítulo: {0}",
+  "pt": "Capítulo: {0}",
+  "pl": "Rozdział: {0}",
+  "ru": "Глава: {0}"
+ },
+ "Chapter: {0} -> {1}": {
+  "de": "Kapitel: {0} -> {1}",
+  "fr": "Chapitre : {0} -> {1}",
+  "it": "Capitolo: {0} -> {1}",
+  "es": "Capítulo: {0} -> {1}",
+  "pt": "Capítulo: {0} -> {1}",
+  "pl": "Rozdział: {0} -> {1}",
+  "ru": "Глава: {0} -> {1}"
+ },
+ "Cannot go back before day 0": {
+  "de": "Vor Tag 0 geht es nicht zurück",
+  "fr": "Impossible de remonter avant le jour 0",
+  "it": "Impossibile tornare prima del giorno 0",
+  "es": "No se puede retroceder antes del día 0",
+  "pt": "Não dá para voltar antes do dia 0",
+  "pl": "Nie można cofnąć przed dzień 0",
+  "ru": "Нельзя вернуться раньше дня 0"
+ },
+ "Time: {0}": {
+  "de": "Uhrzeit: {0}",
+  "fr": "Heure : {0}",
+  "it": "Ora: {0}",
+  "es": "Hora: {0}",
+  "pt": "Hora: {0}",
+  "pl": "Czas: {0}",
+  "ru": "Время: {0}"
+ }
+}
