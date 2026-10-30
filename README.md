@@ -48,6 +48,19 @@ Mode lacks (one-hit kills, infinite mana, breath and ammo, guild change, free tr
 skill reset, reviving NPCs, friendly camps, teleport to map markers and saved positions,
 achievements) and uses readable names instead of internal codes.
 
+Note that the game also turns off achievement progress for as long as any mod is enabled, this
+one included. To earn achievements while playing with mods, add
+[Achievements With Mods](https://www.nexusmods.com/gothic1remake/mods/678).
+
+## Achievements while using mods
+
+Since update 1.1 the game stops counting achievements as soon as any mod is enabled.
+[Achievements With Mods](https://www.nexusmods.com/gothic1remake/mods/678)
+([Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3829858119)) switches
+them back on, using the game's own achievement rules. The two mods work together; what you do
+with the cheat menu then counts toward achievements as well (for example learning every skill
+gives "Learn all lessons").
+
 ## Languages
 
 English, German, French, Italian, Spanish, Brazilian Portuguese, Polish and Russian. The menu

@@ -1,6 +1,9 @@
-// G1R Cheat Menu: Achievements page. Unlocks go through the game's own console command
-// (gothic.achievement.Unlock <id>) and are permanent on the player's account. Ids as declared in
-// the game's Story/Achievements script.
+// G1R Cheat Menu: Achievements page. Unlocks are permanent on the player's account. Ids as declared
+// in the game's Story/Achievements script. The console command gothic.achievement.Unlock is a cheat
+// command and is refused in the shipping game, so the page calls the achievement subsystem's native
+// UnlockAchievement instead: it is not exposed to script, but a delegate bound by name reaches it,
+// and unlike the subsystem's progress update it does not stop when mods are loaded.
+delegate void FCMUnlockAchievement(FString AchievementId);
 
 class UCMAchievementsPage : UCMPage
 {
@@ -81,10 +84,14 @@ class UCMAchievementsPage : UCMPage
 
     bool Unlock(FString Id)
     {
-        APlayerController pc = Gameplay::GetPlayerController(0);
-        if (pc == nullptr)
+        UGothicAchievementSubsystem sub = UGothicAchievementSubsystem::Get(CM::Hero());
+        if (sub == nullptr)
             return false;
-        System::ExecuteConsoleCommand("gothic.achievement.Unlock " + Id, pc);
+        FCMUnlockAchievement d;
+        d.BindUFunction(sub, n"UnlockAchievement");
+        if (!d.IsBound())
+            return false;
+        d.Execute(Id);
         return true;
     }
 
