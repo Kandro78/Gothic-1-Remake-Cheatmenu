@@ -26,7 +26,7 @@ nicht ein und wird nur mit der Tastatur bedient.
 | Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, permanente Elixiere und Untermenüs mit Runen, Spruchrollen, Nahkampf- und Fernkampfwaffen, Rüstungen, Karten, Jagdtrophäen, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder einzeln oder alle auf einmal) |
 | Teleport | Zu den Markierungen auf der Weltkarte, zu 105 Personen, zu 28 Orten der Kolonie, oder bis zu 10 eigene Positionen speichern und zu ihnen zurückkehren |
 | Welt | Tageszeit, Zeit anhalten, Tagestempo (0,25x bis 128x), Wetter, Spieltempo, Kapitel |
-| NPCs | NPC im Blick heilen, töten oder wiederbeleben, 30 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich machen, feindliche NPCs töten, geladene NPCs freundlich machen |
+| NPCs | NPC im Blick heilen, töten oder wiederbeleben, 31 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich machen, feindliche NPCs töten, geladene NPCs freundlich machen |
 | Quests | Listet fehlgeschlagene und laufende Quests mit ihren Tagebuchnamen; eine als erledigt markieren oder eine fehlgeschlagene neu starten |
 | Erfolge | Einzelne Erfolge oder alle 42 auf einmal freischalten |
 

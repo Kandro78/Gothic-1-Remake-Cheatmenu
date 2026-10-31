@@ -1308,6 +1308,17 @@
   "zh": "食尸鸟",
   "ja": "スカベンジャー"
  },
+ "Rideable Scavenger": {
+  "de": "Zahmer Scavenger",
+  "fr": "Charognard apprivoisé",
+  "it": "Saprofago cavalcabile",
+  "es": "Carroñero montable",
+  "pt": "Catador Montável",
+  "pl": "Wierzchowy ścierwojad",
+  "ru": "Объезженный падальщик",
+  "zh": "可骑乘的食尸鸟",
+  "ja": "乗れるスカベンジャー"
+ },
  "Wolf": {
   "de": "Wolf",
   "fr": "Loup",

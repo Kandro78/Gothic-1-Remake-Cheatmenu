@@ -34,6 +34,7 @@ class UCMSpawnPage : UCMPage
         Add("Bloodfly", "Bloodfly");
         Add("Molerat", "Molerat");
         Add("Scavenger", "ScavengerAdult");
+        Add("Rideable Scavenger", "ScavengerAdult_Rideable");
         Add("Wolf", "Wolf");
         Add("Orc Dog", "OrcDog");
         Add("Snapper", "Snapper");

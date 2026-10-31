@@ -29,6 +29,11 @@ class UCMMenu : UGothicModExt_WorldSubsystem
     UCMMainPage MainPage;
     UPROPERTY()
     TArray<UCMPage> Stack; // the open pages, MainPage first
+    UPROPERTY()
+    AActor Controlled; // the character the menu keys were last bound on
+    FKey LastKey;
+    bool bLastRepeat = false;
+    float64 LastKeyTime = -1;
 
     TArray<FCMItem> Items;
     bool bOpen = false;
@@ -74,16 +79,28 @@ class UCMMenu : UGothicModExt_WorldSubsystem
     void HandlePlayerCharacterBeginPlay(AGothicCharacter Character)
     {
         Setup();
-        UInputComponent input = UInputComponent::Get(Character);
-        if (input == nullptr)
+        BindKeys(Character);
+    }
+
+    // the keys work only on the input of the character the player controls. Riding a scavenger
+    // switches that to the mount, and dismounting gives the hero fresh input, so OnTick binds the
+    // keys again whenever the controlled character changes (HandleKey drops the doubles)
+    void BindKeys(AActor Character)
+    {
+        if (Character == nullptr || Character == Controlled)
             return;
+        Controlled = Character;
         FInputActionHandlerDynamicSignature onKey = FInputActionHandlerDynamicSignature(this, n"OnKey");
         FInputActionHandlerDynamicSignature onRepeat = FInputActionHandlerDynamicSignature(this, n"OnKeyRepeat");
-        input.BindKey(EKeys::F7, EInputEvent::IE_Pressed, onKey, false);
-        for (FKey key : NavigationKeys())
+        for (UActorComponent component : Character.GetComponentsByClass(UInputComponent::StaticClass()))
         {
-            input.BindKey(key, EInputEvent::IE_Pressed, onKey, false);
-            input.BindKey(key, EInputEvent::IE_Repeat, onRepeat, false);
+            UInputComponent input = Cast<UInputComponent>(component);
+            input.BindKey(EKeys::F7, EInputEvent::IE_Pressed, onKey, false);
+            for (FKey key : NavigationKeys())
+            {
+                input.BindKey(key, EInputEvent::IE_Pressed, onKey, false);
+                input.BindKey(key, EInputEvent::IE_Repeat, onRepeat, false);
+            }
         }
     }
 
@@ -131,6 +148,13 @@ class UCMMenu : UGothicModExt_WorldSubsystem
 
     void HandleKey(FKey Key, bool bRepeat)
     {
+        // a key bound twice on the same input (after getting off a mount) arrives twice per frame
+        float64 now = Gameplay::GetRealTimeSeconds();
+        if (Key == LastKey && bRepeat == bLastRepeat && now == LastKeyTime)
+            return;
+        LastKey = Key;
+        bLastRepeat = bRepeat;
+        LastKeyTime = now;
         Setup();
         if (Key == EKeys::F7)
         {
@@ -328,6 +352,7 @@ class UCMMenu : UGothicModExt_WorldSubsystem
     UFUNCTION()
     void OnTick()
     {
+        BindKeys(Gameplay::GetPlayerCharacter(0));
         if (CM::Hero() == nullptr)
             return;
         for (UCMPage page : MainPage.Pages)

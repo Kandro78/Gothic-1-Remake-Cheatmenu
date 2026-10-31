@@ -115,7 +115,11 @@ namespace CM
 
     AGothicCharacter Hero()
     {
-        return Cast<AGothicCharacter>(Gameplay::GetPlayerCharacter(0));
+        AGothicCharacter player = Cast<AGothicCharacter>(Gameplay::GetPlayerCharacter(0));
+        // while riding, the player controls the scavenger; the cheats are for its rider
+        if (player != nullptr && player.GetMountComponent() != nullptr && player.GetMountComponent().GetRiderCharacter() != nullptr)
+            return player.GetMountComponent().GetRiderCharacter();
+        return player;
     }
 
     UGothicAbilitySystemComponent HeroASC()

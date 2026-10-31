@@ -124,6 +124,7 @@ namespace CMLang
         M.Add("Bloodfly", "Mosca sanguinaria");
         M.Add("Molerat", "Ratto talpa");
         M.Add("Scavenger", "Spazzino");
+        M.Add("Rideable Scavenger", "Saprofago cavalcabile");
         M.Add("Wolf", "Lupo");
         M.Add("Orc Dog", "Cane orco");
         M.Add("Biter", "Morditore");

@@ -122,6 +122,7 @@ namespace CMLang
         M.Add("[Enter] Spawn   [Backspace] Back   [F7] Close", "[Enter] Erschaffen   [Rücktaste] Zurück   [F7] Schließen");
         M.Add("Meatbug", "Fleischwanze");
         M.Add("Bloodfly", "Blutfliege");
+        M.Add("Rideable Scavenger", "Zahmer Scavenger");
         M.Add("Orc Dog", "Orkhund");
         M.Add("Biter", "Beißer");
         M.Add("Bloodhound", "Bluthund");

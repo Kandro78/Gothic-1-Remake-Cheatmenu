@@ -124,6 +124,7 @@ namespace CMLang
         M.Add("Bloodfly", "Кровяной шершень");
         M.Add("Molerat", "Кротокрыс");
         M.Add("Scavenger", "Падальщик");
+        M.Add("Rideable Scavenger", "Объезженный падальщик");
         M.Add("Wolf", "Волк");
         M.Add("Orc Dog", "Орочья собака");
         M.Add("Snapper", "Глорх");
