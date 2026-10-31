@@ -130,9 +130,9 @@ Cheat Menu / Quests), und die Position in langen Listen.
 
 ## Version 1.9.0 (UE4SS)
 
-Der Ordner `G1R_CheatMenu` ist die alte UE4SS-Lua-Version 1.9.0. Sie läuft nur auf
-Spielversionen vor Update 1.1 (Steam-Betazweig „previousrelease“) und braucht UE4SS. Sie bleibt
-zum Nachschlagen erhalten und wird nicht mehr weiterentwickelt.
+Die Versionen bis 1.9.0 waren UE4SS-Lua-Mods für Spielversionen vor Update 1.1. Die
+Modding-Richtlinie von THQ Nordic erlaubt Änderungen nur über das offizielle Mod-Kit, deshalb
+sind sie nicht mehr Teil dieses Repositorys.
 
 ## Stand
 
@@ -149,6 +149,8 @@ From Map“) gelernt. Danke an alle. Keine Dateien anderer Mods sind Teil dieser
 
 ## Lizenz
 
-Die Mod steht unter der MIT-Lizenz, siehe [LICENSE](LICENSE). Gothic 1 Remake, seine Namen und
-Inhalte gehören ihren Eigentümern. Dies ist eine inoffizielle Modifikation. Sie wird nicht von
+Der eigene Code der Mod steht unter der MIT-Lizenz, siehe [LICENSE](LICENSE). Gothic 1 Remake,
+seine Namen, Begriffe und Texte sowie alles, was aus Inhalten des Spiels abgeleitet ist, gehören
+THQ Nordic GmbH und ihren Lizenzgebern und fallen nicht unter die MIT-Lizenz (THQ Nordic Modding
+Policy, Abschnitt 4.1). Dies ist eine inoffizielle Modifikation. Sie wird nicht von
 THQ Nordic erstellt, unterstützt oder befürwortet.
