@@ -12,6 +12,7 @@ class UCMPlayerState : UObject
     bool bNoFall = false;
     bool bAmmo = false;
     bool bPocket = false;
+    bool bInstantPick = false;
     float HeroSpeed = 1.0;
     float Jump = 1.0;
 
@@ -34,6 +35,7 @@ class UCMPlayerPage : UCMPage
 
     float SlowTimer = 0.0;
     float OneHitTimer = 0.0;
+    float PickTimer = 0.0;
 
     UCMPlayerState S() const
     {
@@ -57,7 +59,7 @@ class UCMPlayerPage : UCMPage
         Items.Add(CM::Item("Infinite ammo", ECMKind::Toggle, n"Ammo"));
         Items.Add(CM::Item("Invisible to NPCs", ECMKind::Toggle, n"Invisible"));
         Items.Add(CM::Item("Sure pickpocketing", ECMKind::Toggle, n"Pocket"));
-        Items.Add(CM::Item("Unlock chest or door in view", ECMKind::Action, n"Unlock"));
+        Items.Add(CM::Item("Instant lockpicking", ECMKind::Toggle, n"InstantPick"));
         Items.Add(CM::Item("Hero speed", ECMKind::Value, n"Speed"));
         Items.Add(CM::Item("Jump height", ECMKind::Value, n"Jump"));
         Items.Add(CM::Item("Restore health and mana", ECMKind::Action, n"Heal"));
@@ -87,6 +89,8 @@ class UCMPlayerPage : UCMPage
             return CM::OnOff(UPerceptionSystem::DebugGetIgnorePlayerPerceptionsRef());
         if (Id == n"Pocket")
             return CM::OnOff(s.bPocket);
+        if (Id == n"InstantPick")
+            return CM::OnOff(s.bInstantPick);
         if (Id == n"Speed")
             return CM::Num(s.HeroSpeed) + "x";
         if (Id == n"Jump")
@@ -159,10 +163,10 @@ class UCMPlayerPage : UCMPage
             SetPocket(!s.bPocket);
             return CM::F("Sure pickpocketing {0}", CM::OnOff(s.bPocket));
         }
-        if (Id == n"Unlock")
+        if (Id == n"InstantPick")
         {
-            UCheatModeHelper::OpenLock(hero);
-            return "Unlock: done (works on the chest or door the hero faces)";
+            s.bInstantPick = !s.bInstantPick;
+            return CM::F("Instant lockpicking {0}", CM::OnOff(s.bInstantPick));
         }
         if (Id == n"Speed")
         {
@@ -190,21 +194,15 @@ class UCMPlayerPage : UCMPage
     // ---- switches --------------------------------------------------------------------------
 
     // God mode: the game's own developer flag on the combat config (Damage.as checks it for the
-    // player, falls included) plus the invulnerable tag Marvin Mode uses; the tick keeps health
-    // full for damage that goes another way
+    // player, falls included), so hits still land and can be parried or blocked but take no
+    // health; the tick keeps health full for damage that goes another way. Not the invulnerable
+    // tag Marvin Mode uses: with it enemy hits do not register at all.
     void SetGod(bool bOn)
     {
         S().bGod = bOn;
         UCombatConfig cfg = CM::CombatConfig();
         if (cfg != nullptr && !S().bFallGod)
             cfg.SetGodMode(bOn);
-        UGothicAbilitySystemComponent asc = CM::HeroASC();
-        if (asc == nullptr)
-            return;
-        if (bOn && !asc.HasGameplayTag(GameplayTag::State_Invulnerable))
-            asc.AddLooseGameplayTag(GameplayTag::State_Invulnerable);
-        else if (!bOn && asc.HasGameplayTag(GameplayTag::State_Invulnerable))
-            asc.RemoveLooseGameplayTag(GameplayTag::State_Invulnerable);
     }
 
     bool IsFlying()
@@ -387,6 +385,15 @@ class UCMPlayerPage : UCMPage
             CM::Fill(UAttributeSet_Oxygen, n"Oxygen", n"MaxOxygen");
         if (s.bNoFall || s.bFallGod)
             FallTick(hero, DeltaSeconds);
+
+        // Instant lockpicking: the message Marvin Mode's lockpicking button sends, which solves the
+        // lockpicking minigame when one is open and does nothing otherwise
+        PickTimer += DeltaSeconds;
+        if (s.bInstantPick && PickTimer >= 0.25)
+        {
+            PickTimer = 0;
+            UCheatModeHelper::OpenLock(hero);
+        }
 
         OneHitTimer += DeltaSeconds;
         if (s.bOneHit && OneHitTimer >= 0.5)

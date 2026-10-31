@@ -182,7 +182,7 @@ namespace CMLang
         M.Add("Infinite ammo", "Nieskończona amunicja");
         M.Add("Invisible to NPCs", "Niewidzialność dla NPC");
         M.Add("Sure pickpocketing", "Pewna kradzież kieszonkowa");
-        M.Add("Unlock chest or door in view", "Otwórz skrzynię lub drzwi w polu widzenia");
+        M.Add("Instant lockpicking", "Natychmiastowe otwieranie zamków");
         M.Add("Hero speed", "Szybkość bohatera");
         M.Add("Jump height", "Wysokość skoku");
         M.Add("Restore health and mana", "Przywróć zdrowie i manę");
@@ -197,7 +197,7 @@ namespace CMLang
         M.Add("Infinite ammo {0}", "Nieskończona amunicja {0}");
         M.Add("Invisible to NPCs {0}", "Niewidzialność dla NPC {0}");
         M.Add("Sure pickpocketing {0}", "Pewna kradzież kieszonkowa {0}");
-        M.Add("Unlock: done (works on the chest or door the hero faces)", "Odblokowano (działa na skrzynię lub drzwi przed bohaterem)");
+        M.Add("Instant lockpicking {0}", "Natychmiastowe otwieranie zamków {0}");
         M.Add("Hero speed: {0}x", "Szybkość bohatera: {0}x");
         M.Add("Jump height: {0}x", "Wysokość skoku: {0}x");
         M.Add("Health and mana restored", "Zdrowie i mana przywrócone");
@@ -319,6 +319,7 @@ namespace CMLang
         M.Add("Save current position", "Zapisz obecną pozycję");
         M.Add("All {0} slots are used. Delete one first", "Wszystkie {0} miejsc zajęte. Najpierw usuń jedno");
         M.Add("Saved for this session only: the slot could not be written", "Zapisano tylko na tę sesję: nie udało się zapisać slotu");
+        M.Add("Deleted for this session only: the slot could not be written", "Usunięto tylko na tę sesję: nie udało się zapisać slotu");
         M.Add("Position saved as number {0}", "Zapisano pozycję pod numerem {0}");
         M.Add("Saved position deleted", "Usunięto zapisaną pozycję");
         M.Add("saved position {0}", "zapisana pozycja {0}");
@@ -372,5 +373,7 @@ namespace CMLang
         M.Add("Chapter: {0} -> {1}", "Rozdział: {0} -> {1}");
         M.Add("Cannot go back before day 0", "Nie można cofnąć przed dzień 0");
         M.Add("Time: {0}", "Czas: {0}");
+        M.Add("Day speed", "Szybkość upływu dnia");
+        M.Add("Day speed: {0}x", "Szybkość upływu dnia: {0}x");
     }
 }

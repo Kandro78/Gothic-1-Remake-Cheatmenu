@@ -49,7 +49,7 @@ namespace CMItems
         int given = 0;
         for (FCMGift gift : Gifts)
         {
-            if (Give(gift).StartsWith("Added"))
+            if (Give(gift) == CM::F("Added: {0}", gift.Label)) // Give's text is already translated
                 given++;
         }
         return CM::F("Added {0} of {1} items", "" + given, "" + Gifts.Num());

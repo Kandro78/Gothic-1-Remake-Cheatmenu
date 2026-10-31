@@ -186,7 +186,7 @@ namespace CMLang
         M.Add("Infinite ammo", "Бесконечные боеприпасы");
         M.Add("Invisible to NPCs", "Невидимость для NPC");
         M.Add("Sure pickpocketing", "Верная карманная кража");
-        M.Add("Unlock chest or door in view", "Отпереть сундук или дверь перед собой");
+        M.Add("Instant lockpicking", "Мгновенный взлом замков");
         M.Add("Hero speed", "Скорость героя");
         M.Add("Jump height", "Высота прыжка");
         M.Add("Restore health and mana", "Восстановить здоровье и ману");
@@ -201,7 +201,7 @@ namespace CMLang
         M.Add("Infinite ammo {0}", "Бесконечные боеприпасы {0}");
         M.Add("Invisible to NPCs {0}", "Невидимость для NPC {0}");
         M.Add("Sure pickpocketing {0}", "Верная карманная кража {0}");
-        M.Add("Unlock: done (works on the chest or door the hero faces)", "Открыто (действует на сундук или дверь перед героем)");
+        M.Add("Instant lockpicking {0}", "Мгновенный взлом замков {0}");
         M.Add("Hero speed: {0}x", "Скорость героя: {0}x");
         M.Add("Jump height: {0}x", "Высота прыжка: {0}x");
         M.Add("Health and mana restored", "Здоровье и мана восстановлены");
@@ -323,6 +323,7 @@ namespace CMLang
         M.Add("Save current position", "Сохранить текущую позицию");
         M.Add("All {0} slots are used. Delete one first", "Все {0} ячеек заняты. Сначала удалите одну");
         M.Add("Saved for this session only: the slot could not be written", "Сохранено только на этот сеанс: не удалось записать слот");
+        M.Add("Deleted for this session only: the slot could not be written", "Удалено только на этот сеанс: не удалось записать слот");
         M.Add("Position saved as number {0}", "Позиция сохранена под номером {0}");
         M.Add("Saved position deleted", "Сохранённая позиция удалена");
         M.Add("saved position {0}", "сохранённая позиция {0}");
@@ -377,5 +378,7 @@ namespace CMLang
         M.Add("Chapter: {0} -> {1}", "Глава: {0} -> {1}");
         M.Add("Cannot go back before day 0", "Нельзя вернуться раньше дня 0");
         M.Add("Time: {0}", "Время: {0}");
+        M.Add("Day speed", "Скорость времени суток");
+        M.Add("Day speed: {0}x", "Скорость времени суток: {0}x");
     }
 }

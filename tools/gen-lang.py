@@ -13,7 +13,7 @@ import io, json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TABLE = os.path.join(ROOT, "translations", "strings.json")
 OUT = os.path.join(ROOT, "Kandro78-G1RCheatMenu", "Script", "CheatMenu", "Lang")
-LANGS = {"de": "German", "fr": "French", "it": "Italian", "es": "Spanish", "pt": "Portuguese", "pl": "Polish", "ru": "Russian"}
+LANGS = {"de": "German", "fr": "French", "it": "Italian", "es": "Spanish", "pt": "Portuguese", "pl": "Polish", "ru": "Russian", "zh": "Simplified Chinese", "ja": "Japanese"}
 
 
 def literal(s):

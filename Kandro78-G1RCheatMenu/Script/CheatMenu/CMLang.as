@@ -19,11 +19,13 @@ namespace CM
         return Cast<UCMLang>(UCMLang::StaticClass().GetDefaultObject());
     }
 
-    // the menu's language for the game's: the first two letters of its culture ("pt-BR" gives pt)
+    // the menu's language for the game's: the first two letters of its culture ("pt-BR" gives pt,
+    // "zh-Hans" gives zh)
     FString LanguageCode()
     {
         FString code = Internationalization::GetCurrentLanguage().Left(2).ToLower();
-        if (code == "de" || code == "fr" || code == "it" || code == "es" || code == "pt" || code == "pl" || code == "ru")
+        if (code == "de" || code == "fr" || code == "it" || code == "es" || code == "pt" || code == "pl" || code == "ru"
+            || code == "zh" || code == "ja")
             return code;
         return "en";
     }
@@ -52,6 +54,17 @@ namespace CM
             CMLang::Pl(lang.Strings);
         else if (code == "ru")
             CMLang::Ru(lang.Strings);
+        else if (code == "zh")
+            CMLang::Zh(lang.Strings);
+        else if (code == "ja")
+            CMLang::Ja(lang.Strings);
+    }
+
+    // Chinese and Japanese characters are about as wide as they are high
+    bool WideScript()
+    {
+        UCMLang lang = Lang();
+        return lang.Code == "zh" || lang.Code == "ja";
     }
 
     FString T(FString En)

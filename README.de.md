@@ -19,13 +19,13 @@ nicht ein und wird nur mit der Tastatur bedient.
 
 | Seite | Was sie macht |
 |---|---|
-| Spieler | Gottmodus, unendlich Mana und Atem, Leben und Mana auffüllen, Verbrechen löschen, Fliegen (der Flugmodus des Spiels), Gegner mit einem Schlag töten, unzerbrechliche Dietriche, kein Fallschaden, unendlich Munition, für NPCs unsichtbar, sicherer Taschendiebstahl, Truhe oder Tür im Blick öffnen, Heldentempo, Sprunghöhe |
+| Spieler | Gottmodus, unendlich Mana und Atem, Leben und Mana auffüllen, Verbrechen löschen, Fliegen (der Flugmodus des Spiels), Gegner mit einem Schlag töten, unzerbrechliche Dietriche, kein Fallschaden, unendlich Munition, für NPCs unsichtbar, sicherer Taschendiebstahl, sofortiges Schlossknacken, Heldentempo, Sprunghöhe |
 | Attribute | Stärke, Geschick, max. Mana, max. Leben, Lernpunkte, Stufe, Erfahrung, mit Schrittweite; Stärke, Geschick und max. Mana in einem Schritt auf 100 |
 | Gilde | Zwischen den 12 Gilden von Altem Lager, Neuem Lager und Sumpflager wechseln oder die Gilde verlassen |
 | Fertigkeiten | 58 Fertigkeiten lernen oder entfernen oder alle auf einmal lernen; kostenloses Lernen bei den Lehrern, alle Fertigkeiten zurücksetzen und die Lernpunkte zurückbekommen |
 | Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, permanente Elixiere und Untermenüs mit Runen, Spruchrollen, Nahkampf- und Fernkampfwaffen, Rüstungen, Karten, Jagdtrophäen, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder einzeln oder alle auf einmal) |
 | Teleport | Zu den Markierungen auf der Weltkarte, zu 105 Personen, zu 28 Orten der Kolonie, oder bis zu 10 eigene Positionen speichern und zu ihnen zurückkehren |
-| Welt | Tageszeit, Zeit anhalten, Wetter, Spieltempo, Kapitel |
+| Welt | Tageszeit, Zeit anhalten, Tagestempo (0,25x bis 128x), Wetter, Spieltempo, Kapitel |
 | NPCs | NPC im Blick heilen, töten oder wiederbeleben, 30 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich machen, feindliche NPCs töten, geladene NPCs freundlich machen |
 | Quests | Listet fehlgeschlagene und laufende Quests mit ihren Tagebuchnamen; eine als erledigt markieren oder eine fehlgeschlagene neu starten |
 | Erfolge | Einzelne Erfolge oder alle 42 auf einmal freischalten |
@@ -52,8 +52,8 @@ interner Codes.
 
 ## Sprachen
 
-Englisch, Deutsch, Französisch, Italienisch, Spanisch, brasilianisches Portugiesisch, Polnisch
-und Russisch. Das Menü folgt der Anzeigesprache des Spiels und übernimmt einen Wechsel ohne
+Englisch, Deutsch, Französisch, Italienisch, Spanisch, brasilianisches Portugiesisch, Polnisch,
+Russisch, vereinfachtes Chinesisch und Japanisch. Das Menü folgt der Anzeigesprache des Spiels und übernimmt einen Wechsel ohne
 Neustart.
 
 Die Texte stehen in [translations/strings.json](translations/strings.json); `tools/gen-lang.py`
@@ -113,6 +113,7 @@ Cheat Menu / Quests), und die Position in langen Listen.
 - **Eine fehlgeschlagene Quest neu starten** setzt sie wieder auf laufend. Besteht der Grund für das Scheitern noch (etwa eine tote Figur), sagt das Menü das stattdessen.
 - **Erfolge** werden dauerhaft im Steam-Konto freigeschaltet. Das Menü kann sie nicht wieder sperren. „Unlock ALL“ verlangt ein zweites Enter.
 - Schalter wie der Gottmodus bleiben an, bis man sie abschaltet oder das Spiel beendet.
+- Der Gottmodus hält das Leben voll, lässt Treffer aber zu, sodass Parieren und Blocken weiter funktionieren (der Gottmodus des Marvin-Modus lässt gegnerische Treffer ganz ins Leere gehen).
 - Nach einem weiten Teleport schwebt der Held einige Sekunden, während das Gebiet lädt, und fällt dann auf den Boden. Manche Ziele sind gefährlich oder gehören zu späteren Kapiteln.
 - **Kartenmarkierungen:** eine Markierung auf der Weltkarte setzen (nicht auf einer Lagerkarte), dann Teleport > Map markers öffnen. Eine Markierung auf einem Dach kann einen aufs Dach setzen.
 - **Fliegen** ist der Flugmodus des Spiels und schaltet die Kollision ab. Vor dem Abschalten im Freien landen.

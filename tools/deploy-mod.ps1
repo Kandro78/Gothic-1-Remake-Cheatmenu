@@ -15,3 +15,4 @@ if ($Launch) {
     Start-Process -FilePath (Join-Path $game 'G1R-Win64-Shipping.exe') -WorkingDirectory $game `
         -ArgumentList '-Mods=Kandro78-G1RCheatMenu', '-as-development-mode'
 }
+exit 0 # robocopy's 1 ("files copied") is success

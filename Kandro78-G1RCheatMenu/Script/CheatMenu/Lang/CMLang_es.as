@@ -181,7 +181,7 @@ namespace CMLang
         M.Add("Infinite ammo", "Munición infinita");
         M.Add("Invisible to NPCs", "Invisible para los PNJ");
         M.Add("Sure pickpocketing", "Hurto seguro");
-        M.Add("Unlock chest or door in view", "Desbloquear cofre o puerta a la vista");
+        M.Add("Instant lockpicking", "Forzar cerraduras al instante");
         M.Add("Hero speed", "Velocidad del héroe");
         M.Add("Jump height", "Altura de salto");
         M.Add("Restore health and mana", "Restaurar salud y maná");
@@ -196,7 +196,7 @@ namespace CMLang
         M.Add("Infinite ammo {0}", "Munición infinita {0}");
         M.Add("Invisible to NPCs {0}", "Invisible para los PNJ {0}");
         M.Add("Sure pickpocketing {0}", "Hurto seguro {0}");
-        M.Add("Unlock: done (works on the chest or door the hero faces)", "Desbloqueado (actúa sobre el cofre o la puerta frente al héroe)");
+        M.Add("Instant lockpicking {0}", "Forzar cerraduras al instante {0}");
         M.Add("Hero speed: {0}x", "Velocidad del héroe: {0}x");
         M.Add("Jump height: {0}x", "Altura de salto: {0}x");
         M.Add("Health and mana restored", "Salud y maná restaurados");
@@ -318,6 +318,7 @@ namespace CMLang
         M.Add("Save current position", "Guardar posición actual");
         M.Add("All {0} slots are used. Delete one first", "Los {0} huecos están ocupados. Borra uno primero");
         M.Add("Saved for this session only: the slot could not be written", "Guardado solo para esta sesión: no se pudo escribir la ranura");
+        M.Add("Deleted for this session only: the slot could not be written", "Eliminado solo para esta sesión: no se pudo escribir la ranura");
         M.Add("Position saved as number {0}", "Posición guardada con el número {0}");
         M.Add("Saved position deleted", "Posición guardada borrada");
         M.Add("saved position {0}", "posición guardada {0}");
@@ -372,5 +373,7 @@ namespace CMLang
         M.Add("Chapter: {0} -> {1}", "Capítulo: {0} -> {1}");
         M.Add("Cannot go back before day 0", "No se puede retroceder antes del día 0");
         M.Add("Time: {0}", "Hora: {0}");
+        M.Add("Day speed", "Velocidad del día");
+        M.Add("Day speed: {0}x", "Velocidad del día: {0}x");
     }
 }

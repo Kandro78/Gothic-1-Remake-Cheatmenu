@@ -179,7 +179,7 @@ namespace CMLang
         M.Add("Infinite ammo", "Munição infinita");
         M.Add("Invisible to NPCs", "Invisível para NPCs");
         M.Add("Sure pickpocketing", "Furto garantido");
-        M.Add("Unlock chest or door in view", "Destrancar baú ou porta à vista");
+        M.Add("Instant lockpicking", "Arrombamento instantâneo");
         M.Add("Hero speed", "Velocidade do herói");
         M.Add("Jump height", "Altura do pulo");
         M.Add("Restore health and mana", "Restaurar vida e mana");
@@ -194,7 +194,7 @@ namespace CMLang
         M.Add("Infinite ammo {0}", "Munição infinita {0}");
         M.Add("Invisible to NPCs {0}", "Invisível para NPCs {0}");
         M.Add("Sure pickpocketing {0}", "Furto garantido {0}");
-        M.Add("Unlock: done (works on the chest or door the hero faces)", "Destrancado (age no baú ou na porta à frente do herói)");
+        M.Add("Instant lockpicking {0}", "Arrombamento instantâneo {0}");
         M.Add("Hero speed: {0}x", "Velocidade do herói: {0}x");
         M.Add("Jump height: {0}x", "Altura do salto: {0}x");
         M.Add("Health and mana restored", "Vida e mana restaurados");
@@ -316,6 +316,7 @@ namespace CMLang
         M.Add("Save current position", "Salvar posição atual");
         M.Add("All {0} slots are used. Delete one first", "Os {0} espaços estão ocupados. Apague um primeiro");
         M.Add("Saved for this session only: the slot could not be written", "Guardado só para esta sessão: não foi possível escrever o espaço");
+        M.Add("Deleted for this session only: the slot could not be written", "Apagado só para esta sessão: não foi possível escrever o espaço");
         M.Add("Position saved as number {0}", "Posição salva com o número {0}");
         M.Add("Saved position deleted", "Posição salva apagada");
         M.Add("saved position {0}", "posição salva {0}");
@@ -370,5 +371,7 @@ namespace CMLang
         M.Add("Chapter: {0} -> {1}", "Capítulo: {0} -> {1}");
         M.Add("Cannot go back before day 0", "Não dá para voltar antes do dia 0");
         M.Add("Time: {0}", "Hora: {0}");
+        M.Add("Day speed", "Velocidade do dia");
+        M.Add("Day speed: {0}x", "Velocidade do dia: {0}x");
     }
 }

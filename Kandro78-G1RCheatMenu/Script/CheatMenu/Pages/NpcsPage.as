@@ -213,6 +213,27 @@ class UCMCampsPage : UCMPage
         }
     }
 
+    // the game is about to save: the people made friendly get their old attitude back, so a save
+    // never keeps it (the next tick makes them friendly again)
+    void BeforeSave() override
+    {
+        AGothicCharacter hero = CM::Hero();
+        AGothicCharacterState heroState = hero != nullptr ? hero.GetCharacterState() : nullptr;
+        if (heroState == nullptr || TheirsBefore.Num() == 0)
+            return;
+        for (AGothicCharacter npc : CMNpc::Loaded())
+        {
+            FString key = npc.GetName().ToString();
+            AGothicCharacterState st = npc.GetCharacterState();
+            if (st == nullptr || !TheirsBefore.Contains(key))
+                continue;
+            st.SetRelationshipTowards(heroState, TheirsBefore[key]);
+            heroState.SetRelationshipTowards(st, HisBefore[key]);
+            TheirsBefore.Remove(key);
+            HisBefore.Remove(key);
+        }
+    }
+
     void Tick(float DeltaSeconds) override
     {
         SinceTick += DeltaSeconds;
@@ -388,5 +409,11 @@ class UCMNpcsPage : UCMPage
     {
         if (Camps != nullptr)
             Camps.Tick(DeltaSeconds);
+    }
+
+    void BeforeSave() override
+    {
+        if (Camps != nullptr)
+            Camps.BeforeSave();
     }
 }

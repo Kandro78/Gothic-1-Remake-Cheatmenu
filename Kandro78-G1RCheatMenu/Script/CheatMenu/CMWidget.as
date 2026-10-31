@@ -51,9 +51,10 @@ class UCMWidget : UUserWidget
 
     // a widget cannot measure text while painting, so widths are estimated from the length; this
     // share of the font size per character fits the game's serif font with a little to spare
+    // (Chinese and Japanese characters take a full square)
     float TextWidth(FString S, float Size) const
     {
-        return S.Len() * Size * 0.56;
+        return S.Len() * Size * (CM::WideScript() ? 1.0 : 0.56);
     }
 
     // the value column starts after the longest label that has a value next to it, and the panel

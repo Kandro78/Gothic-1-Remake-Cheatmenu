@@ -617,7 +617,8 @@ class UCMSavedPage : UCMPage
         {
             saved.Locations.RemoveAt(i);
             saved.Yaws.RemoveAt(i);
-            Gameplay::SaveGameToSlot(saved, Slot, 0);
+            if (!Gameplay::SaveGameToSlot(saved, Slot, 0))
+                return "Deleted for this session only: the slot could not be written";
             return "Saved position deleted";
         }
         return CMTeleport::To(saved.Locations[i], saved.Yaws[i], CM::F("saved position {0}", "" + (i + 1)), true);

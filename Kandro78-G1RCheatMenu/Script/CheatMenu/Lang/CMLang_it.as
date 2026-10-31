@@ -181,7 +181,7 @@ namespace CMLang
         M.Add("Infinite ammo", "Munizioni infinite");
         M.Add("Invisible to NPCs", "Invisibile ai PNG");
         M.Add("Sure pickpocketing", "Borseggio sicuro");
-        M.Add("Unlock chest or door in view", "Sblocca forziere o porta in vista");
+        M.Add("Instant lockpicking", "Scasso istantaneo");
         M.Add("Hero speed", "Velocità dell'eroe");
         M.Add("Jump height", "Altezza del salto");
         M.Add("Restore health and mana", "Ripristina salute e mana");
@@ -196,7 +196,7 @@ namespace CMLang
         M.Add("Infinite ammo {0}", "Munizioni infinite {0}");
         M.Add("Invisible to NPCs {0}", "Invisibile ai PNG {0}");
         M.Add("Sure pickpocketing {0}", "Borseggio sicuro {0}");
-        M.Add("Unlock: done (works on the chest or door the hero faces)", "Sbloccato (agisce sul baule o la porta davanti all'eroe)");
+        M.Add("Instant lockpicking {0}", "Scasso istantaneo {0}");
         M.Add("Hero speed: {0}x", "Velocità dell'eroe: {0}x");
         M.Add("Jump height: {0}x", "Altezza del salto: {0}x");
         M.Add("Health and mana restored", "Salute e mana ripristinati");
@@ -318,6 +318,7 @@ namespace CMLang
         M.Add("Save current position", "Salva la posizione attuale");
         M.Add("All {0} slots are used. Delete one first", "Tutti i {0} slot sono occupati. Eliminane uno");
         M.Add("Saved for this session only: the slot could not be written", "Salvato solo per questa sessione: impossibile scrivere lo slot");
+        M.Add("Deleted for this session only: the slot could not be written", "Eliminato solo per questa sessione: impossibile scrivere lo slot");
         M.Add("Position saved as number {0}", "Posizione salvata con il numero {0}");
         M.Add("Saved position deleted", "Posizione salvata eliminata");
         M.Add("saved position {0}", "posizione salvata {0}");
@@ -372,5 +373,7 @@ namespace CMLang
         M.Add("Chapter: {0} -> {1}", "Capitolo: {0} -> {1}");
         M.Add("Cannot go back before day 0", "Impossibile tornare prima del giorno 0");
         M.Add("Time: {0}", "Ora: {0}");
+        M.Add("Day speed", "Velocità del giorno");
+        M.Add("Day speed: {0}x", "Velocità del giorno: {0}x");
     }
 }

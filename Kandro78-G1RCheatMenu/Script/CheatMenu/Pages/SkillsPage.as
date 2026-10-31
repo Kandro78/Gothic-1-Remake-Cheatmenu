@@ -19,6 +19,9 @@ class UCMSkillsPage : UCMPage
     TArray<FName> Chains; // levels of one skill share a chain; a higher level replaces a lower one
     float TrainLP = -1; // learning points while free training is on; this page lives as long as the hero
     float SinceCheck = 0;
+    // skills the menu taught for free; a reset gives no learning points back for them.
+    // shortcut: forgotten when a save is loaded (then refunded like paid ones), fine for a cheat menu
+    TArray<int> FreeLearned;
 
     UCMSkillState S() const
     {
@@ -175,8 +178,13 @@ class UCMSkillsPage : UCMPage
             int learned = 0;
             for (int i = 0; i < Skills.Num(); i++)
             {
-                if (Has(i) || HasHigher(i) || state.LearnSkillForFree(Skills[i]))
+                if (Has(i) || HasHigher(i))
                     learned++;
+                else if (state.LearnSkillForFree(Skills[i]))
+                {
+                    FreeLearned.AddUnique(i);
+                    learned++;
+                }
             }
             return CM::F("Learned {0} of {1} skills", "" + learned, "" + Skills.Num());
         }
@@ -192,11 +200,17 @@ class UCMSkillsPage : UCMPage
             if (!Has(i))
                 return CM::F("{0}: not learned", Labels[i]);
             CM::HeroASC().RemoveActiveGameplayEffectBySourceEffect(Skills[i], nullptr, -1);
-            return Has(i) ? "Removing failed" : CM::F("Removed: {0}", Labels[i]);
+            if (Has(i))
+                return "Removing failed";
+            FreeLearned.Remove(i);
+            return CM::F("Removed: {0}", Labels[i]);
         }
         if (Has(i))
             return CM::F("{0}: already learned", Labels[i]);
-        return state.LearnSkillForFree(Skills[i]) ? CM::F("Learned: {0}", Labels[i]) : "Learning failed";
+        if (!state.LearnSkillForFree(Skills[i]))
+            return "Learning failed";
+        FreeLearned.AddUnique(i);
+        return CM::F("Learned: {0}", Labels[i]);
     }
 
     // the normal prices, read once while they are untouched
@@ -233,25 +247,41 @@ class UCMSkillsPage : UCMPage
         return CM::F("Free training {0}", CM::OnOff(bOn));
     }
 
+    // the learning points skill i cost: its normal price, none when the menu taught it
+    float Paid(int i)
+    {
+        return FreeLearned.Contains(i) ? 0.0 : S().SPCost[i];
+    }
+
     // Every skill the hero has is removed and its learning points are given back, at the normal
-    // price also while free training is on. The ore paid for it is not given back.
+    // price also while free training is on, with the lower levels of the same skill; skills the
+    // menu taught give none. The ore paid for a skill is not given back.
     FString Reset()
     {
         ReadPrices();
         UGothicAbilitySystemComponent asc = CM::HeroASC();
+        TArray<bool> held;
+        for (int i = 0; i < Skills.Num(); i++)
+            held.Add(Has(i));
         int removed = 0;
         float refund = 0;
         for (int i = 0; i < Skills.Num(); i++)
         {
-            if (!Has(i))
+            if (!held[i])
                 continue;
             asc.RemoveActiveGameplayEffectBySourceEffect(Skills[i], nullptr, -1);
-            if (!Has(i))
+            if (Has(i))
+                continue;
+            removed++;
+            refund += Paid(i);
+            // the lower levels a higher one replaced were learned (and paid) on the way
+            for (int j = 0; j < i; j++)
             {
-                removed++;
-                refund += S().SPCost[i];
+                if (Chains[i] != NAME_None && Chains[j] == Chains[i] && !held[j])
+                    refund += Paid(j);
             }
         }
+        FreeLearned.Reset();
         if (refund > 0)
             CM::SetAttr(UAttributeSet_LevelProgression, n"Skillpoints", CM::BaseAttr(UAttributeSet_LevelProgression, n"Skillpoints", 0) + refund);
         TrainLP = -1;

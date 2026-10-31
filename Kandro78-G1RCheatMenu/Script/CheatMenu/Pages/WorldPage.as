@@ -1,14 +1,17 @@
-// G1R Cheat Menu: World page. Time of day, freezing time, weather, game speed and the story chapter.
+// G1R Cheat Menu: World page. Time of day, freezing time, day speed, weather, game speed and the story chapter.
 
 // switches that last for the whole game session, like UCMPlayerState
 class UCMWorldState : UObject
 {
     bool bFrozen = false;
     float Speed = 1;
+    float DaySpeed = 1;
 }
 
 class UCMWorldPage : UCMPage
 {
+    float RefreezeTimer = 0.0;
+
     UCMWorldState S() const
     {
         return Cast<UCMWorldState>(UCMWorldState::StaticClass().GetDefaultObject());
@@ -23,6 +26,7 @@ class UCMWorldPage : UCMPage
     {
         Items.Add(CM::Item("Time (1 hour steps)", ECMKind::Value, n"Time"));
         Items.Add(CM::Item("Freeze time", ECMKind::Toggle, n"Freeze"));
+        Items.Add(CM::Item("Day speed", ECMKind::Value, n"DaySpeed"));
         Items.Add(CM::Item("Weather", ECMKind::Value, n"Weather"));
         Items.Add(CM::Item("Game speed", ECMKind::Value, n"Speed"));
         // changing the chapter is hard to undo: only Left / Right change it, Enter does nothing
@@ -93,6 +97,29 @@ class UCMWorldPage : UCMPage
         return list;
     }
 
+    TArray<float> DaySpeeds()
+    {
+        TArray<float> list;
+        list.Add(0.25);
+        list.Add(0.5);
+        list.Add(1);
+        list.Add(2);
+        list.Add(4);
+        list.Add(8);
+        list.Add(16);
+        list.Add(32);
+        list.Add(64);
+        list.Add(128);
+        return list;
+    }
+
+    // where Current is in List, the 1x entry when it is not there
+    int StepIndex(TArray<float> List, float Current)
+    {
+        int idx = List.FindIndex(Current);
+        return idx >= 0 ? idx : List.FindIndex(1);
+    }
+
     FString GetValue(FName Id) override
     {
         if (Id == n"Time")
@@ -106,6 +133,8 @@ class UCMWorldPage : UCMPage
         }
         if (Id == n"Speed")
             return CM::Num(S().Speed) + "x";
+        if (Id == n"DaySpeed")
+            return CM::Num(S().DaySpeed) + "x";
         if (Id == n"Chapter")
         {
             UGameStory story = UGameStory::GetMainStory();
@@ -128,9 +157,28 @@ class UCMWorldPage : UCMPage
             S().bFrozen = !S().bFrozen;
             if (S().bFrozen)
                 time.FreezeTime();
-            else
+            else if (S().DaySpeed >= 1) // a slow day keeps the clock frozen and moves it itself
                 time.UnfreezeTime();
             return S().bFrozen ? "Time frozen" : "Time running";
+        }
+        if (Id == n"DaySpeed")
+        {
+            UGameTimeSubsystem time = UGameTimeSubsystem::Get();
+            if (time == nullptr)
+                return CM::NotInGame;
+            TArray<float> list = DaySpeeds();
+            int idx = StepIndex(list, S().DaySpeed);
+            bool wasSlow = S().DaySpeed < 1;
+            S().DaySpeed = list[Math::Clamp(idx + Dir, 0, list.Num() - 1)];
+            bool slow = S().DaySpeed < 1;
+            if (!S().bFrozen && slow != wasSlow)
+            {
+                if (slow)
+                    time.FreezeTime();
+                else
+                    time.UnfreezeTime();
+            }
+            return CM::F("Day speed: {0}x", CM::Num(S().DaySpeed));
         }
         if (Id == n"Weather")
         {
@@ -146,7 +194,7 @@ class UCMWorldPage : UCMPage
         if (Id == n"Speed")
         {
             TArray<float> list = Speeds();
-            int idx = Math::Max(list.FindIndex(S().Speed), 2);
+            int idx = StepIndex(list, S().Speed);
             S().Speed = list[Math::Clamp(idx + Dir, 0, list.Num() - 1)];
             Gameplay::SetGlobalTimeDilation(S().Speed);
             return CM::F("Game speed: {0}x", CM::Num(S().Speed));
@@ -164,6 +212,42 @@ class UCMWorldPage : UCMPage
             return CM::F("Chapter: {0} -> {1}", "" + cur, "" + story.GetChapter());
         }
         return "";
+    }
+
+    // Day speed: the clock runs GameTimeSpeed in-game seconds per second (15 in the world settings)
+    // and has no setter for it. Faster days skip the extra time every tick; slower days keep the
+    // clock frozen and move it forward by the shorter step. A frozen clock (Freeze time or a slow
+    // day) is frozen again every second, as the game unfreezes it itself after dialogues and
+    // cutscenes.
+    void Tick(float DeltaSeconds) override
+    {
+        UCMWorldState s = S();
+        // a loaded save is a new world, which starts at 1x
+        if (s.Speed != 1 && Gameplay::GetGlobalTimeDilation() != s.Speed)
+            Gameplay::SetGlobalTimeDilation(s.Speed);
+        if (!s.bFrozen && s.DaySpeed == 1)
+            return;
+        UGameTimeSubsystem time = UGameTimeSubsystem::Get();
+        if (time == nullptr)
+            return;
+        RefreezeTimer += DeltaSeconds;
+        bool refreeze = RefreezeTimer >= 1.0;
+        if (refreeze)
+        {
+            RefreezeTimer = 0;
+            if (s.bFrozen || s.DaySpeed < 1)
+                time.FreezeTime();
+        }
+        if (s.bFrozen)
+            return;
+        float base = 15.0;
+        AGothicWorldSettings settings = AGothicWorldSettings::Get();
+        if (settings != nullptr && settings.GameTimeConfig != nullptr && settings.GameTimeConfig.GameTimeSpeed > 0)
+            base = settings.GameTimeConfig.GameTimeSpeed;
+        if (s.DaySpeed < 1)
+            time.SkipTime(FInGameTime::FromSeconds(DeltaSeconds * base * s.DaySpeed));
+        else
+            time.SkipTime(FInGameTime::FromSeconds(DeltaSeconds * base * (s.DaySpeed - 1)));
     }
 
     FString ShiftTime(int Dir)

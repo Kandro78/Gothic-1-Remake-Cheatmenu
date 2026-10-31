@@ -88,14 +88,17 @@ namespace CM
         return bOn ? "ON" : "OFF";
     }
 
-    // 1, 1.5, 2.5 ...: one decimal at most, none for whole numbers
+    // 1, 1.5, 0.25 ...: two decimals at most, no trailing zeros
     FString Num(float Value)
     {
-        int tenths = Math::RoundToInt(Value * 10.0);
-        int whole = Math::IntegerDivisionTrunc(tenths, 10);
-        if (tenths % 10 == 0)
+        int hundredths = Math::RoundToInt(Value * 100.0);
+        int whole = Math::IntegerDivisionTrunc(hundredths, 100);
+        int rest = Math::Abs(hundredths % 100);
+        if (rest == 0)
             return "" + whole;
-        return "" + whole + "." + Math::Abs(tenths % 10);
+        if (rest % 10 == 0)
+            return "" + whole + "." + Math::IntegerDivisionTrunc(rest, 10);
+        return "" + whole + "." + (rest < 10 ? "0" : "") + rest;
     }
 
     // FLinearColor from the 0-255 sRGB values a screenshot of the game shows

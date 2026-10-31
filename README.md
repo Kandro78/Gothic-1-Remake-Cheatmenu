@@ -19,13 +19,13 @@ capture the mouse, and is controlled with the keyboard only.
 
 | Page | What it does |
 |---|---|
-| Player | God mode, infinite mana and breath, restore health and mana, clear crimes, fly (the game's own fly mode), one-hit kills, unbreakable lockpicks, no fall damage, infinite ammo, invisible to NPCs, sure pickpocketing, unlock the chest or door in view, hero speed, jump height |
+| Player | God mode, infinite mana and breath, restore health and mana, clear crimes, fly (the game's own fly mode), one-hit kills, unbreakable lockpicks, no fall damage, infinite ammo, invisible to NPCs, sure pickpocketing, instant lockpicking, hero speed, jump height |
 | Stats | Strength, dexterity, max mana, max health, learning points, level, experience, with a step multiplier; strength, dexterity and max mana to 100 in one step |
 | Faction | Switch between the 12 guilds of the Old Camp, New Camp and Swamp Camp, or leave your faction |
 | Skills | Learn or remove 58 skills, or learn all of them at once; free training at the teachers, reset all skills and get the learning points back |
 | Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and submenus with runes, spell scrolls, melee weapons, ranged weapons, armours, maps, animal trophies, smithing materials, alchemy ingredients, plants, keys and quest items (each item on its own or all at once) |
 | Teleport | Jump to the markers you set on the world map, to 105 people, to 28 places in the colony, or save up to 10 positions of your own and return to them |
-| World | Time of day, freeze time, weather, game speed, story chapter |
+| World | Time of day, freeze time, day speed (0.25x to 128x), weather, game speed, story chapter |
 | NPCs | Heal, kill or revive the NPC in view, spawn 30 kinds of creatures, make the Old Camp, New Camp or Swamp Camp friendly, kill hostile NPCs, make loaded NPCs friendly |
 | Quests | Lists your failed and running quests by their quest-log names; mark one as completed, or restart a failed one |
 | Achievements | Unlock single achievements or all 42 at once |
@@ -63,8 +63,9 @@ gives "Learn all lessons").
 
 ## Languages
 
-English, German, French, Italian, Spanish, Brazilian Portuguese, Polish and Russian. The menu
-follows the game's display language and picks up a change without a restart.
+English, German, French, Italian, Spanish, Brazilian Portuguese, Polish, Russian, Simplified
+Chinese and Japanese. The menu follows the game's display language and picks up a change
+without a restart.
 
 The texts are kept in [translations/strings.json](translations/strings.json);
 `tools/gen-lang.py` turns them into `Script/CheatMenu/Lang/CMLang_<code>.as`. The translations
@@ -122,6 +123,7 @@ Cheat Menu / Quests) and the position in long lists.
 - **Restarting a failed quest** sets it running again. If the reason it failed still holds (for example a character is dead), the menu says so instead.
 - **Achievements** are unlocked permanently on your Steam account. The menu cannot lock them again. "Unlock ALL" asks for a second Enter.
 - Switches such as god mode last until you turn them off or quit the game.
+- God mode keeps your health full but lets hits land, so you can still parry and block (Marvin Mode's god mode makes enemy hits miss you entirely).
 - After a long-distance teleport the hero floats for a few seconds while the area loads, then drops to the ground. Some destinations are dangerous or belong to later chapters.
 - **Map markers:** set a marker on the world map (not a camp map), then open Teleport > Map markers. A marker on a roof can put you on the roof.
 - **Fly** is the game's own fly mode and switches off collision. Land in the open before switching it off.
