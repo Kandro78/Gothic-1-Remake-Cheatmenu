@@ -20,6 +20,15 @@ struct FCMItem
     bool bEnterIgnored = false; // a Value only Left / Right change (Enter would be hard to undo)
 }
 
+// one row of the item panel: "Edge  +19  29"
+struct FCMItemStat
+{
+    FString Name;
+    FString Value;
+    bool bCompare = false; // show Difference to the equipped item
+    float Difference = 0;
+}
+
 class UCMPage : UObject
 {
     int Selected = 0; // the selected entry, kept when the page is left so it opens there again
@@ -42,6 +51,12 @@ class UCMPage : UObject
     FString GetValue(FName Id)
     {
         return "";
+    }
+
+    // the item an entry gives, shown with its icon and stats next to the panel; nullptr for none
+    TSubclassOf<UItemDefinition> GetItem(FName Id)
+    {
+        return nullptr;
     }
 
     // Dir: 0 for Enter, -1 / +1 for Left / Right. Returns the status line text.

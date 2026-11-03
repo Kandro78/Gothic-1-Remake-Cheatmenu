@@ -23,12 +23,13 @@ nicht ein und wird nur mit der Tastatur bedient.
 | Attribute | Stärke, Geschick, max. Mana, max. Leben, Lernpunkte, Stufe, Erfahrung, mit Schrittweite; Stärke, Geschick und max. Mana in einem Schritt auf 100 |
 | Gilde | Zwischen den 12 Gilden von Altem Lager, Neuem Lager und Sumpflager wechseln oder die Gilde verlassen |
 | Fertigkeiten | 58 Fertigkeiten lernen oder entfernen oder alle auf einmal lernen; kostenloses Lernen bei den Lehrern, alle Fertigkeiten zurücksetzen und die Lernpunkte zurückbekommen |
-| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, permanente Elixiere und Untermenüs mit Runen, Spruchrollen, Nahkampf- und Fernkampfwaffen, Rüstungen, Karten, Jagdtrophäen, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder einzeln oder alle auf einmal) |
+| Gegenstände | Erz, Dietriche, Tränke, Munition, Fackeln, permanente Elixiere und Untermenüs mit Runen, Spruchrollen, Nahkampf- und Fernkampfwaffen, Rüstungen, Karten, Jagdtrophäen, Ringen und Amuletten, Schmiedematerial, Alchemiezutaten, Pflanzen, Schlüsseln und Questgegenständen (jeder einzeln oder alle auf einmal) |
 | Teleport | Zu den Markierungen auf der Weltkarte, zu 105 Personen, zu 28 Orten der Kolonie, oder bis zu 10 eigene Positionen speichern und zu ihnen zurückkehren |
 | Welt | Tageszeit, Zeit anhalten, Tagestempo (0,25x bis 128x), Wetter, Spieltempo, Kapitel |
-| NPCs | NPC im Blick heilen, töten oder wiederbeleben, 31 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich machen, feindliche NPCs töten, geladene NPCs freundlich machen |
+| NPCs | NPC im Blick heilen, töten, wiederbeleben oder steuern, 31 Arten von Kreaturen erschaffen, Altes Lager, Neues Lager oder Sumpflager freundlich machen, feindliche NPCs töten, geladene NPCs freundlich machen |
 | Quests | Listet fehlgeschlagene und laufende Quests mit ihren Tagebuchnamen; eine als erledigt markieren oder eine fehlgeschlagene neu starten |
 | Erfolge | Einzelne Erfolge oder alle 42 auf einmal freischalten |
+| Einstellungen | Die Taste für das Menü wählen (Standard F7) und eine Taste, die das Spieltempo zwischen 1x und dem zuletzt gewählten anderen Tempo umschaltet (Standard aus); beide bleiben über Spielstände hinweg erhalten. F7 gedrückt halten macht F7 immer wieder zur Menütaste |
 
 ## Screenshots
 

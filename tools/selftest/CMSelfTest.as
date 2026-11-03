@@ -185,6 +185,26 @@ class UCMSelfTest : UGothicModExt_WorldSubsystem
         CheckValue(world, n"DaySpeed", "World day speed");
 
         CheckOre(Menu);
+        CheckMenuKeyReset(Menu);
+    }
+
+    // holding F7 gives F7 back as the menu key; the bot restores the key slot afterwards anyway
+    void CheckMenuKeyReset(UCMMenu Menu)
+    {
+        UCMKeySettingsState keys = CMKeys::Get();
+        FKey oldMenu = keys.MenuKey;
+        FKey oldSpeed = keys.SpeedKey;
+        keys.MenuKey = EKeys::NumPadZero;
+        keys.SpeedKey = EKeys::F7;
+        Menu.HandleKey(EKeys::F7, true);
+        bool bOk = CMKeys::MenuKey() == EKeys::F7 && !CMKeys::SpeedKey().IsValid() && Menu.bOpen;
+        FString detail = CMKeys::Label(CMKeys::MenuKey()) + " / " + CMKeys::Label(CMKeys::SpeedKey()) + " / open " + Menu.bOpen;
+        Menu.SetOpen(false);
+        Menu.Status = ""; // else "Menu key: F7" shows on the screenshots
+        keys.MenuKey = oldMenu;
+        keys.SpeedKey = oldSpeed;
+        CMKeys::Save();
+        Check(bOk, "hold F7 resets the menu key", detail);
     }
 
     // every page builds a non-empty list and every entry answers GetValue; sub-pages too (3 deep)

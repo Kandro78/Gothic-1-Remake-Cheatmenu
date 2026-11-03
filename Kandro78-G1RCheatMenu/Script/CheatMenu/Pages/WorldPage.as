@@ -5,6 +5,7 @@ class UCMWorldState : UObject
 {
     bool bFrozen = false;
     float Speed = 1;
+    float FastSpeed = 3; // what the game speed key switches to: the last speed above or below 1x
     float DaySpeed = 1;
 }
 
@@ -113,6 +114,17 @@ class UCMWorldPage : UCMPage
         return list;
     }
 
+    // the game speed key: switches between 1x and the last other game speed (3x at first)
+    FString ToggleSpeed()
+    {
+        if (CM::Hero() == nullptr)
+            return CM::NotInGame;
+        UCMWorldState s = S();
+        s.Speed = s.Speed != 1 ? 1 : s.FastSpeed;
+        Gameplay::SetGlobalTimeDilation(s.Speed);
+        return CM::F("Game speed: {0}x", CM::Num(s.Speed));
+    }
+
     // where Current is in List, the 1x entry when it is not there
     int StepIndex(TArray<float> List, float Current)
     {
@@ -196,6 +208,8 @@ class UCMWorldPage : UCMPage
             TArray<float> list = Speeds();
             int idx = StepIndex(list, S().Speed);
             S().Speed = list[Math::Clamp(idx + Dir, 0, list.Num() - 1)];
+            if (S().Speed != 1)
+                S().FastSpeed = S().Speed;
             Gameplay::SetGlobalTimeDilation(S().Speed);
             return CM::F("Game speed: {0}x", CM::Num(S().Speed));
         }

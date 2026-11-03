@@ -276,6 +276,7 @@ class UCMNpcsPage : UCMPage
         Items.Add(CM::Item("Heal NPC in view", ECMKind::Action, n"Heal"));
         Items.Add(CM::Item("Kill NPC in view", ECMKind::Action, n"Kill"));
         Items.Add(CM::Item("Revive NPC in view", ECMKind::Action, n"Revive"));
+        Items.Add(CM::Item("Control NPC in view", ECMKind::Action, n"Control"));
         Items.Add(CM::PageItem("Spawn creature", Spawn));
         Items.Add(CM::PageItem("Camp attitude", Camps));
         Items.Add(CM::Item("Kill hostile NPCs (loaded area)", ECMKind::Action, n"KillHostile"));
@@ -315,7 +316,7 @@ class UCMNpcsPage : UCMPage
 
     FString GetValue(FName Id) override
     {
-        if (Id == n"Heal" || Id == n"Kill" || Id == n"Revive")
+        if (Id == n"Heal" || Id == n"Kill" || Id == n"Revive" || Id == n"Control")
         {
             AGothicCharacter npc = InView(Id == n"Revive");
             return npc != nullptr ? CMNpc::DisplayName(npc) : "-";
@@ -359,6 +360,19 @@ class UCMNpcsPage : UCMPage
                 return "Killing failed";
             asc.ApplyGameplayEffectToSelf(UGameplayEffect_DebugKillCharacter::StaticClass(), 0, asc.MakeEffectContext());
             return CM::F("Killed: {0}", CMNpc::DisplayName(npc));
+        }
+        if (Id == n"Control")
+        {
+            // as Marvin mode's Control command: the hero's debug control ability (granted to every
+            // player) takes over the NPC like the Control spell; the game's own key ends it
+            AAIAgentCharacter npc = Cast<AAIAgentCharacter>(InView(false));
+            if (npc == nullptr || npc.IsPlayerCharacterOrPlayerControlled())
+                return "No NPC in view";
+            FGameplayEventData payload = MagicScript::CreateEventData(npc.GetRootComponent());
+            payload.EventTag = GameplayTag::Event_Possessed_Debug_Start;
+            payload.Instigator = hero;
+            GothicGAS::SendGameplayEvent(heroState, GameplayTag::Event_Possessed_Debug_Start, payload);
+            return CM::F("Controlling: {0}", CMNpc::DisplayName(npc));
         }
         if (Id == n"Revive")
         {

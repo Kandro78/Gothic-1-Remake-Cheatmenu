@@ -1,7 +1,8 @@
-// G1R Cheat Menu: the menu itself. F7 opens and closes it. Up / Down select (held keys repeat and
+// G1R Cheat Menu: the menu itself. F7 (or the key set on the Settings page) opens and closes it. Up / Down select (held keys repeat and
 // stop at the ends), Page Up / Page Down move a screenful, Home / End go to the first / last entry.
 // Enter runs or opens, Right opens a page too, Left / Right change values and switch toggles, Left
-// on anything else goes back like Backspace. It is an overlay: the game keeps running and keeps
+// on anything else goes back like Backspace. The game speed key (Settings page) works with the menu
+// open or closed. It is an overlay: the game keeps running and keeps
 // its own controls.
 
 class UCMMainPage : UCMPage
@@ -57,6 +58,7 @@ class UCMMenu : UGothicModExt_WorldSubsystem
         MainPage.Pages.Add(Cast<UCMPage>(NewObject(this, UCMNpcsPage::StaticClass())));
         MainPage.Pages.Add(Cast<UCMPage>(NewObject(this, UCMQuestsPage::StaticClass())));
         MainPage.Pages.Add(Cast<UCMPage>(NewObject(this, UCMAchievementsPage::StaticClass())));
+        MainPage.Pages.Add(Cast<UCMPage>(NewObject(this, UCMSettingsPage::StaticClass())));
         System::SetTimer(this, n"OnTick", TickSeconds, true);
     }
 
@@ -92,16 +94,31 @@ class UCMMenu : UGothicModExt_WorldSubsystem
         Controlled = Character;
         FInputActionHandlerDynamicSignature onKey = FInputActionHandlerDynamicSignature(this, n"OnKey");
         FInputActionHandlerDynamicSignature onRepeat = FInputActionHandlerDynamicSignature(this, n"OnKeyRepeat");
+        TArray<FKey> keyChoices = CMKeys::Choices();
         for (UActorComponent component : Character.GetComponentsByClass(UInputComponent::StaticClass()))
         {
             UInputComponent input = Cast<UInputComponent>(component);
-            input.BindKey(EKeys::F7, EInputEvent::IE_Pressed, onKey, false);
             for (FKey key : NavigationKeys())
             {
                 input.BindKey(key, EInputEvent::IE_Pressed, onKey, false);
                 input.BindKey(key, EInputEvent::IE_Repeat, onRepeat, false);
             }
+            // every key the menu and game speed keys can be set to, so changing them needs no new binding
+            for (FKey choice : keyChoices)
+                input.BindKey(choice, EInputEvent::IE_Pressed, onKey, false);
+            input.BindKey(EKeys::F7, EInputEvent::IE_Repeat, onRepeat, false);
         }
+    }
+
+    UCMWorldPage WorldPage()
+    {
+        for (UCMPage page : MainPage.Pages)
+        {
+            UCMWorldPage world = Cast<UCMWorldPage>(page);
+            if (world != nullptr)
+                return world;
+        }
+        return nullptr;
     }
 
     TArray<FKey> NavigationKeys()
@@ -156,9 +173,26 @@ class UCMMenu : UGothicModExt_WorldSubsystem
         bLastRepeat = bRepeat;
         LastKeyTime = now;
         Setup();
-        if (Key == EKeys::F7)
+        if (bRepeat && Key == EKeys::F7)
+        {
+            if (CMKeys::MenuKey() != EKeys::F7)
+            {
+                FString status = CMKeys::ResetMenuKey();
+                SetOpen(true);
+                Status = status; // after SetOpen: opening the main page clears the status
+                Refresh();
+            }
+            return;
+        }
+        if (Key == CMKeys::MenuKey())
         {
             SetOpen(!bOpen);
+            return;
+        }
+        if (Key.IsValid() && Key == CMKeys::SpeedKey())
+        {
+            Status = WorldPage().ToggleSpeed();
+            Refresh();
             return;
         }
         if (!bOpen || (Items.Num() == 0 && Key != EKeys::BackSpace))
@@ -337,6 +371,10 @@ class UCMMenu : UGothicModExt_WorldSubsystem
         }
         int selected = Selected();
         Panel.Selected = selected;
+        TSubclassOf<UItemDefinition> item;
+        if (selected < Items.Num())
+            item = page.GetItem(Items[selected].Id);
+        Panel.SetItem(item);
         if (selected < Panel.First)
             Panel.First = selected;
         else if (selected >= Panel.First + Panel.VisibleRows)
@@ -344,7 +382,8 @@ class UCMMenu : UGothicModExt_WorldSubsystem
         Panel.First = Math::Clamp(Panel.First, 0, Math::Max(Items.Num() - Panel.VisibleRows, 0));
         Panel.Status = CM::T(Status);
         FString hint = page.GetHint();
-        Panel.Hint = CM::T(hint != "" ? hint : "[Enter] Select   [Left/Right] Change   [Backspace] Back   [F7] Close");
+        Panel.Hint = CM::T(hint != "" ? hint : "[Enter] Select   [Left/Right] Change   [Backspace] Back   [F7] Close")
+            .Replace("[F7]", "[" + CMKeys::Label(CMKeys::MenuKey()) + "]");
         Panel.Layout();
         Panel.Repaint();
     }

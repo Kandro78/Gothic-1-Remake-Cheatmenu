@@ -30,6 +30,229 @@ namespace CMItems
         return cdo != nullptr ? cdo.m_Name.ToString() : "";
     }
 
+    // the item's inventory icon, nullptr when it has none
+    UTexture2D Icon(TSubclassOf<UItemDefinition> Class)
+    {
+        UGothicObjectDefinition cdo = Cast<UGothicObjectDefinition>(Class.Get().GetDefaultObject());
+        return cdo != nullptr ? FAssetPreload::BlockingLoad(cdo.m_Icon) : nullptr;
+    }
+
+    // the item's description in the game language, "" when it has none
+    FString Description(TSubclassOf<UItemDefinition> Class)
+    {
+        UItemDefinition item = Cast<UItemDefinition>(Class.Get().GetDefaultObject());
+        FString description = item != nullptr ? item.m_Description.ToString() : "";
+        return description.EndsWith("_description") ? "" : description;
+    }
+
+    // the equipped item of the same kind (armour, melee or ranged weapon) to compare with; nullptr
+    // when nothing of that kind is worn or the kind has several slots (rings)
+    TSubclassOf<UItemDefinition> Worn(TSubclassOf<UItemDefinition> Class)
+    {
+        AGothicCharacter hero = CM::Hero();
+        UInventoryComponent inventory = hero != nullptr ? hero.GetInventory() : nullptr;
+        UItemDefinition item = Cast<UItemDefinition>(Class.Get().GetDefaultObject());
+        if (inventory == nullptr || item == nullptr)
+            return nullptr;
+        UItemDefinition worn = nullptr;
+        if (Cast<UArmorDefinition>(item) != nullptr)
+            worn = inventory.GetEquippedArmor();
+        else if (Cast<UWeaponMeleeDefinition>(item) != nullptr)
+            worn = inventory.GetFirstEquippedItemOfClass(UWeaponMeleeDefinition);
+        else if (Cast<UWeaponArcheryDefinition>(item) != nullptr)
+            worn = inventory.GetFirstEquippedItemOfClass(UWeaponArcheryDefinition);
+        if (worn == nullptr)
+            return nullptr;
+        return worn.GetClass();
+    }
+
+    // the item's kind as the game names it, shown under its name; "" for kinds without one
+    FString Kind(TSubclassOf<UItemDefinition> Class)
+    {
+        UItemDefinition item = Cast<UItemDefinition>(Class.Get().GetDefaultObject());
+        if (Cast<UArmorDefinition>(item) != nullptr)
+            return CM::T("Armor");
+        if (Cast<UWeaponMeleeDefinition>(item) != nullptr)
+            return CM::T("Melee weapon");
+        if (Cast<UWeaponArcheryDefinition>(item) != nullptr)
+            return CM::T("Ranged weapon");
+        // rings and amulets are plain items, told apart by their class name
+        FString name = Class.Get().GetName().ToString();
+        if (name.Contains("_Ring_"))
+            return CM::T("Ring");
+        if (name.Contains("_Amulet_"))
+            return CM::T("Amulet");
+        return "";
+    }
+
+    // the stats two items of a kind can be compared by: damage and the bonuses they give while worn.
+    // Armour counts the upgrades the hero bought for it from a smith, like the game's tooltip.
+    TMap<FString, float> Values(TSubclassOf<UItemDefinition> Class)
+    {
+        TMap<FString, float> values;
+        UItemDefinition item = Cast<UItemDefinition>(Class.Get().GetDefaultObject());
+        if (item == nullptr)
+            return values;
+        UWeaponDefinition weapon = Cast<UWeaponDefinition>(item);
+        if (weapon != nullptr)
+        {
+            for (auto damage : weapon.m_DamageBase)
+            {
+                FString name = StatName(damage.Key.ToString());
+                if (name != "" && damage.Value > 0)
+                    values.Add(name, damage.Value);
+            }
+        }
+        TArray<TSubclassOf<UScriptGameplayEffect>> effects;
+        UArmorDefinition armor = Cast<UArmorDefinition>(item);
+        AGothicCharacter hero = CM::Hero();
+        if (armor != nullptr && hero != nullptr)
+            effects = armor.GetEquipGEPlusUpgrades(hero.AbilitySystemComponent, hero);
+        else if (item.m_OnEquipEffect.IsValid())
+            effects.Add(item.m_OnEquipEffect);
+        for (TSubclassOf<UScriptGameplayEffect> effectClass : effects)
+        {
+            if (!effectClass.IsValid())
+                continue;
+            UGameplayEffect effect = Cast<UGameplayEffect>(effectClass.Get().GetDefaultObject());
+            for (FGameplayModifierInfo modifier : effect.Modifiers)
+            {
+                FString name = StatName(modifier.Attribute.AttributeName);
+                float value = modifier.ModifierMagnitude.ScalableFloatMagnitude.Value;
+                if (name != "" && value != 0)
+                    values.Add(name, (values.Contains(name) ? values[name] : 0) + value);
+            }
+        }
+        return values;
+    }
+
+    // the item's stats, one row each: damage and worn bonuses (with the difference to Worn when one
+    // is given), what it does when used, the stats it needs and its value
+    TArray<FCMItemStat> Stats(TSubclassOf<UItemDefinition> Class, TSubclassOf<UItemDefinition> Worn)
+    {
+        TArray<FCMItemStat> rows;
+        UItemDefinition item = Cast<UItemDefinition>(Class.Get().GetDefaultObject());
+        if (item == nullptr)
+            return rows;
+        // damage and protection read "67", other bonuses "+10"
+        bool plain = Cast<UWeaponDefinition>(item) != nullptr || Cast<UArmorDefinition>(item) != nullptr;
+        TMap<FString, float> mine = Values(Class);
+        TMap<FString, float> worn;
+        if (Worn.IsValid())
+            worn = Values(Worn);
+        for (auto stat : mine)
+        {
+            float other = worn.Contains(stat.Key) ? worn[stat.Key] : 0;
+            rows.Add(Stat(stat.Key, StatValue(stat.Value, plain), Worn.IsValid(), stat.Value - other));
+        }
+        // what the worn item has and this one lacks
+        for (auto stat : worn)
+        {
+            if (!mine.Contains(stat.Key))
+                rows.Add(Stat(stat.Key, StatValue(0, plain), true, -stat.Value));
+        }
+        for (UItemEffectDefinition consume : item.m_OnConsumeEffects)
+        {
+            if (consume == nullptr)
+                continue;
+            for (auto magnitude : consume.m_Magnitudes)
+            {
+                FString name = StatName(magnitude.Key.ToString());
+                if (name != "" && magnitude.Value != 0)
+                    rows.Add(Stat(name, StatValue(magnitude.Value, false), false, 0));
+            }
+        }
+        for (auto required : item.m_RequiredStats)
+        {
+            FString name = StatName(required.Key.AttributeName);
+            if (name != "")
+                rows.Add(Stat(CM::F("Requires {0}", name), CM::Num(required.Value), false, 0));
+        }
+        if (item.m_Value > 0)
+            rows.Add(Stat(CM::T("Value"), "" + item.m_Value, false, 0));
+        return rows;
+    }
+
+    FCMItemStat Stat(FString Name, FString Value, bool bCompare, float Difference)
+    {
+        FCMItemStat stat;
+        stat.Name = Name;
+        stat.Value = Value;
+        stat.bCompare = bCompare;
+        stat.Difference = Difference;
+        return stat;
+    }
+
+    FString StatValue(float Value, bool bPlain)
+    {
+        return bPlain || Value < 0 ? CM::Num(Value) : "+" + CM::Num(Value);
+    }
+
+    // the game's own name for a damage tag (Item.Damage.Physical.Edge), an attribute (Resistance_Edge,
+    // MaxHealth) or a potion effect (GE.Param.Heal); "" for the ones the menu leaves out
+    FString StatName(FString Key)
+    {
+        FString key = Key.Replace(".", "_");
+        TArray<FString> parts;
+        key.ParseIntoArray(parts, "_", true);
+        FString last = parts.Num() > 0 ? parts[parts.Num() - 1] : "";
+        if (key.Contains("Damage"))
+        {
+            if (last == "Edge")
+                return CM::T("Edge Dmg");
+            if (last == "Blunt")
+                return CM::T("Blunt Dmg");
+            if (last == "Point")
+                return CM::T("Point Dmg");
+            if (last == "Fire")
+                return CM::T("Fire Dmg");
+            if (last == "Ice")
+                return CM::T("Ice Dmg");
+            if (last == "Wind")
+                return CM::T("Wind Dmg");
+            if (last == "Energy")
+                return CM::T("Energy Dmg");
+            return "";
+        }
+        if (key.StartsWith("Resistance"))
+        {
+            FString element = Element(last);
+            return element;
+        }
+        if (last == "Heal" || last == "Health")
+            return CM::T("Health");
+        if (last == "MaxHeal" || last == "MaxHealth")
+            return CM::T("Max Health");
+        if (last == "Mana")
+            return CM::T("Mana");
+        if (last == "MaxMana")
+            return CM::T("Max Mana");
+        if (last == "Strength")
+            return CM::T("Strength");
+        if (last == "Dexterity")
+            return CM::T("Dexterity");
+        return "";
+    }
+
+    FString Element(FString Name)
+    {
+        if (Name == "Edge")
+            return CM::T("Edge");
+        if (Name == "Blunt")
+            return CM::T("Blunt");
+        if (Name == "Point")
+            return CM::T("Point");
+        if (Name == "Fire")
+            return CM::T("Fire");
+        if (Name == "Ice")
+            return CM::T("Ice");
+        if (Name == "Wind")
+            return CM::T("Wind");
+        if (Name == "Energy")
+            return CM::T("Energy");
+        return "";
+    }
+
     FString Give(FCMGift Gift)
     {
         AGothicCharacter hero = CM::Hero();
@@ -151,6 +374,15 @@ class UCMItemListPage : UCMPage
             Items.Add(CM::Item(Gifts[i].Label, ECMKind::Action, FName("Gift" + i)));
     }
 
+    TSubclassOf<UItemDefinition> GetItem(FName Id) override
+    {
+        FString s = Id.ToString();
+        int i = String::Conv_StringToInt(s.RightChop(4));
+        if (!s.StartsWith("Gift") || i < 0 || i >= Gifts.Num())
+            return nullptr;
+        return Gifts[i].Class;
+    }
+
     FString Activate(FName Id, int Dir) override
     {
         if (Id == n"All")
@@ -256,6 +488,14 @@ class UCMItemsPage : UCMPage
             "Razor_01 Razor_02 Scavenger_01 Scavenger_02 Shadow_01 Shadow_02 Shadow_03 Shadow_04 Shadow_05 " +
             "Shadow_06 Snapper_01 Snapper_02 Stonegolem_01 Stonegolem_02 Swampshark_01 Swampshark_02 Swampshark_03 " +
             "Swampshark_04 Teeth_01 Troll_01 Troll_02 Troll_03 Wolf_01 Wolf_02 Wolf_03");
+        // the ones traders sell; story jewellery (Nek's amulet, Mordrag's and Scatty's rings, ...) is left out
+        AddList("Rings and amulets", "All rings and amulets", "ItAt_", 1,
+            "Amulet_Dexterity_01 Amulet_Dexterity_02 Amulet_Enlight Amulet_Fire Amulet_Life Amulet_Magic_01 " +
+            "Amulet_Magic_02 Amulet_Magicfire Amulet_Power Amulet_Projectile Amulet_Protection Amulet_Ranged " +
+            "Amulet_Strong_01 Amulet_Strong_02 Amulet_Weapon Ring_Enlight Ring_Fire_01 Ring_Fire_02 Ring_Life_01 " +
+            "Ring_Life_02 Ring_Magic_01 Ring_Magic_02 Ring_Magic_03 Ring_Magicfire_01 Ring_Magicfire_02 Ring_Power " +
+            "Ring_Projectile_01 Ring_Projectile_02 Ring_Ranged_01 Ring_Ranged_02 Ring_Skill_01 Ring_Skill_02 " +
+            "Ring_Strong_01 Ring_Strong_02 Ring_Total_01 Ring_Total_02 Ring_Weapon_01 Ring_Weapon_02");
         AddList("Smithing materials", "All smithing materials", "ItMi_Smith_", 10,
             "Iron Steel Gold Ironwood Oak Willow Petrifiedwood Leatherstraps Obsidian Ruby Swordraw");
         AddList("Alchemy ingredients", "All alchemy ingredients", "ItMi_", 10,
@@ -311,6 +551,15 @@ class UCMItemsPage : UCMPage
             Items.Add(CM::PageItem(page.Title, page));
         for (int i = 0; i < Quick.Num(); i++)
             Items.Add(CM::Item(Quick[i].Label, ECMKind::Action, FName("Quick" + i)));
+    }
+
+    TSubclassOf<UItemDefinition> GetItem(FName Id) override
+    {
+        FString s = Id.ToString();
+        int i = String::Conv_StringToInt(s.RightChop(5));
+        if (!s.StartsWith("Quick") || i < 0 || i >= Quick.Num())
+            return nullptr;
+        return Quick[i].Class;
     }
 
     FString Activate(FName Id, int Dir) override
