@@ -26,7 +26,7 @@ capture the mouse, and is controlled with the keyboard only.
 | Items | Ore, lockpicks, potions, ammunition, torches, permanent elixirs, and submenus with runes, spell scrolls, melee weapons, ranged weapons, armours, maps, animal trophies, rings and amulets, smithing materials, alchemy ingredients, plants, keys and quest items (each item on its own or all at once) |
 | Teleport | Jump to the markers you set on the world map, to 105 people, to 28 places in the colony, or save up to 10 positions of your own and return to them |
 | World | Time of day, freeze time, day speed (0.25x to 128x), weather, game speed, story chapter |
-| NPCs | Heal, kill, revive or take control of the NPC in view, spawn 31 kinds of creatures, make the Old Camp, New Camp or Swamp Camp friendly, kill hostile NPCs, make loaded NPCs friendly |
+| NPCs | Heal, kill, revive or take control of the NPC in view, bring it to you or dismiss it (also fixes Stone following you forever after his escort), spawn 31 kinds of creatures, make the Old Camp, New Camp or Swamp Camp friendly, kill hostile NPCs, make loaded NPCs friendly |
 | Quests | Lists your failed and running quests by their quest-log names; mark one as completed, or restart a failed one |
 | Achievements | Unlock single achievements or all 42 at once |
 | Settings | Choose the key that opens the menu (F7 by default) and a game speed key that switches the game speed between 1x and the last other speed you set (off by default); both are kept across saves. Holding F7 always makes F7 the menu key again |

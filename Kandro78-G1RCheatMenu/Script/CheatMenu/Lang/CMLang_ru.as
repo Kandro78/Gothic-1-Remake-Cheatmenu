@@ -417,5 +417,12 @@ namespace CMLang
         M.Add("Requires {0}", "Требуется {0}");
         M.Add("Control NPC in view", "Управлять NPC перед собой");
         M.Add("Controlling: {0}", "Под контролем: {0}");
+        M.Add("Bring NPC in view to me", "Привести NPC перед собой");
+        M.Add("Dismiss NPC in view", "Отпустить NPC перед собой");
+        M.Add("Brought: {0}", "Приведён: {0}");
+        M.Add("Not following you: {0}", "Не следует за вами: {0}");
+        M.Add("Stopped following: {0}", "Больше не следует: {0}");
+        M.Add("Stone stays with you until he is out of the Old Camp", "Стоун остаётся с вами, пока не выйдет из Старого лагеря");
+        M.Add("No free spot in front of you", "Перед вами нет свободного места");
     }
 }

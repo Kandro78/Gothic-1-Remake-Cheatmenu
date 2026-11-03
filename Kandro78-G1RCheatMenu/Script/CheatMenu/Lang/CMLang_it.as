@@ -411,5 +411,12 @@ namespace CMLang
         M.Add("Requires {0}", "Richiede {0}");
         M.Add("Control NPC in view", "Controlla il PNG in vista");
         M.Add("Controlling: {0}", "Controllato: {0}");
+        M.Add("Bring NPC in view to me", "Porta da me il PNG in vista");
+        M.Add("Dismiss NPC in view", "Congeda il PNG in vista");
+        M.Add("Brought: {0}", "Portato: {0}");
+        M.Add("Not following you: {0}", "Non ti segue: {0}");
+        M.Add("Stopped following: {0}", "Non ti segue più: {0}");
+        M.Add("Stone stays with you until he is out of the Old Camp", "Stone resta con te finché non è fuori dal Campo Vecchio");
+        M.Add("No free spot in front of you", "Nessun posto libero davanti a te");
     }
 }

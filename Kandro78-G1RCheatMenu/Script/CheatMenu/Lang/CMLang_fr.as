@@ -410,5 +410,12 @@ namespace CMLang
         M.Add("Requires {0}", "Requiert {0}");
         M.Add("Control NPC in view", "Contrôler le PNJ en vue");
         M.Add("Controlling: {0}", "Contrôlé : {0}");
+        M.Add("Bring NPC in view to me", "Amener le PNJ en vue vers moi");
+        M.Add("Dismiss NPC in view", "Renvoyer le PNJ en vue");
+        M.Add("Brought: {0}", "Amené : {0}");
+        M.Add("Not following you: {0}", "Ne vous suit pas : {0}");
+        M.Add("Stopped following: {0}", "Ne vous suit plus : {0}");
+        M.Add("Stone stays with you until he is out of the Old Camp", "Stone reste avec vous jusqu'à sa sortie de l'Ancien camp");
+        M.Add("No free spot in front of you", "Aucune place libre devant vous");
     }
 }

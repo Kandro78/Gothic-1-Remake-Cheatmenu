@@ -417,5 +417,12 @@ namespace CMLang
         M.Add("Requires {0}", "必要な{0}");
         M.Add("Control NPC in view", "視界内のNPCを操る");
         M.Add("Controlling: {0}", "操作中：{0}");
+        M.Add("Bring NPC in view to me", "視界内のNPCを呼び寄せる");
+        M.Add("Dismiss NPC in view", "視界内のNPCを帰らせる");
+        M.Add("Brought: {0}", "呼び寄せた：{0}");
+        M.Add("Not following you: {0}", "追従していません：{0}");
+        M.Add("Stopped following: {0}", "追従をやめた：{0}");
+        M.Add("Stone stays with you until he is out of the Old Camp", "ストーンはオールド・キャンプを出るまで同行します");
+        M.Add("No free spot in front of you", "目の前に空きがありません");
     }
 }

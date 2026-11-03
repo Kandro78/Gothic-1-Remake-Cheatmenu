@@ -277,6 +277,8 @@ class UCMNpcsPage : UCMPage
         Items.Add(CM::Item("Kill NPC in view", ECMKind::Action, n"Kill"));
         Items.Add(CM::Item("Revive NPC in view", ECMKind::Action, n"Revive"));
         Items.Add(CM::Item("Control NPC in view", ECMKind::Action, n"Control"));
+        Items.Add(CM::Item("Bring NPC in view to me", ECMKind::Action, n"Bring"));
+        Items.Add(CM::Item("Dismiss NPC in view", ECMKind::Action, n"Unfollow"));
         Items.Add(CM::PageItem("Spawn creature", Spawn));
         Items.Add(CM::PageItem("Camp attitude", Camps));
         Items.Add(CM::Item("Kill hostile NPCs (loaded area)", ECMKind::Action, n"KillHostile"));
@@ -316,7 +318,7 @@ class UCMNpcsPage : UCMPage
 
     FString GetValue(FName Id) override
     {
-        if (Id == n"Heal" || Id == n"Kill" || Id == n"Revive" || Id == n"Control")
+        if (Id == n"Heal" || Id == n"Kill" || Id == n"Revive" || Id == n"Control" || Id == n"Bring" || Id == n"Unfollow")
         {
             AGothicCharacter npc = InView(Id == n"Revive");
             return npc != nullptr ? CMNpc::DisplayName(npc) : "-";
@@ -374,6 +376,32 @@ class UCMNpcsPage : UCMPage
             GothicGAS::SendGameplayEvent(heroState, GameplayTag::Event_Possessed_Debug_Start, payload);
             return CM::F("Controlling: {0}", CMNpc::DisplayName(npc));
         }
+        if (Id == n"Bring")
+        {
+            // 1.5 m in front of the hero, facing him; a few heights are tried as the engine refuses
+            // a spot the NPC does not fit into
+            AGothicCharacter npc = InView(false);
+            if (npc == nullptr)
+                return "No NPC in view";
+            FVector at = hero.GetActorLocation() + hero.GetActorForwardVector() * 150;
+            FRotator face = FRotator(0, hero.GetActorRotation().Yaw + 180, 0);
+            for (int lift = 0; lift <= 200; lift += 50)
+            {
+                if (!npc.Teleport(at + FVector(0, 0, lift), face))
+                    continue;
+                // what he was doing (sitting on a bench, ...) is interrupted by a look around, the
+                // way the game interrupts a routine when an NPC reacts to something; otherwise he
+                // would keep the bench's pose in the air
+                AGothicCharacterState st = npc.GetCharacterState();
+                UGameplayAbility_CharacterAI_Gothic ai = st != nullptr ? Cast<UGameplayAbility_CharacterAI_Gothic>(st.GetAI()) : nullptr;
+                if (ai != nullptr && ai.IsDoingDailyRoutine() && ai.DailyRoutineIfActive != nullptr)
+                    ai.DailyRoutineIfActive.DoInterruptState(UAIState_Interrupt_InteractHere(GameplayTag::Action_Ambient_LookAround));
+                return CM::F("Brought: {0}", CMNpc::DisplayName(npc));
+            }
+            return "No free spot in front of you";
+        }
+        if (Id == n"Unfollow")
+            return Unfollow(heroState);
         if (Id == n"Revive")
         {
             // his health is filled and the world simulation is told he lives; the body stays down
@@ -418,6 +446,43 @@ class UCMNpcsPage : UCMPage
             return CM::F("{0} loaded NPC(s) are now friendly", "" + n);
         }
         return "";
+    }
+
+    // A follower leaves the hero's party and goes back to the routine the game gives him by default.
+    // Stone gets the routine the game should have given him after the escort out of the Old Camp
+    // (it skips that switch, so he keeps following): the forge of the camp he agreed to, as the
+    // game's own save repair does.
+    FString Unfollow(AGothicCharacterState HeroState)
+    {
+        AGothicCharacter npc = InView(false);
+        if (npc == nullptr)
+            return "No NPC in view";
+        AGothicNPCState st = Cast<AGothicNPCState>(npc.GetCharacterState());
+        if (st == nullptr)
+            return "No NPC in view";
+        FString name = CMNpc::DisplayName(npc);
+#ifdef WITH_STORY_G1R
+        if (st.HasAssignedDailyRoutine(UDailyRoutine_OCR_GRD_Stone_219_FollowHero::StaticClass()))
+        {
+            UQuest freed = G1R::Quest::OldCamp_OCCHAPTER5_FORGEDRIVALRIES_3_FORGEDRIVALRIES_3_OBJ_FREESTONE;
+            if (freed == nullptr || freed.GetState() != EQuestState::Succeeded)
+                return "Stone stays with you until he is out of the Old Camp";
+            if (st.IsInPartyWith(HeroState))
+                st.LeavePartyOf(HeroState);
+            if (G1R::UStoryG1R::Get().ForgedRivalries3_StoneKnowsDarrionAccept != 0)
+                st.ExchangeDailyRoutineToClass(UDailyRoutine_OCR_GRD_Stone_219_ScNew::StaticClass());
+            else
+                st.ExchangeDailyRoutineToClass(UDailyRoutine_OCR_GRD_Stone_219_NcNew::StaticClass());
+            return CM::F("Stopped following: {0}", name);
+        }
+#endif
+        bool party = st.IsInPartyWith(HeroState);
+        if (!party && !st.HasAssignedDailyRoutine(UDailyRoutine_Generic_FollowHero::StaticClass()))
+            return CM::F("Not following you: {0}", name);
+        if (party)
+            st.LeavePartyOf(HeroState);
+        st.AssignDefaultDailyRoutine();
+        return CM::F("Stopped following: {0}", name);
     }
 
     void Tick(float DeltaSeconds) override

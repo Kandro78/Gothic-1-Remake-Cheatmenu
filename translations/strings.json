@@ -4530,5 +4530,82 @@
   "ru": "Под контролем: {0}",
   "zh": "正在控制：{0}",
   "ja": "操作中：{0}"
+ },
+ "Bring NPC in view to me": {
+  "de": "NPC im Blick zu mir holen",
+  "fr": "Amener le PNJ en vue vers moi",
+  "it": "Porta da me il PNG in vista",
+  "es": "Traer hasta mí al PNJ a la vista",
+  "pt": "Trazer o NPC à vista até mim",
+  "pl": "Przyprowadź NPC z pola widzenia do mnie",
+  "ru": "Привести NPC перед собой",
+  "zh": "把视野中的NPC带到身边",
+  "ja": "視界内のNPCを呼び寄せる"
+ },
+ "Dismiss NPC in view": {
+  "de": "NPC im Blick wegschicken",
+  "fr": "Renvoyer le PNJ en vue",
+  "it": "Congeda il PNG in vista",
+  "es": "Despedir al PNJ a la vista",
+  "pt": "Dispensar o NPC à vista",
+  "pl": "Odpraw NPC z pola widzenia",
+  "ru": "Отпустить NPC перед собой",
+  "zh": "让视野中的NPC离开",
+  "ja": "視界内のNPCを帰らせる"
+ },
+ "Brought: {0}": {
+  "de": "Hergeholt: {0}",
+  "fr": "Amené : {0}",
+  "it": "Portato: {0}",
+  "es": "Traído: {0}",
+  "pt": "Trazido: {0}",
+  "pl": "Przyprowadzono: {0}",
+  "ru": "Приведён: {0}",
+  "zh": "已带到身边：{0}",
+  "ja": "呼び寄せた：{0}"
+ },
+ "Not following you: {0}": {
+  "de": "Folgt dir nicht: {0}",
+  "fr": "Ne vous suit pas : {0}",
+  "it": "Non ti segue: {0}",
+  "es": "No te sigue: {0}",
+  "pt": "Não te segue: {0}",
+  "pl": "Nie idzie za tobą: {0}",
+  "ru": "Не следует за вами: {0}",
+  "zh": "没有跟随你：{0}",
+  "ja": "追従していません：{0}"
+ },
+ "Stopped following: {0}": {
+  "de": "Folgt nicht mehr: {0}",
+  "fr": "Ne vous suit plus : {0}",
+  "it": "Non ti segue più: {0}",
+  "es": "Ya no te sigue: {0}",
+  "pt": "Já não te segue: {0}",
+  "pl": "Już nie idzie za tobą: {0}",
+  "ru": "Больше не следует: {0}",
+  "zh": "已停止跟随：{0}",
+  "ja": "追従をやめた：{0}"
+ },
+ "Stone stays with you until he is out of the Old Camp": {
+  "de": "Stone bleibt bei dir, bis er aus dem Alten Lager heraus ist",
+  "fr": "Stone reste avec vous jusqu'à sa sortie de l'Ancien camp",
+  "it": "Stone resta con te finché non è fuori dal Campo Vecchio",
+  "es": "Stone se queda contigo hasta salir del Campamento Viejo",
+  "pt": "Stone fica contigo até sair do Assentamento Antigo",
+  "pl": "Stone zostaje z tobą, dopóki nie wyjdzie ze Starego Obozu",
+  "ru": "Стоун остаётся с вами, пока не выйдет из Старого лагеря",
+  "zh": "在离开旧营地之前，Stone会一直跟着你",
+  "ja": "ストーンはオールド・キャンプを出るまで同行します"
+ },
+ "No free spot in front of you": {
+  "de": "Kein freier Platz vor dir",
+  "fr": "Aucune place libre devant vous",
+  "it": "Nessun posto libero davanti a te",
+  "es": "No hay sitio libre delante de ti",
+  "pt": "Sem espaço livre à tua frente",
+  "pl": "Brak wolnego miejsca przed tobą",
+  "ru": "Перед вами нет свободного места",
+  "zh": "你面前没有空位",
+  "ja": "目の前に空きがありません"
  }
 }
